@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://lijianqiang.net/"/>
-  <updated>2017-12-03T12:41:06.758Z</updated>
+  <updated>2017-12-03T12:51:38.521Z</updated>
   <id>http://lijianqiang.net/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://lijianqiang.net/2017/11/26/Vue-js%E5%B8%B8%E8%A7%81%E7%94%A8%E6%B3%95/"/>
     <id>http://lijianqiang.net/2017/11/26/Vue-js常见用法/</id>
     <published>2017-11-26T14:26:18.000Z</published>
-    <updated>2017-12-03T12:41:06.758Z</updated>
+    <updated>2017-12-03T12:51:38.521Z</updated>
     
     <content type="html"><![CDATA[<h2 id="数据绑定"><a href="#数据绑定" class="headerlink" title="数据绑定"></a>数据绑定</h2><p>vue通过v-bind指令将数据绑定给html元素的属性。<br>如：</p>
 <pre><code class="html">
@@ -668,7 +668,8 @@
         });
     &lt;/script&gt;
 </code></pre>
-<h2 id="过渡-amp-动画"><a href="#过渡-amp-动画" class="headerlink" title="过渡&amp;动画"></a>过渡&amp;动画</h2><h2 id="可复用-amp-组合"><a href="#可复用-amp-组合" class="headerlink" title="可复用&amp;组合"></a>可复用&amp;组合</h2><h2 id="vue-router"><a href="#vue-router" class="headerlink" title="vue-router"></a>vue-router</h2><h2 id="vuex"><a href="#vuex" class="headerlink" title="vuex"></a>vuex</h2>]]></content>
+<h2 id="过渡-amp-动画"><a href="#过渡-amp-动画" class="headerlink" title="过渡&amp;动画"></a>过渡&amp;动画</h2><p>123123123123</p>
+<h2 id="可复用-amp-组合"><a href="#可复用-amp-组合" class="headerlink" title="可复用&amp;组合"></a>可复用&amp;组合</h2><h2 id="vue-router"><a href="#vue-router" class="headerlink" title="vue-router"></a>vue-router</h2><h2 id="vuex"><a href="#vuex" class="headerlink" title="vuex"></a>vuex</h2>]]></content>
     
     <summary type="html">
     
