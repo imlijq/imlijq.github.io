@@ -335,17 +335,43 @@
     
 
         <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2017/12/03/Vue-js常见用法/"></a></p>
+        <p class="article-headline-p"><a href="/2017/11/26/Vue-js常见用法/">Vue.js常见用法</a></p>
     </div>
 
     <!-- Post Excerpt -->
     <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
         
-            
+            数据绑定vue通过v-bind指令将数据绑定给html元素的属性。如：
+
+    &lt;style&gt;
+        .redFont{
+            color: red;
+        }
+        .blueFont{
+            color: blue;
+        }
+        .yellowFont{
+            color: yellow;
+        }
+    &lt;/style&gt; 
+    &lt;div id=&quot;app&quot;&gt;
+        &lt;div v-bind:class=&quot;red&quot;&gt;红字&lt;/div&gt;
+        &lt;div v-bind:class=&quot;&#39;blueFont&#39;&quot;&gt;蓝字&lt;/div&gt;
+        &lt;div class=&quot;yellowFont&quot;&gt;黄字&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;script&gt;
+        var app=new Vue({
+            el:&quot;#app&quot;,
+            data:{
+                red:&quot;redFont&quot;
+            }
+        });
+    &lt;/script&gt;
+
         
         &nbsp;&nbsp;&nbsp;
         <span>
-            <a href="/2017/12/03/Vue-js常见用法/" target="_self">阅读全文</a>
+            <a href="/2017/11/26/Vue-js常见用法/" target="_self">阅读全文</a>
         </span>
     </div>
     <!-- Post_entry Info-->
@@ -357,11 +383,16 @@
             </div>
             <div>
                 <strong>Lijq</strong>
-                <span>12月 03, 2017</span>
+                <span>11月 26, 2017</span>
             </div>
         </div>
         <div id="post_entry-right-info">
           
+              <!-- Category -->
+              <span class="post_entry-category">
+                  <a class="post_category-link" href="/categories/Web前端/">Web前端</a>
+              </span>
+            
 
             
 
@@ -546,7 +577,7 @@ hexo server（启动本地服务器）
             </a>
             <ul class="dropdown-menu">
             <li>
-                <a class="sidebar_archives-link" href="/archives/2017/12/">十二月 2017<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/06/">六月 2017<span class="sidebar_archives-count">1</span></a>
+                <a class="sidebar_archives-link" href="/archives/2017/11/">十一月 2017<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/06/">六月 2017<span class="sidebar_archives-count">1</span></a>
             </ul>
         </li>
         
@@ -564,7 +595,7 @@ hexo server（启动本地服务器）
             </a>
             <ul class="dropdown-menu">
                 <li>
-                <a class="sidebar_archives-link" href="/categories/Web前端/">Web前端<span class="sidebar_archives-count">1</span></a>
+                <a class="sidebar_archives-link" href="/categories/Web前端/">Web前端<span class="sidebar_archives-count">2</span></a>
             </ul>
         </li>
         
