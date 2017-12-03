@@ -1,0 +1,962 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Lijq&#39;s Blog</title>
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://lijianqiang.net/"/>
+  <updated>2017-12-03T12:09:20.385Z</updated>
+  <id>http://lijianqiang.net/</id>
+  
+  <author>
+    <name>Lijq</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Vue.js常见用法</title>
+    <link href="http://lijianqiang.net/2017/11/26/Vue-js%E5%B8%B8%E8%A7%81%E7%94%A8%E6%B3%95/"/>
+    <id>http://lijianqiang.net/2017/11/26/Vue-js常见用法/</id>
+    <published>2017-11-26T14:26:18.000Z</published>
+    <updated>2017-12-03T12:09:20.385Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="数据绑定"><a href="#数据绑定" class="headerlink" title="数据绑定"></a>数据绑定</h2><p>vue通过v-bind指令将数据绑定给html元素的属性。<br>如：</p>
+<pre><code class="html">
+    &lt;style&gt;
+        .redFont{
+            color: red;
+        }
+        .blueFont{
+            color: blue;
+        }
+        .yellowFont{
+            color: yellow;
+        }
+    &lt;/style&gt; 
+    &lt;div id=&quot;app&quot;&gt;
+        &lt;div v-bind:class=&quot;red&quot;&gt;红字&lt;/div&gt;
+        &lt;div v-bind:class=&quot;&#39;blueFont&#39;&quot;&gt;蓝字&lt;/div&gt;
+        &lt;div class=&quot;yellowFont&quot;&gt;黄字&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;script&gt;
+        var app=new Vue({
+            el:&quot;#app&quot;,
+            data:{
+                red:&quot;redFont&quot;
+            }
+        });
+    &lt;/script&gt;
+</code></pre>
+<a id="more"></a>
+<p>通过v-model指令进行view和model数据的双向绑定。<br>如：</p>
+<pre><code class="html">    &lt;div id=&quot;app&quot;&gt;
+        &lt;div&gt;{{title}}&lt;/div&gt;
+
+        &lt;!-- 使用v-once指令data中的数据只会绑定一次到view中 --&gt;
+        &lt;div v-once&gt;{{title}}&lt;/div&gt;
+
+        &lt;!-- v-model指令将data中的数据绑定到input的value属性，input的value属性改变后数据又会更新到data中 --&gt;
+        &lt;input type=&quot;text&quot; v-model=&quot;title&quot; v-on:input=&quot;iptChange&quot;&gt;
+    &lt;/div&gt;
+    &lt;script&gt;
+        var app=new Vue({
+            el:&quot;#app&quot;,
+            data:{
+                title:&quot;123&quot;
+            },
+            methods: {
+                iptChange:function(){
+                    console.log(123);
+                }
+            }
+        });
+    &lt;/script&gt;
+</code></pre>
+<p>使用v-text指令绑定数据的文本形式，使用v-html指令绑定数据的html形式：</p>
+<pre><code class="html">    &lt;div id=&quot;app&quot;&gt;
+        &lt;!-- div中为span的文本形式（默认） --&gt;
+        &lt;div&gt;{{content}}&lt;/div&gt;
+
+        &lt;!-- div中为span的文本形式（绑定数据的text形式） --&gt;
+        &lt;div v-text=&quot;content&quot;&gt;&lt;/div&gt;
+
+        &lt;!-- div中为span的html标签形式（绑定数据的html形式） --&gt;
+        &lt;div v-html=&quot;content&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;script&gt;
+        var app=new Vue({
+            el:&quot;#app&quot;,
+            data:{
+                content:&quot;&lt;span style=&#39;color:red;&#39;&gt;123123123&lt;/span&gt;&quot;
+            }
+        });
+    &lt;/script&gt;
+</code></pre>
+<p>vue数据绑定中支持javascript表达式：</p>
+<pre><code class="html">    &lt;style&gt;
+        .font1{
+            color: red;
+        }
+        .font2{
+            color: blue;
+        }
+    &lt;/style&gt; 
+    &lt;div id=&quot;app&quot;&gt;
+        &lt;!-- 红色 --&gt;
+        &lt;div v-bind:class=&quot;&#39;font&#39;+num1&quot;&gt;123&lt;/div&gt;
+        &lt;!-- 蓝色 --&gt;
+        &lt;div v-bind:class=&quot;&#39;font&#39;+num2&quot;&gt;123&lt;/div&gt;
+
+        &lt;div&gt;选中的radio的值为：{{radioVal}}&lt;/div&gt;
+        &lt;input type=&quot;radio&quot; v-model=&quot;radioVal&quot; value=&quot;1&quot;/&gt;1
+        &lt;input type=&quot;radio&quot; v-model=&quot;radioVal&quot; value=&quot;2&quot;/&gt;2
+    &lt;/div&gt;
+    &lt;script&gt;
+        var app=new Vue({
+            el:&quot;#app&quot;,
+            data:{
+                num1:1,
+                num2:2,
+                radioVal:1
+            }
+        });
+    &lt;/script&gt;
+</code></pre>
+<h2 id="计算属性和观察者"><a href="#计算属性和观察者" class="headerlink" title="计算属性和观察者"></a>计算属性和观察者</h2><p>计算属性computed适合复杂逻辑的计算：</p>
+<pre><code class="html">    &lt;div id=&quot;app&quot;&gt;
+        &lt;input type=&quot;number&quot; v-model=&quot;num1&quot;&gt;+&lt;input type=&quot;number&quot; v-model=&quot;num2&quot;&gt;={{sum}}
+    &lt;/div&gt;
+    &lt;script&gt;
+        var app=new Vue({
+            el:&quot;#app&quot;,
+            data:{
+                num1:1,
+                num2:2,
+            },
+            computed: {
+                sum () {
+                    return Number(this.num1)+Number(this.num2);
+                }
+            }
+        });
+    &lt;/script&gt;
+</code></pre>
+<p>计算属性和方法的区别：计算属性基于依赖进行缓存，依赖改变时才会重新求值。而方法调用时总会执行。</p>
+<p>watch用来监听属性值的变化：</p>
+<pre><code class="html">    &lt;script&gt;
+        var app=new Vue({
+            el:&quot;#app&quot;,
+            data:{
+                title:&quot;&quot;
+            },
+            watch:{
+                title:_.debounce(function(newVal,oldVal){
+                    console.log(&quot;newVal&quot;,newVal);
+                    console.log(&quot;oldVal&quot;,oldVal);
+                    // 根据newVal从后台请求数据，每次变化都会请求一次，请求次数过多，使用lodash中的debounce方法控制请求频率                  
+                },2000)
+            }
+        });
+    &lt;/script&gt;
+</code></pre>
+<h2 id="Class与Style绑定"><a href="#Class与Style绑定" class="headerlink" title="Class与Style绑定"></a>Class与Style绑定</h2><p>可通过对象、数组、表达式的方式控制class属性：</p>
+<pre><code class="html">    &lt;style&gt;
+        .redFont{
+            color: red;
+        }
+        .greenFont{
+            color: green;
+        }
+        .boldFont{
+            font-weight: bold;
+        }
+    &lt;/style&gt; 
+    &lt;div id=&quot;app&quot;&gt;
+        &lt;!-- object控制 --&gt;
+        &lt;div v-bind:class=&quot;{redFont:true}&quot;&gt;红色&lt;/div&gt;
+        &lt;div v-bind:class=&quot;{redFont:false,boldFont:true}&quot;&gt;黑色粗体&lt;/div&gt;
+        &lt;div v-bind:class=&quot;classData1&quot;&gt;红色粗体&lt;/div&gt;
+
+        &lt;!-- array控制 --&gt;
+        &lt;div v-bind:class=&quot;[&#39;redFont&#39;,&#39;boldFont&#39;]&quot;&gt;红色粗体&lt;/div&gt;
+        &lt;div v-bind:class=&quot;[redFont,boldFont]&quot;&gt;红色粗体&lt;/div&gt;
+
+        &lt;!-- 表达式控制 --&gt;
+        &lt;ul&gt;
+            &lt;li v-for=&quot;(item,index) in listData&quot;&gt;
+                &lt;span v-bind:class=&quot;item.status?&#39;greenFont&#39;:&#39;redFont&#39;&quot;&gt;{{index}}---{{item.name}}---{{item.status}}&lt;/span&gt;
+                &lt;button v-on:click=&quot;item.status=false&quot; v-if=&quot;item.status&quot;&gt;变红&lt;/button&gt;
+                &lt;button v-on:click=&quot;item.status=true&quot; v-if=&quot;!item.status&quot;&gt;变绿&lt;/button&gt;
+            &lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+</code></pre>
+<p>使用v-bind绑定的class会叠加到html元素原来的class属性上。</p>
+<p>style的控制和class类似：</p>
+<pre><code class="html">    &lt;div id=&quot;app&quot;&gt;
+        &lt;div v-bind:style=&quot;{color:&#39;red&#39;,fontSize:fSize,&#39;font-weight&#39;:&#39;bold&#39;}&quot;&gt;123123&lt;/div&gt;
+        &lt;div v-bind:style=&quot;style&quot;&gt;123123&lt;/div&gt;
+        &lt;div v-bind:style=&quot;[styleObj]&quot;&gt;123123&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;script&gt;
+        var app=new Vue({
+            el:&quot;#app&quot;,
+            data:{
+                fSize:&quot;20px&quot;,
+                style:{
+                    &quot;font-size&quot;:&quot;16px&quot;,
+                    &quot;color&quot;:&quot;blue&quot;
+                },
+                styleObj:{
+                    &quot;font-size&quot;:&quot;16px&quot;,
+                    &quot;color&quot;:&quot;blue&quot;                    
+                }
+            }
+        });
+    &lt;/script&gt;
+</code></pre>
+<h2 id="条件渲染"><a href="#条件渲染" class="headerlink" title="条件渲染"></a>条件渲染</h2><p>使用v-if和v-show根据条件渲染，区别：v-if支持v-else-if、v-else一同书写。v-if是DOM元素的添加和移除，若一开始条件不满足v-if控制的元素不会渲染，适合条件不常改变时控制。v-show是控制元素的display属性，不管一开始是否满足条件元素都会被渲染，适合元素需要频繁切换显示隐藏的情况。</p>
+<h2 id="列表渲染"><a href="#列表渲染" class="headerlink" title="列表渲染"></a>列表渲染</h2><p>使用v-for遍历对象和数组：</p>
+<pre><code class="html">    &lt;div id=&quot;app&quot;&gt;
+        &lt;ul&gt;
+            &lt;li v-for=&quot;(item,index) in userList&quot;&gt;
+                {{index}}--{{item.name}}--{{item.age}}
+            &lt;/li&gt;
+        &lt;/ul&gt;
+
+        &lt;div v-for=&quot;(value,key,index) in objData&quot;&gt;
+            {{index}}--{{key}}--{{value}}
+        &lt;/div&gt;
+
+        &lt;!-- 遍历出1-5 --&gt;
+        &lt;div v-for=&quot;val in 5&quot;&gt;
+            {{val}}
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;script&gt;
+        var app=new Vue({
+            el:&quot;#app&quot;,
+            data:{
+                userList:[
+                    {name:&quot;zhangsan&quot;,age:12},
+                    {name:&quot;lisi&quot;,age:15}
+                ],
+                objData:{
+                    name:&quot;zhangsan&quot;,
+                    age:18,
+                    sex:&quot;man&quot;
+                }
+            }
+        });
+    &lt;/script&gt;
+</code></pre>
+<h2 id="事件处理"><a href="#事件处理" class="headerlink" title="事件处理"></a>事件处理</h2><pre><code class="html">    &lt;div id=&quot;app&quot;&gt;
+        &lt;!-- 不传参可省略调用函数时的括号 --&gt;
+        &lt;!-- 事件绑定使用较频繁，vue中事件绑定可简写为@事件名=&quot;eventHandler --&gt;
+        &lt;button v-on:click=&quot;clickEvent&quot;&gt;单击事件&lt;/button&gt;
+        &lt;button @dblclick=&quot;dblClickEvent&quot;&gt;双击事件&lt;/button&gt;
+        &lt;hr /&gt;
+
+        &lt;!-- 传入$event时，也可以传入其他参数 --&gt;
+        &lt;form action=&quot;&quot; @submit=&quot;submitFn1(1,$event,2)&quot;&gt;
+            &lt;button&gt;传入$event阻止默认行为&lt;/button&gt;
+        &lt;/form&gt;
+        &lt;!-- 也可以用prevent修饰符阻止默认事件（不需要再传$event） --&gt;
+        &lt;form action=&quot;&quot; @submit.prevent=&quot;submitFn2()&quot;&gt;
+            &lt;button&gt;使用prevent阻止默认行为&lt;/button&gt;
+        &lt;/form&gt;
+        &lt;hr /&gt;
+
+        &lt;div v-on:click=&quot;aParentClick()&quot; v-bind:style=&quot;{border:&#39;1px solid red&#39;,width:&#39;500px&#39;}&quot;&gt;
+            &lt;!-- 点击事件会冒泡到父元素 --&gt;
+            &lt;a href=&quot;http://www.baidu.com&quot; v-on:click.prevent=&quot;aClick()&quot;&gt;没阻止冒泡&lt;/a&gt;
+
+            &lt;!-- stop修饰符阻止事件冒泡 --&gt;
+            &lt;a href=&quot;http://www.baidu.com&quot; v-on:click.prevent.stop=&quot;aClick()&quot;&gt;stop修饰符阻止冒泡&lt;/a&gt;
+        &lt;/div&gt;
+
+        &lt;div v-on:click.self=&quot;aParentClick()&quot; v-bind:style=&quot;{border:&#39;1px solid red&#39;,width:&#39;500px&#39;}&quot;&gt;
+            &lt;!-- 使用了self，只有自身才会触发，a没有阻止冒泡也不会触发父元素事件 --&gt;
+            &lt;a href=&quot;http://www.baidu.com&quot; v-on:click.prevent=&quot;aClick()&quot;&gt;父元素使用self&lt;/a&gt;
+        &lt;/div&gt;        
+
+        &lt;div v-on:click.capture=&quot;aParentClick()&quot; v-bind:style=&quot;{border:&#39;1px solid red&#39;,width:&#39;500px&#39;}&quot;&gt;
+            &lt;!-- capture修饰符：使用捕获事件 --&gt;
+            &lt;a href=&quot;http://www.baidu.com&quot; v-on:click.prevent=&quot;aClick()&quot;&gt;父元素使用capture&lt;/a&gt;
+        &lt;/div&gt;   
+        &lt;hr /&gt;     
+
+        &lt;button v-on:click.prevent.once=&quot;aClick()&quot;&gt;once修饰符只绑定一次事件&lt;/button&gt;
+
+
+    &lt;/div&gt;
+    &lt;script&gt;
+        var app=new Vue({
+            el:&quot;#app&quot;,
+            data:{
+
+            },
+            computed: {
+
+            },
+            methods:{
+                clickEvent:function(){
+                    console.log(&quot;单击&quot;);
+                },
+                dblClickEvent:function(){
+                    console.log(&quot;双击&quot;);
+                },
+                submitFn1:function(otherParam1,event,otherParam2){
+                    event.preventDefault();
+                    console.log(123);
+                },
+                submitFn2:function(){
+                    console.log(456);
+                },
+
+                aClick:function(){
+                    console.log(&quot;点击a&quot;);
+                },
+                aParentClick:function(){
+                    console.log(&quot;点击a的父元素&quot;);
+                }
+
+            }
+        });
+    &lt;/script&gt;
+</code></pre>
+<p>鼠标修饰符：</p>
+<pre><code class="html">    &lt;div id=&quot;app&quot;&gt;
+        &lt;div v-bind:style=&quot;divStyle&quot; v-on:click.left=&quot;clickEvent&quot;&gt;左键&lt;/div&gt;
+        &lt;div v-bind:style=&quot;divStyle&quot; v-on:contextmenu.prevent=&quot;clickEvent&quot;&gt;右键&lt;/div&gt;
+
+    &lt;/div&gt;
+    &lt;script&gt;
+        var app=new Vue({
+            el:&quot;#app&quot;,
+            data:{
+                divStyle:{border:&#39;1px solid red&#39;,width:&#39;300px&#39;,height:&#39;50px&#39;}
+            },
+            computed: {
+
+            },
+            methods:{
+                clickEvent:function(){
+                    console.log(123);
+                }
+            }
+        });
+    &lt;/script&gt;
+</code></pre>
+<h2 id="表单输入绑定"><a href="#表单输入绑定" class="headerlink" title="表单输入绑定"></a>表单输入绑定</h2><pre><code class="html">    &lt;div id=&quot;app&quot;&gt;
+        姓名：&lt;input type=&quot;text&quot; v-model=&quot;nameVal&quot; /&gt;&lt;br /&gt;
+        邮箱：&lt;input type=&quot;text&quot; v-model=&quot;emailVal&quot; /&gt;&lt;br /&gt; 
+        留言：&lt;textarea v-model=&quot;textareaVal&quot;&gt;&lt;/textarea&gt;&lt;br /&gt; 
+        &lt;hr /&gt;
+
+
+        {{ck1}}&lt;br /&gt;
+        &lt;label for=&quot;ck1&quot;&gt;&lt;input type=&quot;checkbox&quot; v-model=&quot;ck1&quot; id=&quot;ck1&quot; /&gt;checkbox&lt;/label&gt;&lt;br /&gt; 
+        &lt;hr /&gt;
+
+
+        爱好：{{likeData}}&lt;br /&gt;
+        &lt;input type=&quot;checkbox&quot; name=&quot;like&quot; v-model=&quot;likeData&quot; value=&quot;读书&quot;&gt;读书
+        &lt;input type=&quot;checkbox&quot; name=&quot;like&quot; v-model=&quot;likeData&quot; value=&quot;打球&quot;&gt;打球
+        &lt;input type=&quot;checkbox&quot; name=&quot;like&quot; v-model=&quot;likeData&quot; value=&quot;看电影&quot;&gt;看电影
+        &lt;hr /&gt;
+
+
+        爱好（动态绑定）：{{likeData1}}&lt;br /&gt;
+        &lt;!-- 单选款动态绑定和此类似 --&gt;
+        &lt;div v-for=&quot;(item,index) in lData&quot;&gt;
+            &lt;input type=&quot;checkbox&quot; name=&quot;like1&quot; v-model=&quot;likeData1&quot; v-bind:value=&quot;item.val&quot;&gt;{{item.title}}
+        &lt;/div&gt;
+        &lt;hr /&gt;        
+
+
+        性别：{{sex}}&lt;br /&gt;
+        &lt;input type=&quot;radio&quot; name=&quot;sex&quot; value=&quot;male&quot; v-model=&quot;sex&quot; /&gt;男
+        &lt;input type=&quot;radio&quot; name=&quot;sex&quot; value=&quot;female&quot; v-model=&quot;sex&quot; /&gt;女
+        &lt;hr /&gt;
+
+        城市：{{city}}&lt;br /&gt;
+        &lt;select v-model=&quot;city&quot;&gt;
+            &lt;option value=&quot;&quot; selected=&quot;selected&quot;&gt;---选择城市---&lt;/option&gt;
+            &lt;option v-for=&quot;(item,index) in cityData&quot; v-bind:value=&quot;item.key&quot;&gt;{{item.name}}&lt;/option&gt;
+        &lt;/select&gt;
+
+        &lt;select multiple size=&quot;3&quot;&gt;
+            &lt;option value=&quot;&quot; selected=&quot;selected&quot;&gt;---select---&lt;/option&gt;
+            &lt;option value=&quot;1&quot;&gt;a&lt;/option&gt;
+            &lt;option value=&quot;2&quot;&gt;b&lt;/option&gt;
+            &lt;option value=&quot;3&quot;&gt;c&lt;/option&gt;
+            &lt;option value=&quot;4&quot;&gt;d&lt;/option&gt;
+        &lt;/select&gt;
+
+
+    &lt;/div&gt;
+    &lt;script&gt;
+        var app = new Vue({
+            el: &quot;#app&quot;,
+            data: {
+                emailVal: &quot;123@123.com&quot;,
+                nameVal: &quot;zhangsan&quot;,
+                textareaVal: &quot;留言内容&quot;,
+                ck1: true,
+                likeData: [],
+
+                likeData1:[],
+                lData:[
+                    {val:&quot;读书&quot;,title:&quot;读书&quot;},
+                    {val:&quot;打球&quot;,title:&quot;打球&quot;},
+                    {val:&quot;看电影&quot;,title:&quot;看电影&quot;}
+                ],
+
+                sex:&quot;&quot;,
+                city:&quot;&quot;,
+                cityData:[
+                    {key:&quot;bj&quot;,name:&quot;北京&quot;},
+                    {key:&quot;sh&quot;,name:&quot;上海&quot;},
+                    {key:&quot;gz&quot;,name:&quot;广州&quot;}
+                ]
+            },
+            computed: {
+
+            },
+            methods: {
+                clickEvent: function () {
+                    console.log(123);
+                }
+            }
+        });
+    &lt;/script&gt;
+</code></pre>
+<p>表单修饰符：number修饰符绑定Number类型、 trim修饰符去空格、lazy修饰符让失去焦点后view中的值才会更新到model</p>
+<h2 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h2><p>组件定义方法：</p>
+<pre><code class="html">    &lt;div id=&quot;app&quot;&gt;
+            &lt;div-component&gt;&lt;/div-component&gt;
+            &lt;div-component&gt;&lt;/div-component&gt;
+
+            &lt;p-component&gt;&lt;/p-component&gt;
+
+            &lt;a-component&gt;&lt;/a-component&gt;
+    &lt;/div&gt;
+    &lt;script&gt;
+        // 定义全局组件：
+        Vue.component(&quot;divComponent&quot;,{
+            template:&quot;&lt;div&gt;div内容&lt;/div&gt;&quot;
+        });
+
+        // 定义局部组件：
+        var aComponent={
+            template:&quot;&lt;a href=&#39;#1&#39;&gt;a内容&lt;/a&gt;&quot;
+        }
+        var app = new Vue({
+            el: &quot;#app&quot;,
+            components:{
+                aComponent:aComponent,
+
+                // 定义局部组件：
+                pComponent:{
+                    template:&quot;&lt;p&gt;p内容&lt;/p&gt;&quot;
+                }
+            }
+        });
+    &lt;/script&gt;
+</code></pre>
+<p>子组件使用props声明要接收的数据：</p>
+<pre><code class="html">    &lt;div id=&quot;app&quot;&gt;
+        &lt;user-info-component name-data=&quot;张三&quot; age=&quot;12+1&quot; otherdata=&quot;fromParCompData&quot;&gt;&lt;/user-info-component&gt;
+        &lt;!-- 
+            渲染结果为：
+            姓名：张三
+            年龄：12+1
+            其他：fromParCompData            
+         --&gt;
+        &lt;user-info-component name-data=&quot;李四&quot; v-bind:age=&quot;14+1&quot; v-bind:otherdata=&quot;fromParCompData&quot;&gt;&lt;/user-info-component&gt;
+        &lt;!-- 
+            渲染结果为：
+            姓名：李四
+            年龄：15
+            其他：来自父组件的数据      
+         --&gt;        
+    &lt;/div&gt;
+
+    &lt;script type=&quot;text/x-template&quot; id=&quot;userInfoCompTemplate&quot;&gt;
+        &lt;div&gt;
+            &lt;p&gt;姓名：{{nameData}}&lt;/p&gt;
+            &lt;p&gt;年龄：{{age}}&lt;/p&gt;
+            &lt;p&gt;其他：{{otherdata}}&lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/script&gt;
+
+    &lt;script&gt;
+        var userInfoComponent={
+            template:&quot;#userInfoCompTemplate&quot;,
+            data:function(){
+                return {
+
+                }
+            },
+            props:[&quot;nameData&quot;,&quot;age&quot;,&quot;otherdata&quot;]
+        }
+
+        var app = new Vue({
+            el: &quot;#app&quot;,
+            data: {
+                fromParCompData:&quot;来自父组件的数据&quot;
+            },
+            components:{
+                userInfoComponent:userInfoComponent
+            }
+        });
+    &lt;/script&gt;
+</code></pre>
+<p>子组件定义时使用props属性声明要接收的数据，子组件作为html标签调用时可直接将父组件的数据绑定给它的属性，数据作为字符串处理，也可通过v-bind绑定，数据作为表达式。</p>
+<p>组件使用props接收参数时，可对传来的参数进行验证：</p>
+<pre><code class="html">    // 不进行验证用数组形式
+    // props:[&quot;nameData&quot;,&quot;age&quot;,&quot;otherdata&quot;] 
+    props:{
+        nameData:{
+            type:String, // 必须为String类型
+            required:true // 必要
+        },
+        age:{
+            type:Number,
+            default:18 // 不传参默认值为18
+        },
+        // age:{ // 也可使用函数验证
+        //     validator:function(val){
+        //         return (typeof val===&quot;number&quot;); // 返回true时验证通过
+        //     }
+        // },
+        otherdata:{
+            type:[String,Number,Boolean,Object], // 可以为多个类型，用数组形式
+            default:function(){ // 默认值也可使用函数返回的形式
+                return {msg:&quot;message&quot;}
+            }
+        }
+    }
+</code></pre>
+<p>父子组件传参：</p>
+<pre><code class="html">    &lt;div id=&quot;app&quot;&gt;
+        &lt;shopping-cart-component 
+            v-bind:g-data=&quot;goodsData&quot;
+            v-on:getall=&quot;getTotalPrice&quot;
+        &gt;&lt;/shopping-cart-component&gt;
+
+        &lt;div&gt;总计：{{totalPrice}}&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;script type=&quot;text/x-template&quot; id=&quot;SCartCompTemplate&quot;&gt;
+        &lt;table border=&quot;1&quot; width=&quot;100%&quot;&gt;
+            &lt;tr&gt;
+                &lt;th&gt;商品名&lt;/th&gt;&lt;th&gt;价格&lt;/th&gt;&lt;th&gt;数量&lt;/th&gt;
+            &lt;/tr&gt;
+            &lt;tr v-for=&quot;(item,index) in gData&quot;&gt;
+                &lt;td&gt;{{item.name}}&lt;/td&gt;
+                &lt;td&gt;{{item.price}}&lt;/td&gt;
+                &lt;td&gt;
+                    &lt;input type=&quot;number&quot; min=&quot;1&quot;
+                        v-model.number=&quot;item.num&quot;
+                        v-on:input=&quot;iptChange&quot;&gt;
+                &lt;/td&gt;
+            &lt;/tr&gt;            
+        &lt;/table&gt;
+    &lt;/script&gt;
+
+    &lt;script&gt;
+        var shoppingCartComponent={
+            template:&quot;#SCartCompTemplate&quot;,
+            props:[&quot;gData&quot;],
+            methods:{
+                iptChange:function(){
+                    var price=0;
+                    this.gData.forEach(function(item,index,arr){
+                        price+=item.price*item.num;
+                    });
+                    this.$emit(&quot;getall&quot;,price);
+                }
+            },
+            mounted:function(){
+                this.iptChange();
+            }
+        }
+
+        var app = new Vue({
+            el: &quot;#app&quot;,
+            data: {
+                goodsData:[
+                    {name:&quot;A&quot;,price:20,num:1},
+                    {name:&quot;B&quot;,price:30,num:1}
+                ],
+                totalPrice:0
+            },
+            components:{
+                shoppingCartComponent:shoppingCartComponent
+            },            
+            methods: {
+                getTotalPrice:function(val){
+                    this.totalPrice=val;
+                }
+            }
+        });
+    &lt;/script&gt;
+</code></pre>
+<p>在这个例子中，首先定义了一个购物车组件shoppingCartComponent，这个shoppingCartComponent组件使用了id为SCartCompTemplate的模板，shoppingCartComponent组件期待接收gData参数，这个组件作为vue实例app的局部组件使用。子组件中通过v-bind将来自父组件的数据goodsData传递给它期待接收的gData，子组件模板中通过v-for遍历gData渲染出带有数据的表格。当input触发输入事件时调用iptChange方法，在iptChange方法中计算购物车总价格price，然后通过$emit主动触发getall事件，将价格price传递到父组件的getTotalPrice方法中。创建实例过程中子组件使用mounted钩子函数调用一次iptChange方法计算出初始价格。</p>
+<p>组件中使用slot插槽：</p>
+<pre><code class="html">    &lt;div id=&quot;app&quot;&gt;
+        &lt;div-component&gt;
+            &lt;span&gt;123123123&lt;/span&gt;
+
+            &lt;!-- 插入到name为cont1的插槽中 --&gt;
+            &lt;p slot=&quot;cont1&quot;&gt;111111&lt;/p&gt;
+
+            &lt;!-- 插入到name为cont2的插槽中 --&gt;
+            &lt;div slot=&quot;cont2&quot;&gt;222222&lt;/div&gt;
+
+            &lt;!-- 组件divComponent2插入到name为cont3的插槽中 --&gt;
+            &lt;div-component2 title=&quot;传递给组件divComponent2的内容1&quot; slot=&quot;cont3&quot;&gt;&lt;/div-component2&gt;
+
+            &lt;!-- 没有指明slot，会被插入到默认slot中，若没有默认slot则不显示这些内容 --&gt;
+            456456456
+        &lt;/div-component&gt;
+        ------
+        &lt;div-component2 title=&quot;传递给组件divComponent2的内容2&quot;&gt;&lt;/div-component2&gt;
+
+
+        &lt;!-- 
+            结果：
+            111111
+            222222
+            传递给组件divComponent2的内容1
+            123123123 456456456
+            ------
+            传递给组件divComponent2的内容2            
+         --&gt;
+
+    &lt;/div&gt;
+
+    &lt;script type=&quot;text/x-template&quot; id=&quot;divComponentTemplate&quot;&gt;
+        &lt;div&gt;
+            &lt;slot name=&quot;cont1&quot;&gt;没有传递内容时显示这个&lt;/slot&gt;
+            &lt;slot name=&quot;cont2&quot;&gt;没有传递内容时显示这个&lt;/slot&gt;
+            &lt;slot name=&quot;cont3&quot;&gt;没有传递内容时显示这个&lt;/slot&gt;
+            &lt;div class=&quot;default&quot;&gt;
+                &lt;!-- 没有定义name属性，为默认slot --&gt;
+                &lt;slot&gt;没有传递内容时显示这个&lt;/slot&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/script&gt;
+
+    &lt;script&gt;
+        var divComponent={
+            template:&quot;#divComponentTemplate&quot;
+        }
+        var app = new Vue({
+            el: &quot;#app&quot;,
+            components:{
+                divComponent:divComponent,
+                divComponent2:{
+                    template:&quot;&lt;div&gt;{{title}}&lt;/div&gt;&quot;,
+                    props:[&quot;title&quot;]
+                }
+            }
+        });
+    &lt;/script&gt;
+</code></pre>
+<h2 id="过渡-amp-动画"><a href="#过渡-amp-动画" class="headerlink" title="过渡&amp;动画"></a>过渡&amp;动画</h2><h2 id="可复用-amp-组合"><a href="#可复用-amp-组合" class="headerlink" title="可复用&amp;组合"></a>可复用&amp;组合</h2><h2 id="vue-router"><a href="#vue-router" class="headerlink" title="vue-router"></a>vue-router</h2><h2 id="vuex"><a href="#vuex" class="headerlink" title="vuex"></a>vuex</h2>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;数据绑定&quot;&gt;&lt;a href=&quot;#数据绑定&quot; class=&quot;headerlink&quot; title=&quot;数据绑定&quot;&gt;&lt;/a&gt;数据绑定&lt;/h2&gt;&lt;p&gt;vue通过v-bind指令将数据绑定给html元素的属性。&lt;br&gt;如：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;html&quot;&gt;
+    &amp;lt;style&amp;gt;
+        .redFont{
+            color: red;
+        }
+        .blueFont{
+            color: blue;
+        }
+        .yellowFont{
+            color: yellow;
+        }
+    &amp;lt;/style&amp;gt; 
+    &amp;lt;div id=&amp;quot;app&amp;quot;&amp;gt;
+        &amp;lt;div v-bind:class=&amp;quot;red&amp;quot;&amp;gt;红字&amp;lt;/div&amp;gt;
+        &amp;lt;div v-bind:class=&amp;quot;&amp;#39;blueFont&amp;#39;&amp;quot;&amp;gt;蓝字&amp;lt;/div&amp;gt;
+        &amp;lt;div class=&amp;quot;yellowFont&amp;quot;&amp;gt;黄字&amp;lt;/div&amp;gt;
+    &amp;lt;/div&amp;gt;
+    &amp;lt;script&amp;gt;
+        var app=new Vue({
+            el:&amp;quot;#app&amp;quot;,
+            data:{
+                red:&amp;quot;redFont&amp;quot;
+            }
+        });
+    &amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+    
+    </summary>
+    
+      <category term="Web前端" scheme="http://lijianqiang.net/categories/Web%E5%89%8D%E7%AB%AF/"/>
+    
+    
+      <category term="Vue" scheme="http://lijianqiang.net/tags/Vue/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hexo、GitHub Pages搭建个人博客总结</title>
+    <link href="http://lijianqiang.net/2017/06/28/hexo-next-build-blog-summary/"/>
+    <id>http://lijianqiang.net/2017/06/28/hexo-next-build-blog-summary/</id>
+    <published>2017-06-27T16:03:56.000Z</published>
+    <updated>2017-11-25T18:22:31.037Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="使用Hexo初始化博客"><a href="#使用Hexo初始化博客" class="headerlink" title="使用Hexo初始化博客"></a>使用Hexo初始化博客</h2><ol>
+<li>安装 <a href="https://git-scm.com/downloads" target="_blank" rel="noopener">Git</a> 和 <a href="https://nodejs.org/en/download/" target="_blank" rel="noopener">Node</a></li>
+<li><code>npm install -g hexo-cli</code>（全局安装 <a href="https://github.com/hexojs/hexo" target="_blank" rel="noopener">Hexo</a> ）</li>
+<li><code>hexo init myblog</code>（创建并初始化myblog文件夹，不加名字myblog则将当前目录作为博客目录初始化）</li>
+<li><code>cd myblog</code>（进入到博客目录）</li>
+<li><code>npm install</code>（安装package.json中的依赖项）</li>
+<li><code>hexo server</code>（启动本地服务器）</li>
+<li>浏览器打开 <a href="http://localhost:4000/" target="_blank" rel="noopener">http://localhost:4000/</a> 看最初效果<a id="more"></a>
+</li>
+</ol>
+<h2 id="站点配置文件（-config-yml）"><a href="#站点配置文件（-config-yml）" class="headerlink" title="站点配置文件（/_config.yml）"></a>站点配置文件（/_config.yml）</h2><pre><code class="yml"># Site
+title: 博客名称
+subtitle: 博客副标题
+description: 站点描述的关键词，主要用于SEO
+author: 作者名字
+language: 博客语言，中文简体是zh-Hans
+timezone: 时区，留空即可
+
+# URL
+url: 博客地址
+root: /
+permalink: :year/:month/:day/:title/
+permalink_defaults:
+
+# Pagination
+per_page: 每页显示的文章数量
+pagination_dir: page
+
+# Extensions
+theme: 使用的hexo主题，默认landscape，我这里用的next
+</code></pre>
+<h2 id="安装主题"><a href="#安装主题" class="headerlink" title="安装主题"></a>安装主题</h2><ol>
+<li><code>cd themes</code>（进入到博客主题目录）</li>
+<li><code>git clone https://github.com/iissnan/hexo-theme-next.git</code>（安装Next主题）</li>
+<li>安装完成后，/themes中的hexo-theme-next文件夹就是next主题所在目录，将该文件夹名改为next，因为在/_config.yml配置文件中theme项值为next，也可改成其他名字但两者要一致</li>
+<li><code>hexo server</code>，浏览器打开 <a href="http://localhost:4000/" target="_blank" rel="noopener">http://localhost:4000/</a> ，博客样式就变为所安装主题的样式</li>
+<li>以后若要更新主题，在/themes/next中执行<code>git pull</code>即可</li>
+</ol>
+<h2 id="主题配置文件（-themes-next-config-yml）"><a href="#主题配置文件（-themes-next-config-yml）" class="headerlink" title="主题配置文件（/themes/next/_config.yml）"></a>主题配置文件（/themes/next/_config.yml）</h2><pre><code class="yml">favicon: /uploads/favicon.ico（头像地址，如不存在uploads目录，新建即可）
+
+keywords: 站点描述
+
+since: 站点创建时间
+
+menu: # 设置菜单
+  home: /
+  categories: /categories
+  tags: /tags
+  archives: /archives
+  about: /about
+  #search: /search
+  #sitemap: /sitemap.xml
+  #commonweal: /404.html
+
+menu_icons: # 设置菜单图标，图标名字为Awesome图标名称
+  enable: true
+  home: home
+  categories: th
+  tags: tags
+  archives: archive
+  about: user
+  search: search
+  sitemap: sitemap
+  commonweal: heartbeat
+  schedule: calendar
+
+social: # 设置社交链接
+  LinkLabel: 
+  GitHub: 
+  Twitter: 
+  Weibo: 
+
+social_icons: # 设置社交链接图标
+  enable: true
+  GitHub: github
+  Twitter: twitter
+  Weibo: weibo
+
+avatar: /uploads/avatar.jpeg # 侧边栏头像
+
+auto_excerpt: # 设置显示更多时自动截取，也可在文章中通过&lt;!-- more --&gt;手动截断
+  enable: true
+  length: 150
+
+highlight_theme: night # 代码高亮主题
+</code></pre>
+<h2 id="设置GitHub-Pages"><a href="#设置GitHub-Pages" class="headerlink" title="设置GitHub Pages"></a>设置GitHub Pages</h2><ol>
+<li>在GitHub上创建名为username.github.io的仓库（username是GitHub中的用户名）</li>
+<li><code>npm install --save hexo-deployer-git</code>（安装deploy插件）</li>
+<li>编辑站点配置文件（/_config.yml）：<pre><code class="yml">deploy:
+type: git
+repository: 刚刚创建的GitHub仓库的地址，如git@github.com:username/username.github.io.git
+branch: master
+message: Site updated at {{ now("YYYY-MM-DD HH:mm:ss") }} # 每次提交代码的描述信息（非必需）
+</code></pre>
+</li>
+<li>分别执行<code>hexo clean</code>（清除缓存文件db.json和之前生成的public中的静态文件），<code>hexo generate</code>（生成静态文件到public文件夹），<code>hexo deploy</code>（根据/_config.yml中deploy的配置信息，将静态文件上传到GitHub）</li>
+<li>浏览器打开 <a href="https://username.github.io/" target="_blank" rel="noopener">https://username.github.io/</a> 查看博客</li>
+</ol>
+<h2 id="博客绑定域名"><a href="#博客绑定域名" class="headerlink" title="博客绑定域名"></a>博客绑定域名</h2><p>绑定个人域名可以让自己的博客地址更加简单好记，同时也方便使用网易云跟帖（网易云跟帖只支持主域名）：</p>
+<h3 id="个人域名解析设置"><a href="#个人域名解析设置" class="headerlink" title="个人域名解析设置"></a>个人域名解析设置</h3><p>给个人域名添加三条解析记录：</p>
+<table>
+<thead>
+<tr>
+<th>记录类型</th>
+<th>主机记录</th>
+<th>解析线路</th>
+<th>记录值</th>
+<th>TTL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CNAME</td>
+<td>www</td>
+<td>默认</td>
+<td>lijq123.github.io<br>（GitHub博客的地址）</td>
+<td>10分钟（默认）</td>
+</tr>
+<tr>
+<td>A</td>
+<td>@</td>
+<td>默认</td>
+<td>192.30.252.153<br>（GItHub Pages服务器地址）</td>
+<td>10分钟（默认）</td>
+</tr>
+<tr>
+<td>A</td>
+<td>@</td>
+<td>默认</td>
+<td>192.30.252.154<br>（GItHub Pages服务器地址）</td>
+<td>10分钟（默认）</td>
+</tr>
+</tbody>
+</table>
+<p>记录类型中，CNAME表示重命名、指向一个域名，A表示指向一个IP。<br>主机记录表示前缀，@表示根域名。<br>第一条记录就是表示把www.lijianqiang.net解析到lijq123.github.io，第二条表示把lijianqiang.net解析到192.30.252.153<br>因为我的域名是在万网购买的，所以以上操作是在阿里云域名控制台进行的，其他服务商购买的域名操作也是一样</p>
+<h3 id="GitHub中添加CNAME"><a href="#GitHub中添加CNAME" class="headerlink" title="GitHub中添加CNAME"></a>GitHub中添加CNAME</h3><p>在/themes/next/source/中创建名为CNAME（必须为大写）文件，内容设置为购买的域名如lijianqiang.net。<br>然后执行<code>hexo  generate -d</code>，浏览器访问 <a href="https://lijq123.github.io" target="_blank" rel="noopener">https://lijq123.github.io</a> 时地址栏变为 lijianqiang.net 表示绑定成功了<br>若/themes/next/source/CNAME内容设置为www.aaa.net，访问 <a href="https://lijq123.github.io" target="_blank" rel="noopener">https://lijq123.github.io</a> 浏览器中显示则是二级域名www.lijianqiang.net</p>
+<h2 id="配置站点地图sitemap"><a href="#配置站点地图sitemap" class="headerlink" title="配置站点地图sitemap"></a>配置站点地图sitemap</h2><ol>
+<li>配置站点地图有利于搜索引擎抓取网站，有利于SEO，首先要安装谷歌和百度sitemap插件：<br><code>npm install --save hexo-generator-sitemap</code><br><code>npm install --save hexo-generator-baidu-sitemap</code></li>
+<li>在站点配置文件中（/_config.yml）中添加：<pre><code class="yml">sitemap: 
+path: sitemap.xml # 提交给谷歌搜索引擎
+baidusitemap:
+path: baidusitemap.xml # 提交给百度搜索引擎
+</code></pre>
+</li>
+<li>/themes/next/source/中添加robots.txt文件（网络爬虫排除标准），内容为：<pre><code class="yml">User-agent: *
+Allow: /
+Allow: /archives/
+Disallow: /js/
+Disallow: /css/
+Disallow: /fonts/
+Sitemap: http://lijianqiang.net/sitemap.xml
+Sitemap: http://lijianqiang.net/baidusitemap.xml
+</code></pre>
+这样每次执行<code>hexo generate</code>编译成页面静态文件时也会在public目录中生成sitemap.xml、baidusitemap.xml、和robots.txt</li>
+</ol>
+<h2 id="添加本地搜索功能"><a href="#添加本地搜索功能" class="headerlink" title="添加本地搜索功能"></a>添加本地搜索功能</h2><p><code>npm install --save hexo-generator-searchdb</code>（安装本地搜索插件）<br>站点配置文件（/_config.yml）：</p>
+<pre><code class="yml">search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
+</code></pre>
+<p>主题配置文件（/themes/next/_config.yml）：</p>
+<pre><code>local_search:
+  enable: true
+</code></pre><p>添加本地搜索功能后，主题配置文件中不需要配置搜索页（search: /search）</p>
+<h2 id="Hexo常用命令"><a href="#Hexo常用命令" class="headerlink" title="Hexo常用命令"></a>Hexo常用命令</h2><ul>
+<li><code>hexo new page pagename</code>（/source/中创建pagename文件夹，并在其中创建index.md）</li>
+<li><code>hexo new articlename</code>（/source/中创建articlename.md）</li>
+<li><code>hexo server --debug</code>（以调试模式开启静态服务器）</li>
+<li><code>hexo clean</code>（清除缓存文件db.json和之前生成的public中的静态文件）</li>
+<li><code>hexo generate</code>（或hexo g，生成静态文件到public目录中）</li>
+<li><code>hexo deploy</code>（或hexo d，提交public中静态文件到GitHub）</li>
+</ul>
+<h2 id="将文章底部标签前的-替换为Awesome图标"><a href="#将文章底部标签前的-替换为Awesome图标" class="headerlink" title="将文章底部标签前的#替换为Awesome图标"></a>将文章底部标签前的#替换为Awesome图标</h2><p>将/themes/next/layout/_macro/post.swig中rel=”tag”&gt;后边的#替换为<code>&lt;i class=&quot;fa fa-tag&quot;&gt;&lt;/i&gt;</code>，保存即可变为<i class="fa fa-tag"></i></p>
+<h2 id="Markdown主要语法"><a href="#Markdown主要语法" class="headerlink" title="Markdown主要语法"></a>Markdown主要语法</h2><p>Markdown是一种轻量级的标记语言，使用它撰写文章，我们只需要专注于内容的创作，不再需要担心排版的问题。它简单易学，掌握之后可以很大程度的提高效率、节约时间。下面是Markdown的主要语法：</p>
+<ul>
+<li>标题（h1-h6）：# 一级标题名、## 二级标题名、…###### 六级标题名</li>
+<li>无序列表（ul）：- 项目名</li>
+<li>有序列表（ol）：数字. 项目名（如 1. aaa）</li>
+<li>插入引用（blockquote）：&gt; 引用的段子</li>
+<li>插入链接（a）：[链接显示文字](链接url)（如 [Lijq’s Blog](<a href="http://lijianqiang.net">http://lijianqiang.net</a> )）</li>
+<li>插入图片（img）：![图片标签alt属性值](图片url)</li>
+<li>斜体（em）：*文字*</li>
+<li>粗体（strong）：**文字**</li>
+<li>粗斜体（strong中嵌套em）：***文字***</li>
+<li>设置行内代码格式（code）：如`hexo clean`，效果：<code>hexo clean</code></li>
+<li>设置整段代码格式（pre中嵌套code）：<br>如：<br>```javascript<br>  var a=1;<br>  console.log(a);<br>```<br>效果：<pre><code class="javascript">  var a=1;
+  console.log(a);
+</code></pre>
+</li>
+<li>插入表格（table）：<br>如：<br>| 学生的姓名 | 学生的性别 | 学生的年龄 |<br>| ------ | :------: | ------: |<br>| 张三 | 男 | 16 |<br>| 李四 | 女 | 17 |</li>
+</ul>
+<p>效果：</p>
+<table>
+<thead>
+<tr>
+<th>学生的姓名</th>
+<th style="text-align:center">学生的性别</th>
+<th style="text-align:right">学生的年龄</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>张三</td>
+<td style="text-align:center">男</td>
+<td style="text-align:right">16</td>
+</tr>
+<tr>
+<td>李四</td>
+<td style="text-align:center">女</td>
+<td style="text-align:right">17</td>
+</tr>
+</tbody>
+</table>
+<p>注：两个竖线<code>|</code>之间的部分表示一个单元格。第一行是表头，第二行用多个<code>-</code>和<code>:</code>确定单元格中文字对齐方式，不加<code>:</code>或左边加<code>:</code>表示左对齐，两边加<code>:</code>表示居中对齐，右边加<code>:</code>表示右对齐。第二行每个单元格中不要只写一个<code>-</code>，有时可能不会正常解析，建议最少三个。</p>
+<p>许多站点的在线Markdown编辑器支持直接编写html代码，如掘金、GitHub等，有些则不支持。</p>
+<p>一款开源的在线Markdown编辑器：<a href="https://github.com/joemccann/dillinger" target="_blank" rel="noopener">dillinger</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;使用Hexo初始化博客&quot;&gt;&lt;a href=&quot;#使用Hexo初始化博客&quot; class=&quot;headerlink&quot; title=&quot;使用Hexo初始化博客&quot;&gt;&lt;/a&gt;使用Hexo初始化博客&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;安装 &lt;a href=&quot;https://git-scm.com/downloads&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Git&lt;/a&gt; 和 &lt;a href=&quot;https://nodejs.org/en/download/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Node&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;npm install -g hexo-cli&lt;/code&gt;（全局安装 &lt;a href=&quot;https://github.com/hexojs/hexo&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt; ）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;hexo init myblog&lt;/code&gt;（创建并初始化myblog文件夹，不加名字myblog则将当前目录作为博客目录初始化）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;cd myblog&lt;/code&gt;（进入到博客目录）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;npm install&lt;/code&gt;（安装package.json中的依赖项）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;hexo server&lt;/code&gt;（启动本地服务器）&lt;/li&gt;
+&lt;li&gt;浏览器打开 &lt;a href=&quot;http://localhost:4000/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://localhost:4000/&lt;/a&gt; 看最初效果
+    
+    </summary>
+    
+      <category term="Web前端" scheme="http://lijianqiang.net/categories/Web%E5%89%8D%E7%AB%AF/"/>
+    
+    
+      <category term="Hexo" scheme="http://lijianqiang.net/tags/Hexo/"/>
+    
+      <category term="GitHub" scheme="http://lijianqiang.net/tags/GitHub/"/>
+    
+  </entry>
+  
+</feed>
