@@ -731,7 +731,33 @@
 					</div>
 					<p class="md-timeline-excerpt">
 						
-							
+							数据绑定vue通过v-bind指令将数据绑定给html元素的属性。如：
+
+    &lt;style&gt;
+        .redFont{
+            color: red;
+        }
+        .blueFont{
+            color: blue;
+        }
+        .yellowFont{
+            color: yellow;
+        }
+    &lt;/style&gt; 
+    &lt;div id=&quot;app&quot;&gt;
+        &lt;div v-bind:class=&quot;red&quot;&gt;红字&lt;/div&gt;
+        &lt;div v-bind:class=&quot;&#39;blueFont&#39;&quot;&gt;蓝字&lt;/div&gt;
+        &lt;div class=&quot;yellowFont&quot;&gt;黄字&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;script&gt;
+        var app=new Vue({
+            el:&quot;#app&quot;,
+            data:{
+                red:&quot;redFont&quot;
+            }
+        });
+    &lt;/script&gt;
+
 						...
 					</p>
                     		</div>
