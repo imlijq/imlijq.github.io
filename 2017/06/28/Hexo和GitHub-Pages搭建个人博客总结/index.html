@@ -52,14 +52,7 @@
     <meta name="format-detection" content="telephone=no"/>
     <meta name="theme-color" content="#0097A7">
     <meta name="author" content="Lijq">
-    <meta name="description" itemprop="description" content="使用Hexo初始化博客
-安装 Git 和 Node
-npm install -g hexo-cli（全局安装 Hexo ）
-hexo init myblog（创建并初始化myblog文件夹，不加名字myblog则将当前目录作为博客目录初始化）
-cd myblog（进入到博客目录）
-npm install（安装package.json中的依赖项）
-hexo server（启动本地服务器）
-浏览器打开 http://localhost:4000/ 看最初效果">
+    <meta name="description" itemprop="description" content="使用Hexo和GitHub Pages搭建个人博客整个过程的总结记录。">
     <meta name="keywords" content="技术博客,web前端,前端开发,前端学习笔记,前端教程,Hexo,GitHub">
 
     <!-- Import lsloader -->
@@ -253,38 +246,24 @@ hexo server（启动本地服务器）
     <meta property="og:type" content="blog">
     <meta property="og:title" content="Hexo、GitHub Pages搭建个人博客总结 | Lijq&#39;s Blog">
     <meta property="og:image" content="http://lijianqiang.net/img/favicon.png" />
-    <meta property="og:description" content="使用Hexo初始化博客
-安装 Git 和 Node
-npm install -g hexo-cli（全局安装 Hexo ）
-hexo init myblog（创建并初始化myblog文件夹，不加名字myblog则将当前目录作为博客目录初始化）
-cd myblog（进入到博客目录）
-npm install（安装package.json中的依赖项）
-hexo server（启动本地服务器）
-浏览器打开 http://localhost:4000/ 看最初效果">
+    <meta property="og:description" content="使用Hexo和GitHub Pages搭建个人博客整个过程的总结记录。">
     <meta property="og:article:tag" content="Hexo"> <meta property="og:article:tag" content="GitHub"> 
 
     
         <meta property="article:published_time" content="Wed Jun 28 2017 00:03:56 GMT+0800" />
-        <meta property="article:modified_time" content="Sun Nov 26 2017 02:22:31 GMT+0800" />
+        <meta property="article:modified_time" content="Sun Dec 10 2017 01:31:12 GMT+0800" />
     
 
     <!-- The Twitter Card protocol -->
     <meta name="twitter:title" content="Hexo、GitHub Pages搭建个人博客总结 | Lijq&#39;s Blog">
-    <meta name="twitter:description" content="使用Hexo初始化博客
-安装 Git 和 Node
-npm install -g hexo-cli（全局安装 Hexo ）
-hexo init myblog（创建并初始化myblog文件夹，不加名字myblog则将当前目录作为博客目录初始化）
-cd myblog（进入到博客目录）
-npm install（安装package.json中的依赖项）
-hexo server（启动本地服务器）
-浏览器打开 http://localhost:4000/ 看最初效果">
+    <meta name="twitter:description" content="使用Hexo和GitHub Pages搭建个人博客整个过程的总结记录。">
     <meta name="twitter:image" content="http://lijianqiang.net/img/favicon.png">
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="http://lijianqiang.net" />
 
     <!-- Add canonical link for SEO -->
     
-        <link rel="canonical" href="http://lijianqiang.net/2017/06/28/hexo-next-build-blog-summary/index.html" />
+        <link rel="canonical" href="http://lijianqiang.net/2017/06/28/Hexo和GitHub-Pages搭建个人博客总结/index.html" />
     
 
     <!-- Structured-data for SEO -->
@@ -296,10 +275,10 @@ hexo server（启动本地服务器）
 {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "mainEntityOfPage": "http://lijianqiang.net/2017/06/28/hexo-next-build-blog-summary/index.html",
+    "mainEntityOfPage": "http://lijianqiang.net/2017/06/28/Hexo和GitHub-Pages搭建个人博客总结/index.html",
     "headline": "Hexo、GitHub Pages搭建个人博客总结",
     "datePublished": "Wed Jun 28 2017 00:03:56 GMT+0800",
-    "dateModified": "Sun Nov 26 2017 02:22:31 GMT+0800",
+    "dateModified": "Sun Dec 10 2017 01:31:12 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "Lijq",
@@ -318,14 +297,7 @@ hexo server（启动本地服务器）
         }
     },
     "keywords": ",Hexo,GitHub技术博客,web前端,前端开发,前端学习笔记,前端教程",
-    "description": "使用Hexo初始化博客
-安装 Git 和 Node
-npm install -g hexo-cli（全局安装 Hexo ）
-hexo init myblog（创建并初始化myblog文件夹，不加名字myblog则将当前目录作为博客目录初始化）
-cd myblog（进入到博客目录）
-npm install（安装package.json中的依赖项）
-hexo server（启动本地服务器）
-浏览器打开 http://localhost:4000/ 看最初效果",
+    "description": "使用Hexo和GitHub Pages搭建个人博客整个过程的总结记录。",
 }
 </script>
 
@@ -480,7 +452,7 @@ hexo server（启动本地服务器）
 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
     <li class="mdl-menu__item">在其它设备中阅读本文章</li>
     
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAAC00lEQVR42u3aUY7iMBAEUO5/6dkDIDJV7uxusF++RgSIn5Gm1N1+/Rx5vbCxsbGxsbGxsbEfyX7FV/7+9+9//+z73U+rur5brAQbGxt7a/Yv//o/LPQT8pqaPPd6g9o1Y2NjY5/Dvg6tJDzyJSax14biLz8JNjY2NvbSovONWytgsLGxsbHXAmweSBMGNjY2NvakqZQ0m+bt/vy5/6iXho2Njf14djvofcLf/2G+jY2Njf1I9uRafPzSSOCG1WJjY2Nvys4bQDmsPe7ThlbbFMPGxsY+h902idYGt/koN29FRa0rbGxs7E3Za8VGOwaYxM9kC7CxsbFPYOeR05YZebTkT2zLJ2xsbOwT2G3hsRYe+aLnJUeR29jY2NhbsIv2+tLRyfZuO4TIB8PY2NjYe7Mnw4B8C+4qchZHFNjY2Nhbs+8qSNaaPpOtx8bGxsZea+vcECeD0cL1OqNSBBsbG3s79tpy16IlD878U1EEYmNjY2/Nzlv/awVJvn151NVPxMbGxt6UnQ9K1zai/c75OAEbGxv7THZbSLRjgLyAad9580klbGxs7C9kty34dsvyCGwHwO2asbGxsXdlT4ayeRT9jXBqRwXY2NjYu7LzRk+70MmhnHZ0EZU02NjY2Juyk3DKX08Kj/ZZ+U8yGg9gY2Njfzk7L0jWCoZ5yZFs0w1NJWxsbOwvZ7elwrwImQRVsh5sbGzsc9hJ679oxMdHfPKmfx6i2NjY2Cez1x6WhMcNLaEBGBsbG3tvdnu1A+DJACAf90Yrx8bGxt6U3UZC/nrS7m+P9bRbjI2NjX0Ou230JAtqS5Q2Dttgw8bGxj6B3UZLPhLON3rSTqpLEWxsbOyD2Xl4tMc6c2o95MDGxsbGDtpDkzBb2+gbmkrY2NjYG7HXyoN5+z5vNk2KE2xsbOy92WuD3skgId+CyWFNbGxs7BPY51zY2NjY2NjY2NjYj7n+AK0eAZMQyi/HAAAAAElFTkSuQmCC">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAAEOCAAAAABd2qZ5AAADnUlEQVR42u3awW7jMAwE0P7/T+9eFyjizpBSmgWeT0XjONLzgeCIX39c/1xfCHDgwIEDBw4cOHDg+GCOr/j6/q0ffubFt56/+++n3+9/XttwLzhw4MCB4wJHu7HZnd+X/mobr7776gmrl4QDBw4cOK5xPBewWfnMF/385Lb8J3vBgQMHDhyfzPG8jU1T17aIOHDgwIHjf+fI73kmSLCScBAHDhw4cHwOR3sU1LZnCfEmrPyFrBQHDhw4cLzgyGO4z//7rfMdOHDgwIHjG8csknsutG2TNmsFT104cODAgeMsR16o8gZvH+S1JX+1fhw4cODAcZQjCe9mP5YPtLVFOgeKnowDBw4cOK5x5GMEbdPVNnvPoO2G644WBw4cOHCsOWbbe2ujNSKL9oIDBw4cOI5yPJfY/Lgo///maW1RP5aV4sCBAweO8pxlM6zQHikl9O2W2qgRBw4cOHC8h6Nt1Wbx3yxMnIWDh4ewceDAgQNHwNGGdEkwlxfs/TMPDFjgwIEDB46jHLM2rC29eUu2aSOPhYM4cODAgePoOUveSm0aubNtXjtIgQMHDhw4fpejvfJjpLwZm20+GpvAgQMHDhzXONrBgqKYlQR1G1Y2dThw4MCB4x7HqaXM/p9EirMXUzSiOHDgwIHjAkc+HNA2Tm0UWJfJsgmMCi0OHDhw4DjEkRfg/HBoX3rbJjB/PThw4MCB47c42oOo9xTmPFgsjp1w4MCBA8eaoy2xs1GG55BxM9bQDk/Up3A4cODAgaPkyMfRzjZjbRO4GdRbZaU4cODAgaPkaIcJ2oKXxHP5tmfltggHceDAgQPHIY46UBsN1SVP2ASUeaSIAwcOHDjuccwenTRI7YFT26TlIxQ/rAQHDhw4cFzgaIO/fGP50meNZY5VZ6U4cODAgWPN0W44ifZmkeKpoDDaCw4cOHDguMbRhmvtGFzbaOVr2KwHBw4cOHDc5shL5r6s5gFlGyAmK8SBAwcOHDc4NlFdPhiRDD20n+b3F8dOOHDgwIFjzbEqUUGJbZvDljspyT+sCgcOHDhwXOCYjRTkh0MzxM2oREGMAwcOHDiucbRDA7MmLY8X88OqJF6sCy0OHDhw4Hg7Rzt80JbMvM3Ln4MDBw4cOD6foy2KbYu1aSOjteHAgQMHjmsc+RBDXvDao6b2NRSDCzeOnXDgwIEDx3qgYUZw6uCqjR2HLRwOHDhw4FhwuHDgwIEDBw4cOHDgwPFh11/vrJt0UMgtrAAAAABJRU5ErkJggg==">
     
 </ul>
 
@@ -510,7 +482,7 @@ hexo server（启动本地服务器）
     <!-- 展示leancloud统计的该文章的访问量 -->
         <!-- <a class="post_share-link" href="#">
             <li class="mdl-menu__item">
-                <span id="/2017/06/28/hexo-next-build-blog-summary/" class="leancloud-views_num" data-flag-title="Hexo、GitHub Pages搭建个人博客总结">
+                <span id="/2017/06/28/Hexo和GitHub-Pages搭建个人博客总结/" class="leancloud-views_num" data-flag-title="Hexo、GitHub Pages搭建个人博客总结">
      &nbsp;浏览量
 </span>
 
@@ -534,7 +506,7 @@ hexo server（启动本地服务器）
 
     <!-- Share Weibo -->
     
-        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Hexo、GitHub Pages搭建个人博客总结&url=http://lijianqiang.net/2017/06/28/hexo-next-build-blog-summary/index.html&pic=http://lijianqiang.net/img/favicon.png&searchPic=false&style=simple" target="_blank">
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Hexo、GitHub Pages搭建个人博客总结&url=http://lijianqiang.net/2017/06/28/Hexo和GitHub-Pages搭建个人博客总结/index.html&pic=http://lijianqiang.net/img/favicon.png&searchPic=false&style=simple" target="_blank">
             <li class="mdl-menu__item">
                 分享到微博
             </li>
@@ -543,7 +515,7 @@ hexo server（启动本地服务器）
 
     <!-- Share Twitter -->
     
-        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Hexo、GitHub Pages搭建个人博客总结&url=http://lijianqiang.net/2017/06/28/hexo-next-build-blog-summary/index.html&via=Lijq" target="_blank">
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Hexo、GitHub Pages搭建个人博客总结&url=http://lijianqiang.net/2017/06/28/Hexo和GitHub-Pages搭建个人博客总结/index.html&via=Lijq" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Twitter
             </li>
@@ -552,7 +524,7 @@ hexo server（启动本地服务器）
 
     <!-- Share Facebook -->
     
-        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://lijianqiang.net/2017/06/28/hexo-next-build-blog-summary/index.html" target="_blank">
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://lijianqiang.net/2017/06/28/Hexo和GitHub-Pages搭建个人博客总结/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Facebook
             </li>
@@ -561,7 +533,7 @@ hexo server（启动本地服务器）
 
     <!-- Share Google+ -->
     
-        <a class="post_share-link" href="https://plus.google.com/share?url=http://lijianqiang.net/2017/06/28/hexo-next-build-blog-summary/index.html" target="_blank">
+        <a class="post_share-link" href="https://plus.google.com/share?url=http://lijianqiang.net/2017/06/28/Hexo和GitHub-Pages搭建个人博客总结/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Google+
             </li>
@@ -586,14 +558,16 @@ hexo server（启动本地服务器）
                 <!-- Post Content -->
                 <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
-        <h2 id="使用Hexo初始化博客"><a href="#使用Hexo初始化博客" class="headerlink" title="使用Hexo初始化博客"></a>使用Hexo初始化博客</h2><ol>
+        <p>使用Hexo和GitHub Pages搭建个人博客整个过程的总结记录。</p>
+<a id="more"></a>
+<h2 id="使用Hexo初始化博客"><a href="#使用Hexo初始化博客" class="headerlink" title="使用Hexo初始化博客"></a>使用Hexo初始化博客</h2><ol>
 <li>安装 <a href="https://git-scm.com/downloads" target="_blank" rel="noopener">Git</a> 和 <a href="https://nodejs.org/en/download/" target="_blank" rel="noopener">Node</a></li>
 <li><code>npm install -g hexo-cli</code>（全局安装 <a href="https://github.com/hexojs/hexo" target="_blank" rel="noopener">Hexo</a> ）</li>
 <li><code>hexo init myblog</code>（创建并初始化myblog文件夹，不加名字myblog则将当前目录作为博客目录初始化）</li>
 <li><code>cd myblog</code>（进入到博客目录）</li>
 <li><code>npm install</code>（安装package.json中的依赖项）</li>
 <li><code>hexo server</code>（启动本地服务器）</li>
-<li>浏览器打开 <a href="http://localhost:4000/" target="_blank" rel="noopener">http://localhost:4000/</a> 看最初效果<a id="more"></a>
+<li>浏览器打开 <a href="http://localhost:4000/" target="_blank" rel="noopener">http://localhost:4000/</a> 看最初效果<!-- more -->
 </li>
 </ol>
 <h2 id="站点配置文件（-config-yml）"><a href="#站点配置文件（-config-yml）" class="headerlink" title="站点配置文件（/_config.yml）"></a>站点配置文件（/_config.yml）</h2><pre><code class="yml"># Site
@@ -813,7 +787,7 @@ Sitemap: http://lijianqiang.net/baidusitemap.xml
                             本文使用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/">CC BY-NC-SA 3.0 中国大陆</a> 协议许可
                         </strong>
                         <br>
-                        <strong>本文链接：</strong><a href="http://lijianqiang.net/2017/06/28/hexo-next-build-blog-summary/">http://lijianqiang.net/2017/06/28/hexo-next-build-blog-summary/</a>
+                        <strong>本文链接：</strong><a href="http://lijianqiang.net/2017/06/28/Hexo和GitHub-Pages搭建个人博客总结/">http://lijianqiang.net/2017/06/28/Hexo和GitHub-Pages搭建个人博客总结/</a>
                     </p>
                 </blockquote>
         

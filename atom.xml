@@ -931,19 +931,21 @@
   
   <entry>
     <title>Hexo、GitHub Pages搭建个人博客总结</title>
-    <link href="http://lijianqiang.net/2017/06/28/hexo-next-build-blog-summary/"/>
-    <id>http://lijianqiang.net/2017/06/28/hexo-next-build-blog-summary/</id>
+    <link href="http://lijianqiang.net/2017/06/28/Hexo%E5%92%8CGitHub-Pages%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%80%BB%E7%BB%93/"/>
+    <id>http://lijianqiang.net/2017/06/28/Hexo和GitHub-Pages搭建个人博客总结/</id>
     <published>2017-06-27T16:03:56.000Z</published>
-    <updated>2017-11-25T18:22:31.037Z</updated>
+    <updated>2017-12-09T17:31:12.813Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="使用Hexo初始化博客"><a href="#使用Hexo初始化博客" class="headerlink" title="使用Hexo初始化博客"></a>使用Hexo初始化博客</h2><ol>
+    <content type="html"><![CDATA[<p>使用Hexo和GitHub Pages搭建个人博客整个过程的总结记录。</p>
+<a id="more"></a>
+<h2 id="使用Hexo初始化博客"><a href="#使用Hexo初始化博客" class="headerlink" title="使用Hexo初始化博客"></a>使用Hexo初始化博客</h2><ol>
 <li>安装 <a href="https://git-scm.com/downloads" target="_blank" rel="noopener">Git</a> 和 <a href="https://nodejs.org/en/download/" target="_blank" rel="noopener">Node</a></li>
 <li><code>npm install -g hexo-cli</code>（全局安装 <a href="https://github.com/hexojs/hexo" target="_blank" rel="noopener">Hexo</a> ）</li>
 <li><code>hexo init myblog</code>（创建并初始化myblog文件夹，不加名字myblog则将当前目录作为博客目录初始化）</li>
 <li><code>cd myblog</code>（进入到博客目录）</li>
 <li><code>npm install</code>（安装package.json中的依赖项）</li>
 <li><code>hexo server</code>（启动本地服务器）</li>
-<li>浏览器打开 <a href="http://localhost:4000/" target="_blank" rel="noopener">http://localhost:4000/</a> 看最初效果<a id="more"></a>
+<li>浏览器打开 <a href="http://localhost:4000/" target="_blank" rel="noopener">http://localhost:4000/</a> 看最初效果<!-- more -->
 </li>
 </ol>
 <h2 id="站点配置文件（-config-yml）"><a href="#站点配置文件（-config-yml）" class="headerlink" title="站点配置文件（/_config.yml）"></a>站点配置文件（/_config.yml）</h2><pre><code class="yml"># Site
@@ -1159,14 +1161,7 @@ Sitemap: http://lijianqiang.net/baidusitemap.xml
     
     <summary type="html">
     
-      &lt;h2 id=&quot;使用Hexo初始化博客&quot;&gt;&lt;a href=&quot;#使用Hexo初始化博客&quot; class=&quot;headerlink&quot; title=&quot;使用Hexo初始化博客&quot;&gt;&lt;/a&gt;使用Hexo初始化博客&lt;/h2&gt;&lt;ol&gt;
-&lt;li&gt;安装 &lt;a href=&quot;https://git-scm.com/downloads&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Git&lt;/a&gt; 和 &lt;a href=&quot;https://nodejs.org/en/download/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Node&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;npm install -g hexo-cli&lt;/code&gt;（全局安装 &lt;a href=&quot;https://github.com/hexojs/hexo&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt; ）&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;hexo init myblog&lt;/code&gt;（创建并初始化myblog文件夹，不加名字myblog则将当前目录作为博客目录初始化）&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;cd myblog&lt;/code&gt;（进入到博客目录）&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;npm install&lt;/code&gt;（安装package.json中的依赖项）&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;hexo server&lt;/code&gt;（启动本地服务器）&lt;/li&gt;
-&lt;li&gt;浏览器打开 &lt;a href=&quot;http://localhost:4000/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://localhost:4000/&lt;/a&gt; 看最初效果
+      &lt;p&gt;使用Hexo和GitHub Pages搭建个人博客整个过程的总结记录。&lt;/p&gt;
     
     </summary>
     
