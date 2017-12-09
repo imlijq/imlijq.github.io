@@ -808,6 +808,7 @@ Sitemap: http://lijianqiang.net/baidusitemap.xml
 <div id="container"></div>
 </div>
 <style>
+    /* 默认样式 */
     #gitment-comment {
         background-color: #eee;
         padding: 2pc;
@@ -815,46 +816,52 @@ Sitemap: http://lijianqiang.net/baidusitemap.xml
 </style>
 <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
 <style>
+    /* 自定义样式 */
     .gitment-editor-footer>a.gitment-editor-footer-tip {
+        display: none;
+    }
+    .gitment-footer-container{
         display: none;
     }
 </style>
 <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script>
-    // var gitment = new Gitment({
-    //     //id: '页面 ID', // 可选。默认为 location.href
-    //     owner: 'lijq123',
-    //     repo: 'lijq123.github.io',
-    //     oauth: {
-    //         client_id: 'c8525a54b6f43c44a349',
-    //         client_secret: '0bf1f7a8f2a3b7b629b0685e80293e65fcd01912',
-    //     },
-    // })
-    // gitment.render('container')
-
-    const myTheme = {
-        render(state, instance) {
-            const container = document.createElement('div')
-            container.lang = "en-US"
-            container.className = 'gitment-container gitment-root-container'
-            container.appendChild(instance.renderHeader(state, instance))
-            container.appendChild(instance.renderEditor(state, instance))
-            container.appendChild(instance.renderComments(state, instance))
-            container.appendChild(instance.renderFooter(state, instance))
-            return container
-        }
-    }
-    const gitment = new Gitment({
+    // 默认结构
+    var gitment = new Gitment({
+        //id: '页面 ID', // 可选。默认为 location.href
         owner: 'lijq123',
         repo: 'lijq123.github.io',
         oauth: {
             client_id: 'c8525a54b6f43c44a349',
             client_secret: '0bf1f7a8f2a3b7b629b0685e80293e65fcd01912',
         },
-
-        theme: myTheme
     })
     gitment.render('container')
+
+
+    // 自定义结构
+    // const myTheme = {
+    //     render(state, instance) {
+    //         const container = document.createElement('div')
+    //         container.lang = "en-US"
+    //         container.className = 'gitment-container gitment-root-container'
+    //         container.appendChild(instance.renderHeader(state, instance))
+    //         container.appendChild(instance.renderEditor(state, instance))
+    //         container.appendChild(instance.renderComments(state, instance))
+    //         container.appendChild(instance.renderFooter(state, instance))
+    //         return container
+    //     }
+    // }
+    // const gitment = new Gitment({
+    //     owner: 'lijq123',
+    //     repo: 'lijq123.github.io',
+    //     oauth: {
+    //         client_id: 'c8525a54b6f43c44a349',
+    //         client_secret: '0bf1f7a8f2a3b7b629b0685e80293e65fcd01912',
+    //     },
+    //     theme: myTheme
+    // })
+    // gitment.render('container')
 </script>
 
                 
