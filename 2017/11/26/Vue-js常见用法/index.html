@@ -52,33 +52,7 @@
     <meta name="format-detection" content="telephone=no"/>
     <meta name="theme-color" content="#0097A7">
     <meta name="author" content="Lijq">
-    <meta name="description" itemprop="description" content="数据绑定vue通过v-bind指令将数据绑定给html元素的属性。如：
-
-    &amp;lt;style&amp;gt;
-        .redFont{
-            color: red;
-        }
-        .blueFont{
-            color: blue;
-        }
-        .yellowFont{
-            color: yellow;
-        }
-    &amp;lt;/style&amp;gt; 
-    &amp;lt;div id=&amp;quot;app&amp;quot;&amp;gt;
-        &amp;lt;div v-bind:class=&amp;quot;red&amp;quot;&amp;gt;红字&amp;lt;/div&amp;gt;
-        &amp;lt;div v-bind:class=&amp;quot;&amp;#39;blueFont&amp;#39;&amp;quot;&amp;gt;蓝字&amp;lt;/div&amp;gt;
-        &amp;lt;div class=&amp;quot;yellowFont&amp;quot;&amp;gt;黄字&amp;lt;/div&amp;gt;
-    &amp;lt;/div&amp;gt;
-    &amp;lt;script&amp;gt;
-        var app=new Vue({
-            el:&amp;quot;#app&amp;quot;,
-            data:{
-                red:&amp;quot;redFont&amp;quot;
-            }
-        });
-    &amp;lt;/script&amp;gt;
-">
+    <meta name="description" itemprop="description" content="本文按照Vue.js官方文档中的介绍顺序，结合具体的实例代码，对Vue.js的常见用法做一个简单的总结。">
     <meta name="keywords" content="技术博客,web前端,前端开发,前端学习笔记,前端教程,Vue">
 
     <!-- Import lsloader -->
@@ -272,69 +246,17 @@
     <meta property="og:type" content="blog">
     <meta property="og:title" content="Vue.js常见用法 | Lijq&#39;s Blog">
     <meta property="og:image" content="http://lijianqiang.net/img/favicon.png" />
-    <meta property="og:description" content="数据绑定vue通过v-bind指令将数据绑定给html元素的属性。如：
-
-    &amp;lt;style&amp;gt;
-        .redFont{
-            color: red;
-        }
-        .blueFont{
-            color: blue;
-        }
-        .yellowFont{
-            color: yellow;
-        }
-    &amp;lt;/style&amp;gt; 
-    &amp;lt;div id=&amp;quot;app&amp;quot;&amp;gt;
-        &amp;lt;div v-bind:class=&amp;quot;red&amp;quot;&amp;gt;红字&amp;lt;/div&amp;gt;
-        &amp;lt;div v-bind:class=&amp;quot;&amp;#39;blueFont&amp;#39;&amp;quot;&amp;gt;蓝字&amp;lt;/div&amp;gt;
-        &amp;lt;div class=&amp;quot;yellowFont&amp;quot;&amp;gt;黄字&amp;lt;/div&amp;gt;
-    &amp;lt;/div&amp;gt;
-    &amp;lt;script&amp;gt;
-        var app=new Vue({
-            el:&amp;quot;#app&amp;quot;,
-            data:{
-                red:&amp;quot;redFont&amp;quot;
-            }
-        });
-    &amp;lt;/script&amp;gt;
-">
+    <meta property="og:description" content="本文按照Vue.js官方文档中的介绍顺序，结合具体的实例代码，对Vue.js的常见用法做一个简单的总结。">
     <meta property="og:article:tag" content="Vue"> 
 
     
         <meta property="article:published_time" content="Sun Nov 26 2017 22:26:18 GMT+0800" />
-        <meta property="article:modified_time" content="Sun Dec 10 2017 01:14:10 GMT+0800" />
+        <meta property="article:modified_time" content="Sun Dec 10 2017 01:21:36 GMT+0800" />
     
 
     <!-- The Twitter Card protocol -->
     <meta name="twitter:title" content="Vue.js常见用法 | Lijq&#39;s Blog">
-    <meta name="twitter:description" content="数据绑定vue通过v-bind指令将数据绑定给html元素的属性。如：
-
-    &amp;lt;style&amp;gt;
-        .redFont{
-            color: red;
-        }
-        .blueFont{
-            color: blue;
-        }
-        .yellowFont{
-            color: yellow;
-        }
-    &amp;lt;/style&amp;gt; 
-    &amp;lt;div id=&amp;quot;app&amp;quot;&amp;gt;
-        &amp;lt;div v-bind:class=&amp;quot;red&amp;quot;&amp;gt;红字&amp;lt;/div&amp;gt;
-        &amp;lt;div v-bind:class=&amp;quot;&amp;#39;blueFont&amp;#39;&amp;quot;&amp;gt;蓝字&amp;lt;/div&amp;gt;
-        &amp;lt;div class=&amp;quot;yellowFont&amp;quot;&amp;gt;黄字&amp;lt;/div&amp;gt;
-    &amp;lt;/div&amp;gt;
-    &amp;lt;script&amp;gt;
-        var app=new Vue({
-            el:&amp;quot;#app&amp;quot;,
-            data:{
-                red:&amp;quot;redFont&amp;quot;
-            }
-        });
-    &amp;lt;/script&amp;gt;
-">
+    <meta name="twitter:description" content="本文按照Vue.js官方文档中的介绍顺序，结合具体的实例代码，对Vue.js的常见用法做一个简单的总结。">
     <meta name="twitter:image" content="http://lijianqiang.net/img/favicon.png">
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="http://lijianqiang.net" />
@@ -356,7 +278,7 @@
     "mainEntityOfPage": "http://lijianqiang.net/2017/11/26/Vue-js常见用法/index.html",
     "headline": "Vue.js常见用法",
     "datePublished": "Sun Nov 26 2017 22:26:18 GMT+0800",
-    "dateModified": "Sun Dec 10 2017 01:14:10 GMT+0800",
+    "dateModified": "Sun Dec 10 2017 01:21:36 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "Lijq",
@@ -375,33 +297,7 @@
         }
     },
     "keywords": ",Vue技术博客,web前端,前端开发,前端学习笔记,前端教程",
-    "description": "数据绑定vue通过v-bind指令将数据绑定给html元素的属性。如：
-
-    &amp;lt;style&amp;gt;
-        .redFont{
-            color: red;
-        }
-        .blueFont{
-            color: blue;
-        }
-        .yellowFont{
-            color: yellow;
-        }
-    &amp;lt;/style&amp;gt; 
-    &amp;lt;div id=&amp;quot;app&amp;quot;&amp;gt;
-        &amp;lt;div v-bind:class=&amp;quot;red&amp;quot;&amp;gt;红字&amp;lt;/div&amp;gt;
-        &amp;lt;div v-bind:class=&amp;quot;&amp;#39;blueFont&amp;#39;&amp;quot;&amp;gt;蓝字&amp;lt;/div&amp;gt;
-        &amp;lt;div class=&amp;quot;yellowFont&amp;quot;&amp;gt;黄字&amp;lt;/div&amp;gt;
-    &amp;lt;/div&amp;gt;
-    &amp;lt;script&amp;gt;
-        var app=new Vue({
-            el:&amp;quot;#app&amp;quot;,
-            data:{
-                red:&amp;quot;redFont&amp;quot;
-            }
-        });
-    &amp;lt;/script&amp;gt;
-",
+    "description": "本文按照Vue.js官方文档中的介绍顺序，结合具体的实例代码，对Vue.js的常见用法做一个简单的总结。",
 }
 </script>
 
@@ -662,7 +558,9 @@
                 <!-- Post Content -->
                 <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
-        <h2 id="数据绑定"><a href="#数据绑定" class="headerlink" title="数据绑定"></a>数据绑定</h2><p>vue通过v-bind指令将数据绑定给html元素的属性。<br>如：</p>
+        <p>本文按照Vue.js官方文档中的介绍顺序，结合具体的实例代码，对Vue.js的常见用法做一个简单的总结。</p>
+<a id="more"></a>
+<h2 id="数据绑定"><a href="#数据绑定" class="headerlink" title="数据绑定"></a>数据绑定</h2><p>vue通过v-bind指令将数据绑定给html元素的属性。<br>如：</p>
 <pre><code class="html">
     &lt;style&gt;
         .redFont{
@@ -689,7 +587,6 @@
         });
     &lt;/script&gt;
 </code></pre>
-<a id="more"></a>
 <p>通过v-model指令进行view和model数据的双向绑定。<br>如：</p>
 <pre><code class="html">    &lt;div id=&quot;app&quot;&gt;
         &lt;div&gt;{{title}}&lt;/div&gt;
