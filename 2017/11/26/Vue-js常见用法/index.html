@@ -303,7 +303,7 @@
 
     
         <meta property="article:published_time" content="Sun Nov 26 2017 22:26:18 GMT+0800" />
-        <meta property="article:modified_time" content="Wed Dec 06 2017 22:27:20 GMT+0800" />
+        <meta property="article:modified_time" content="Sun Dec 10 2017 01:14:10 GMT+0800" />
     
 
     <!-- The Twitter Card protocol -->
@@ -356,7 +356,7 @@
     "mainEntityOfPage": "http://lijianqiang.net/2017/11/26/Vue-js常见用法/index.html",
     "headline": "Vue.js常见用法",
     "datePublished": "Sun Nov 26 2017 22:26:18 GMT+0800",
-    "dateModified": "Wed Dec 06 2017 22:27:20 GMT+0800",
+    "dateModified": "Sun Dec 10 2017 01:14:10 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "Lijq",
@@ -364,7 +364,7 @@
             "@type": "ImageObject",
             "url": "/uploads/avatar.png"
         },
-        "description": "一个人的命运啊，当然要靠自我奋斗"
+        "description": ""
     },
     "publisher": {
         "@type": "Organization",
@@ -1463,7 +1463,97 @@
         });
     &lt;/script&gt;
 </code></pre>
-<h2 id="vue-router"><a href="#vue-router" class="headerlink" title="vue-router"></a>vue-router</h2><h2 id="vuex"><a href="#vuex" class="headerlink" title="vuex"></a>vuex</h2>
+<h2 id="vue-router"><a href="#vue-router" class="headerlink" title="vue-router"></a>vue-router</h2><p>html中router-link相当于a元素，属性to相当于href，点击router-link后会跳转到对应组件，显示的组件在router-view中展示。new VueRouter中的routes中定义不同路径（location.hash）对应的相应组件。</p>
+<pre><code class="html">    &lt;div id=&quot;app&quot;&gt;
+        &lt;router-link to=&quot;/phoneComp&quot;&gt;手机&lt;/router-link&gt;
+        &lt;router-link to=&quot;/computerComp&quot;&gt;电脑&lt;/router-link&gt;
+
+        &lt;router-view&gt;&lt;/router-view&gt;
+    &lt;/div&gt;
+    &lt;script&gt;
+        // 定义组件
+        var phoneComponent = {
+            template: &quot;&lt;div&gt;手机组件&lt;/div&gt;&quot;
+        }
+        var computerComponent = {
+            template: &quot;&lt;div&gt;电脑组件&lt;/div&gt;&quot;
+        }
+
+        // 定义路由
+        var route = new VueRouter({
+            routes: [
+                { path: &quot;/phoneComp&quot;, component: phoneComponent },
+                { path: &quot;/computerComp&quot;, component: computerComponent }
+            ]
+        });
+
+        var app = new Vue({
+            el: &quot;#app&quot;,
+            // 使用路由
+            router: route
+        });
+    &lt;/script&gt;
+</code></pre>
+<p><img src="https://ws1.sinaimg.cn/large/005yUB9Vly1fmaxqcjti3g30aj01un4e.gif" alt="vue-router效果图"></p>
+<p>path中定义参数，组件中可通过$route.params获取到url中的参数对象。path中可对参数进行验证。</p>
+<pre><code class="html">    &lt;div id=&quot;app&quot;&gt;
+        &lt;router-link to=&quot;/phoneComp&quot;&gt;手机&lt;/router-link&gt;
+        &lt;router-link to=&quot;/computerComp&quot;&gt;电脑&lt;/router-link&gt;
+
+        &lt;router-view&gt;&lt;/router-view&gt;
+    &lt;/div&gt;
+
+    &lt;script&gt;
+        var phoneComponent = {
+            template: &quot;&lt;div&gt;手机组件{{$route.params}}&lt;/div&gt;&quot;
+        }    
+        var computerComponent={
+            template:`
+                &lt;div&gt;
+                    电脑组件&lt;br /&gt;
+                    id:{{$route.params}}&lt;br /&gt;
+                    &lt;button @click=&quot;getParam&quot;&gt;获取url参数&lt;/button&gt;
+                &lt;/div&gt;           
+            `,
+            methods:{
+                getParam:function(){
+                    console.log(this.$route.params);
+                }
+            }
+        }
+
+        var router=new VueRouter({
+            routes:[
+                // location.hash为#/computerComp/123时，可通过$route.params.id获取到123
+                {path:&quot;/phoneComp/:id&quot;,component: phoneComponent},
+
+                // 参数验证：id必须为两位数字，否则进入不到相应组件
+                // {path:&quot;/phoneComp/:id(\\d{2})&quot;,component: phoneComponent},  
+
+                // 参数验证：参数id可有可无
+                // {path:&quot;/phoneComp/:id?&quot;,component: phoneComponent},
+
+
+                // location.hash为#/computerComp/1/cont/2时，通过$route.params.id获取到1、$route.params.num获取到2
+                {path:&quot;/computerComp/:id/cont/:num&quot;,component: computerComponent}
+
+                // #/computerComp-1-cont-2（使用-分隔的形式）
+                // {path:&quot;/computerComp-:id-cont-:num&quot;,component: computerComponent}
+            ]
+        });
+
+        var app = new Vue({
+            el: &quot;#app&quot;,
+            router:router,
+        });
+    &lt;/script&gt;
+</code></pre>
+<p>定义路由时可以使用namem命名路由，在router-link的to属性中通过name指向该路由。</p>
+<p><img src="https://ws1.sinaimg.cn/large/005yUB9Vgy1fmb0kez51rg309y02r425.gif" alt="vue-router效果图"></p>
+<p>路由的嵌套</p>
+<pre><code class="html">
+</code></pre>
+<h2 id="vuex"><a href="#vuex" class="headerlink" title="vuex"></a>vuex</h2>
         
                 <blockquote style="margin: 2em 0 0;padding: 0.5em 1em;border-left: 3px solid #F44336;background-color: #F5F5F5;list-style: none;">
                     <p><strong>
