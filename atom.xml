@@ -1460,7 +1460,7 @@ this.$router.push(&quot;/content/&quot; + id); // 跳转到localhost:8080/index.
     <link href="http://yoursite.com/2017/06/28/Hexo%E5%92%8CGitHub-Pages%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%80%BB%E7%BB%93/"/>
     <id>http://yoursite.com/2017/06/28/Hexo和GitHub-Pages搭建个人博客总结/</id>
     <published>2017-06-27T16:03:56.000Z</published>
-    <updated>2017-12-09T17:31:12.813Z</updated>
+    <updated>2018-03-16T16:42:12.094Z</updated>
     
     <content type="html"><![CDATA[<p>使用Hexo和GitHub Pages搭建个人博客整个过程的总结记录。</p>
 <a id="more"></a>
@@ -1638,6 +1638,7 @@ Sitemap: http://lijianqiang.net/baidusitemap.xml
 <li><code>hexo clean</code>（清除缓存文件db.json和之前生成的public中的静态文件）</li>
 <li><code>hexo generate</code>（或hexo g，生成静态文件到public目录中）</li>
 <li><code>hexo deploy</code>（或hexo d，提交public中静态文件到GitHub）</li>
+<li><code>hexo generate -deploy</code>（或hexo g -d，生成+部署）</li>
 </ul>
 <h2 id="将文章底部标签前的-替换为Awesome图标"><a href="#将文章底部标签前的-替换为Awesome图标" class="headerlink" title="将文章底部标签前的#替换为Awesome图标"></a>将文章底部标签前的#替换为Awesome图标</h2><p>将/themes/next/layout/_macro/post.swig中rel=”tag”&gt;后边的#替换为<code>&lt;i class=&quot;fa fa-tag&quot;&gt;&lt;/i&gt;</code>，保存即可变为<i class="fa fa-tag"></i></p>
 <h2 id="Markdown主要语法"><a href="#Markdown主要语法" class="headerlink" title="Markdown主要语法"></a>Markdown主要语法</h2><p>Markdown是一种轻量级的标记语言，使用它撰写文章，我们只需要专注于内容的创作，不再需要担心排版的问题。它简单易学，掌握之后可以很大程度的提高效率、节约时间。下面是Markdown的主要语法：</p>
