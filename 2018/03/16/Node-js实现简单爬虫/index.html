@@ -41,7 +41,7 @@
     
     <title>
         
-            归档: 2017/6 | 
+            Node.js实现简单爬虫 | 
         
         Lijq&#39;s Blog
     </title>
@@ -52,8 +52,8 @@
     <meta name="format-detection" content="telephone=no"/>
     <meta name="theme-color" content="#0097A7">
     <meta name="author" content="Lijq">
-    <meta name="description" itemprop="description" content="">
-    <meta name="keywords" content="技术博客,web前端,前端开发,前端学习笔记,前端教程">
+    <meta name="description" itemprop="description" content="原理浏览器可以向服务器发起请求，从服务器获取资源，之后经过解析渲染，可以在页面显示文字和图片等内容，我们通过浏览器查看源代码可以看到网页的DOM结构，在控制台也可以通过选择DOM获取到相关的信息和资源。使用爬虫爬取网页信息就是这个原理，只不过爬虫没有浏览器的图形界面，所以请求到数据后不需要解析渲染，直接保存到本地就行了。">
+    <meta name="keywords" content="技术博客,web前端,前端开发,前端学习笔记,前端教程,Node.js,爬虫">
 
     <!-- Import lsloader -->
     <script>(function(){window.lsloader={jsRunSequence:[],jsnamemap:{},cssnamemap:{}};lsloader.removeLS=function(key){try{localStorage.removeItem(key)}catch(e){}};lsloader.setLS=function(key,val){try{localStorage.setItem(key,val)}catch(e){}};lsloader.getLS=function(key){var val="";try{val=localStorage.getItem(key)}catch(e){val=""}return val};versionString="/*"+(window.materialVersion||"unknownVersion")+"*/";lsloader.clean=function(){try{var keys=[];for(var i=0;i<localStorage.length;i++){keys.push(localStorage.key(i))}keys.forEach(function(key){var data=lsloader.getLS(key);if(window.oldVersion){var remove=window.oldVersion.reduce(function(p,c){return p||data.indexOf("/*"+c+"*/")!==-1},false);if(remove){lsloader.removeLS(key)}}})}catch(e){}};lsloader.clean();lsloader.load=function(jsname,jspath,cssonload,isJs){if(typeof cssonload==="boolean"){isJs=cssonload;cssonload=undefined}isJs=isJs||false;cssonload=cssonload||function(){};var code;code=this.getLS(jsname);if(code&&code.indexOf(versionString)===-1){this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload,isJs);return}if(code){var versionNumber=code.split(versionString)[0];if(versionNumber!=jspath){console.log("reload:"+jspath);this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload,isJs);return}code=code.split(versionString)[1];if(isJs){this.jsRunSequence.push({name:jsname,code:code});this.runjs(jspath,jsname,code)}else{document.getElementById(jsname).appendChild(document.createTextNode(code));cssonload()}}else{this.requestResource(jsname,jspath,cssonload,isJs)}};lsloader.requestResource=function(name,path,cssonload,isJs){var that=this;if(isJs){this.iojs(path,name,function(path,name,code){that.setLS(name,path+versionString+code);that.runjs(path,name,code)})}else{this.iocss(path,name,function(code){document.getElementById(name).appendChild(document.createTextNode(code));that.setLS(name,path+versionString+code)},cssonload)}};lsloader.iojs=function(path,jsname,callback){var that=this;that.jsRunSequence.push({name:jsname,code:""});try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(path,jsname,xhr.response);return}}that.jsfallback(path,jsname)}};xhr.send(null)}catch(e){that.jsfallback(path,jsname)}};lsloader.iocss=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.iofonts=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.runjs=function(path,name,code){if(!!name&&!!code){for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code=code}}}if(!!this.jsRunSequence[0]&&!!this.jsRunSequence[0].code&&this.jsRunSequence[0].status!="failed"){var script=document.createElement("script");script.appendChild(document.createTextNode(this.jsRunSequence[0].code));script.type="text/javascript";document.getElementsByTagName("head")[0].appendChild(script);this.jsRunSequence.shift();if(this.jsRunSequence.length>0){this.runjs()}}else if(!!this.jsRunSequence[0]&&this.jsRunSequence[0].status=="failed"){var that=this;var script=document.createElement("script");script.src=this.jsRunSequence[0].path;script.type="text/javascript";this.jsRunSequence[0].status="loading";script.onload=function(){that.jsRunSequence.shift();if(that.jsRunSequence.length>0){that.runjs()}};document.body.appendChild(script)}};lsloader.tagLoad=function(path,name){this.jsRunSequence.push({name:name,code:"",path:path,status:"failed"});this.runjs()};lsloader.jsfallback=function(path,name){if(!!this.jsnamemap[name]){return}else{this.jsnamemap[name]=name}for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code="";this.jsRunSequence[k].status="failed";this.jsRunSequence[k].path=path}}this.runjs()};lsloader.cssfallback=function(path,name,cssonload){if(!!this.cssnamemap[name]){return}else{this.cssnamemap[name]=1}var link=document.createElement("link");link.type="text/css";link.href=path;link.rel="stylesheet";link.onload=link.onerror=cssonload;var root=document.getElementsByTagName("script")[0];root.parentNode.insertBefore(link,root)};lsloader.runInlineScript=function(scriptId,codeId){var code=document.getElementById(codeId).innerText;this.jsRunSequence.push({name:scriptId,code:code});this.runjs()};lsloader.loadCombo=function(jslist){var updateList="";var requestingModules={};for(var k in jslist){var LS=this.getLS(jslist[k].name);if(!!LS){var version=LS.split(versionString)[0];var code=LS.split(versionString)[1]}else{var version=""}if(version==jslist[k].path){this.jsRunSequence.push({name:jslist[k].name,code:code,path:jslist[k].path})}else{this.jsRunSequence.push({name:jslist[k].name,code:null,path:jslist[k].path,status:"comboloading"});requestingModules[jslist[k].name]=true;updateList+=(updateList==""?"":";")+jslist[k].path}}var that=this;if(!!updateList){var xhr=new XMLHttpRequest;xhr.open("get",combo+updateList,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){that.runCombo(xhr.response,requestingModules);return}}else{for(var i in that.jsRunSequence){if(requestingModules[that.jsRunSequence[i].name]){that.jsRunSequence[i].status="failed"}}that.runjs()}}};xhr.send(null)}this.runjs()};lsloader.runCombo=function(comboCode,requestingModules){comboCode=comboCode.split("/*combojs*/");comboCode.shift();for(var k in this.jsRunSequence){if(!!requestingModules[this.jsRunSequence[k].name]&&!!comboCode[0]){this.jsRunSequence[k].status="comboJS";this.jsRunSequence[k].code=comboCode[0];this.setLS(this.jsRunSequence[k].name,this.jsRunSequence[k].path+versionString+comboCode[0]);comboCode.shift()}}this.runjs()}})();</script>
@@ -106,6 +106,9 @@
         <style id="style_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("style_css","/css/style.min.css?MKetZV3cUTfDxvMffaOezg==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
 
         
+            
+                <style id="prettify_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("prettify_css","/css/prettify.min.css?zp8STOU9v89XWFEnN+6YmQ==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+                <style id="prettify_theme"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("prettify_theme","/css/prettify/atelier-cave-light.min.css?5MK/TK/zbpdHM7rmG+ehCw==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
             
         
 
@@ -241,29 +244,62 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="http://yoursite.com">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="归档: 2017/6 | Lijq&#39;s Blog">
+    <meta property="og:title" content="Node.js实现简单爬虫 | Lijq&#39;s Blog">
     <meta property="og:image" content="http://yoursite.com/img/favicon.png" />
-    <meta property="og:description" content="">
-    
+    <meta property="og:description" content="原理浏览器可以向服务器发起请求，从服务器获取资源，之后经过解析渲染，可以在页面显示文字和图片等内容，我们通过浏览器查看源代码可以看到网页的DOM结构，在控制台也可以通过选择DOM获取到相关的信息和资源。使用爬虫爬取网页信息就是这个原理，只不过爬虫没有浏览器的图形界面，所以请求到数据后不需要解析渲染，直接保存到本地就行了。">
+    <meta property="og:article:tag" content="Node.js"> <meta property="og:article:tag" content="爬虫"> 
 
+    
+        <meta property="article:published_time" content="Fri Mar 16 2018 23:28:49 GMT+0800" />
+        <meta property="article:modified_time" content="Sat Mar 17 2018 00:28:55 GMT+0800" />
     
 
     <!-- The Twitter Card protocol -->
-    <meta name="twitter:title" content="归档: 2017/6 | Lijq&#39;s Blog">
-    <meta name="twitter:description" content="">
+    <meta name="twitter:title" content="Node.js实现简单爬虫 | Lijq&#39;s Blog">
+    <meta name="twitter:description" content="原理浏览器可以向服务器发起请求，从服务器获取资源，之后经过解析渲染，可以在页面显示文字和图片等内容，我们通过浏览器查看源代码可以看到网页的DOM结构，在控制台也可以通过选择DOM获取到相关的信息和资源。使用爬虫爬取网页信息就是这个原理，只不过爬虫没有浏览器的图形界面，所以请求到数据后不需要解析渲染，直接保存到本地就行了。">
     <meta name="twitter:image" content="http://yoursite.com/img/favicon.png">
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="http://yoursite.com" />
 
     <!-- Add canonical link for SEO -->
     
-        <link rel="canonical" href="http://yoursite.com/archives/2017/06/index.html" />
+        <link rel="canonical" href="http://yoursite.com/2018/03/16/Node-js实现简单爬虫/index.html" />
     
 
     <!-- Structured-data for SEO -->
     
         
 
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": "http://yoursite.com/2018/03/16/Node-js实现简单爬虫/index.html",
+    "headline": "Node.js实现简单爬虫",
+    "datePublished": "Fri Mar 16 2018 23:28:49 GMT+0800",
+    "dateModified": "Sat Mar 17 2018 00:28:55 GMT+0800",
+    "author": {
+        "@type": "Person",
+        "name": "Lijq",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/uploads/avatar.png"
+        },
+        "description": "怕什么真理无穷，进一寸有一寸的欢喜"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "Lijq&#39;s Blog",
+        "logo": {
+            "@type":"ImageObject",
+            "url": "/img/favicon.png"
+        }
+    },
+    "keywords": ",Node.js,爬虫技术博客,web前端,前端开发,前端学习笔记,前端教程",
+    "description": "原理浏览器可以向服务器发起请求，从服务器获取资源，之后经过解析渲染，可以在页面显示文字和图片等内容，我们通过浏览器查看源代码可以看到网页的DOM结构，在控制台也可以通过选择DOM获取到相关的信息和资源。使用爬虫爬取网页信息就是这个原理，只不过爬虫没有浏览器的图形界面，所以请求到数据后不需要解析渲染，直接保存到本地就行了。",
+}
+</script>
 
 
     
@@ -314,98 +350,347 @@
                         </button>
                     
 
-                    <!-- Index Module -->
-<div class="material-index mdl-grid">
-    
-    <div class="locate-thumbnail-symbol"></div>
+                    <!-- Post TOC -->
 
-    <!-- Pin on top -->
+    
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+
+    <!-- Left aligned menu below button -->
+    
+    
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#原理"><span class="post-toc-number">1.</span> <span class="post-toc-text">原理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#工具"><span class="post-toc-number">2.</span> <span class="post-toc-text">工具</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#步骤"><span class="post-toc-number">3.</span> <span class="post-toc-text">步骤</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#安装request和cheerio"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">安装request和cheerio</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#使用request根据url发起请求，获取数据"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">使用request根据url发起请求，获取数据</span></a></li></ol></li></ol>
+    </ul>
     
 
-    <!-- Normal Post -->
-    
-        
-            
-                <!-- Paradox Thumbnail -->
-                <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
     
         
             <!-- Random Thumbnail -->
             <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
+            <script type="text/ls-javascript" id="post-thumbnail-script">
+    var randomNum = Math.floor(Math.random() * 77 + 1);
 
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2017/06/28/Hexo和GitHub-Pages搭建个人博客总结/">Hexo、GitHub Pages搭建个人博客总结</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            使用Hexo和GitHub Pages搭建个人博客整个过程的总结记录。
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2017/06/28/Hexo和GitHub-Pages搭建个人博客总结/" target="_self">阅读全文</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/uploads/avatar.png" width="44px" height="44px" alt="Lijq's avatar">
-            </div>
-            <div>
-                <strong>Lijq</strong>
-                <span>6月 28, 2017</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-          
-              <!-- Category -->
-              <span class="post_entry-category">
-                  <a class="post_category-link" href="/categories/Web前端/">Web前端</a>
-              </span>
-            
-
-            
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-            
-            
-        
-    
-
-    
-
-    
-        <script type="text/ls-javascript" id="thumbnail-script">
-    var randomNum;
-
-    var locatePost = $('.locate-thumbnail-symbol').next();
-    for(var i = 0; i < 10; i++) {
-        randomNum = Math.floor(Math.random() * 77 + 1);
-
-        locatePost.children('.post_thumbnail-random').attr('id', 'random_thumbnail-'+randomNum);
-        locatePost.children('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
+    $('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
     $('.post_thumbnail-random').addClass('lazy');
-
-        locatePost = locatePost.next();
-    }
 </script>
 
+        
+    
+            <p class="article-headline-p">
+                Node.js实现简单爬虫
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/uploads/avatar.png" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>Lijq</strong>
+        <span>3月 16, 2018</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+        <button id="article-functions-qrcode-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">devices other</i>
+    <span class="visuallyhidden">devices other</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
+    <li class="mdl-menu__item">在其它设备中阅读本文章</li>
+    
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAAC10lEQVR42u3a0U4DMQwEwP7/T8MrEmq76xxwJHNPiLZJxpUwsf34OPJ5YGNjY2NjY2NjY9+S/Yif1+//+urTjYN3fl/z2WfzM2NjY2OfwH7zp//JcZ8dbnbEZOXZmbGxsbHPYc/SUp6EknDnCaw9MzY2NjZ2cqzXCSwHvw4cNjY2NvYFSyRFnOAC0wYRGxsbG3u9qJQXemakdt9fqqVhY2Nj3549K9z/7c9/0N/GxsbGviW7fWbhaD81a+6+OTk2Njb2puyklH/VIM6bq8KoLFUUqrCxsbEPZidBybefpahZCLCxsbFPYL8u6Lel/HxwZ7ZC/gVgY2Njn8xO0tvKqM3KLgkPGxsbG3uWPJLwtZeNZJ0LGr3Y2NjY/5w9K7vnaaZtA+RfQ5vksLGxsXdlz8Z0Lk4tcWt5FiZsbGzsvdn59aANRDvck19j8hBgY2Njn8luj9JeV/I0lrSi84Y0NjY29q7sfAgmT1TtyrMV6vWxsbGxt2avHHE21tMWsNqGBDY2NvY57Hwcp20PFIX7UZjqFIuNjY29NTuntgnpJ64ZSSkqSmDY2NjY27HXLyFJ4yFvS8zavXUCw8bGxv7n7DzN1I3VsnGbDw8NGxXY2NjYm7JXCjqzQZ9ZiaoNLjY2NvY57JVW60pqmTUbli4z2NjY2MewV9JPW75fbxhccAPDxsbG3oI9W2hWeMoLUsm+SwkMGxsbewv2yoDOBYWeiy422NjY2CezV4r+6yFL0l5b3sLGxsY+md3+u59cM2ZDOfmrxUUFGxsbe1P2Slv3gkLPaEioLVFhY2Njn8DOm75tuX/2m7aREAUUGxsb+wB2O4hzVSM2D31busLGxsbGzhNY3tbNi1NJoH8pgWFjY2Nvx06uJXnzOAlZ2zD+kQSGjY2NfXv2SpO1Ld/PhnXaAGFjY2Ofw14ZcJwdNE9g+Y5v1sfGxsbelH3Og42NjY2NjY2NjX2b5xNULwttv2NGAAAAAABJRU5ErkJggg==">
+    
+</ul>
+
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/Node-js/">Node.js</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/爬虫/">爬虫</a>
+    </ul>
+    
+
+    <!-- Share -->
+    
+        <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+    <!-- Leancloud Views -->
+    <!-- 展示leancloud统计的该文章的访问量 -->
+        <!-- <a class="post_share-link" href="#">
+            <li class="mdl-menu__item">
+                <span id="/2018/03/16/Node-js实现简单爬虫/" class="leancloud-views_num" data-flag-title="Node.js实现简单爬虫">
+     &nbsp;浏览量
+</span>
+
+            </li>
+        </a> -->
+    
+
+    
+        
+            <!-- Busuanzi Views -->
+            <!-- 展示不蒜子统计的该文章的访问量 -->
+            <a class="post_share-link" href="#" style="display:none;">
+                <li class="mdl-menu__item">
+                    <span id="busuanzi_container_page_pv">
+                        <span id="busuanzi_value_page_pv"></span>&nbsp;浏览量
+                    </span>
+                </li>
+            </a>
+        
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Node.js实现简单爬虫&url=http://yoursite.com/2018/03/16/Node-js实现简单爬虫/index.html&pic=http://yoursite.com/img/favicon.png&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Node.js实现简单爬虫&url=http://yoursite.com/2018/03/16/Node-js实现简单爬虫/index.html&via=Lijq" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2018/03/16/Node-js实现简单爬虫/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Facebook
+            </li>
+        </a>
+    
+
+    <!-- Share Google+ -->
+    
+        <a class="post_share-link" href="https://plus.google.com/share?url=http://yoursite.com/2018/03/16/Node-js实现简单爬虫/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Google+
+            </li>
+        </a>
+    
+
+    <!-- Share LinkedIn -->
+    
+
+    <!-- Share QQ -->
+    
+
+    <!-- Share Telegram -->
+    
+</ul>
+
     
 </div>
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>浏览器可以向服务器发起请求，从服务器获取资源，之后经过解析渲染，可以在页面显示文字和图片等内容，我们通过浏览器查看源代码可以看到网页的DOM结构，在控制台也可以通过选择DOM获取到相关的信息和资源。使用爬虫爬取网页信息就是这个原理，只不过爬虫没有浏览器的图形界面，所以请求到数据后不需要解析渲染，直接保存到本地就行了。</p>
+<a id="more"></a>
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p>这里我们使用Node.js相关的两个工具，来实现一个简单爬虫，爬取<a href="https://movie.douban.com/top250" target="_blank" rel="noopener">豆瓣电影 Top 250</a>中的数据</p>
+<ul>
+<li><a href="https://github.com/request/request" target="_blank" rel="noopener">request</a>：可以发起请求来获取网页内容</li>
+<li><a href="https://github.com/cheeriojs/cheerio" target="_blank" rel="noopener">cheerio</a>：可以分析获取到的网页内容，使用类似于jQuery的方法进行DOM操作</li>
+</ul>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><h3 id="安装request和cheerio"><a href="#安装request和cheerio" class="headerlink" title="安装request和cheerio"></a>安装request和cheerio</h3><pre><code>    npm init
+    npm install --save request cheerio
+</code></pre><h3 id="使用request根据url发起请求，获取数据"><a href="#使用request根据url发起请求，获取数据" class="headerlink" title="使用request根据url发起请求，获取数据"></a>使用request根据url发起请求，获取数据</h3><pre><code class="js">    var url =&quot;https://movie.douban.com/top250&quot;;
+    function moviesFromUrl(url){
+        request(url, function(error, response, body){
+            // 回调函数三个参数为错误、响应、响应数据（该网页的源码字符串，和浏览器中查看网页源代码看到的是一样的）
+            if(error === null &amp;&amp; response.statusCode == 200){
+
+            }else{
+
+            }
+        });
+    }
+    moviesFromUrl(url);
+</code></pre>
+<!-- 一边测试，一边截图，一边补充，最终贴出完成代码和结果 -->
+        
+                <blockquote style="margin: 2em 0 0;padding: 0.5em 1em;border-left: 3px solid #F44336;background-color: #F5F5F5;list-style: none;">
+                    <p><strong>
+                         
+                            本文使用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/">CC BY-NC-SA 3.0 中国大陆</a> 协议许可
+                        </strong>
+                        <br>
+                        <strong>本文链接：</strong><a href="http://yoursite.com/2018/03/16/Node-js实现简单爬虫/">http://yoursite.com/2018/03/16/Node-js实现简单爬虫/</a>
+                    </p>
+                </blockquote>
+        
+    
+
+    
+</div>
+
+
+                
+
+                <!-- Post Comments -->
+                
+                    
+    <!-- 使用 gitcoment -->
+<div id="gitment-comment">
+    <!-- Gitment 评论框 -->
+<div id="container"></div>
+</div>
+<style>
+    /* 默认样式 */
+    #gitment-comment {
+        background-color: #eee;
+        padding: 2pc;
+    }
+</style>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<style>
+    /* 自定义样式 */
+    .gitment-editor-footer>a.gitment-editor-footer-tip {
+        display: none;
+    }
+    .gitment-footer-container{
+        display: none;
+    }
+</style>
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    // 默认结构
+    var gitment = new Gitment({
+        //id: '页面 ID', // 可选。默认为 location.href
+        owner: 'lijq123',
+        repo: 'lijq123.github.io',
+        oauth: {
+            client_id: 'c8525a54b6f43c44a349',
+            client_secret: '0bf1f7a8f2a3b7b629b0685e80293e65fcd01912',
+        },
+    })
+    gitment.render('container')
+
+
+    // 自定义结构
+    // const myTheme = {
+    //     render(state, instance) {
+    //         const container = document.createElement('div')
+    //         container.lang = "en-US"
+    //         container.className = 'gitment-container gitment-root-container'
+    //         container.appendChild(instance.renderHeader(state, instance))
+    //         container.appendChild(instance.renderEditor(state, instance))
+    //         container.appendChild(instance.renderComments(state, instance))
+    //         container.appendChild(instance.renderFooter(state, instance))
+    //         return container
+    //     }
+    // }
+    // const gitment = new Gitment({
+    //     owner: 'lijq123',
+    //     repo: 'lijq123.github.io',
+    //     oauth: {
+    //         client_id: 'c8525a54b6f43c44a349',
+    //         client_secret: '0bf1f7a8f2a3b7b629b0685e80293e65fcd01912',
+    //     },
+    //     theme: myTheme
+    // })
+    // gitment.render('container')
+</script>
+
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2017/11/26/Vue-js常见用法/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
 
 
                     
@@ -834,6 +1119,10 @@ It will not impact the appearance and can give developers a lot of support :)
 <!-- Import prettify js  -->
 
     
+        
+            <script>lsloader.load("prettify_js","/js/prettify.min.js?WN07fivHQSMKWy7BmHBB6w==", true)</script>
+        
+    
 
 
 
@@ -846,6 +1135,11 @@ It will not impact the appearance and can give developers a lot of support :)
     });
 
     
+        
+            $(function() {
+                $('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+                prettyPrint();
+                })
         
     
     

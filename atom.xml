@@ -4,9 +4,9 @@
   
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://lijianqiang.net/"/>
-  <updated>2017-12-16T12:19:47.796Z</updated>
-  <id>http://lijianqiang.net/</id>
+  <link href="http://yoursite.com/"/>
+  <updated>2018-03-16T16:28:55.816Z</updated>
+  <id>http://yoursite.com/</id>
   
   <author>
     <name>Lijq</name>
@@ -16,9 +16,55 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Node.js实现简单爬虫</title>
+    <link href="http://yoursite.com/2018/03/16/Node-js%E5%AE%9E%E7%8E%B0%E7%AE%80%E5%8D%95%E7%88%AC%E8%99%AB/"/>
+    <id>http://yoursite.com/2018/03/16/Node-js实现简单爬虫/</id>
+    <published>2018-03-16T15:28:49.000Z</published>
+    <updated>2018-03-16T16:28:55.816Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>浏览器可以向服务器发起请求，从服务器获取资源，之后经过解析渲染，可以在页面显示文字和图片等内容，我们通过浏览器查看源代码可以看到网页的DOM结构，在控制台也可以通过选择DOM获取到相关的信息和资源。使用爬虫爬取网页信息就是这个原理，只不过爬虫没有浏览器的图形界面，所以请求到数据后不需要解析渲染，直接保存到本地就行了。</p>
+<a id="more"></a>
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p>这里我们使用Node.js相关的两个工具，来实现一个简单爬虫，爬取<a href="https://movie.douban.com/top250" target="_blank" rel="noopener">豆瓣电影 Top 250</a>中的数据</p>
+<ul>
+<li><a href="https://github.com/request/request" target="_blank" rel="noopener">request</a>：可以发起请求来获取网页内容</li>
+<li><a href="https://github.com/cheeriojs/cheerio" target="_blank" rel="noopener">cheerio</a>：可以分析获取到的网页内容，使用类似于jQuery的方法进行DOM操作</li>
+</ul>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><h3 id="安装request和cheerio"><a href="#安装request和cheerio" class="headerlink" title="安装request和cheerio"></a>安装request和cheerio</h3><pre><code>    npm init
+    npm install --save request cheerio
+</code></pre><h3 id="使用request根据url发起请求，获取数据"><a href="#使用request根据url发起请求，获取数据" class="headerlink" title="使用request根据url发起请求，获取数据"></a>使用request根据url发起请求，获取数据</h3><pre><code class="js">    var url =&quot;https://movie.douban.com/top250&quot;;
+    function moviesFromUrl(url){
+        request(url, function(error, response, body){
+            // 回调函数三个参数为错误、响应、响应数据（该网页的源码字符串，和浏览器中查看网页源代码看到的是一样的）
+            if(error === null &amp;&amp; response.statusCode == 200){
+
+            }else{
+
+            }
+        });
+    }
+    moviesFromUrl(url);
+</code></pre>
+<!-- 一边测试，一边截图，一边补充，最终贴出完成代码和结果 -->]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;原理&quot;&gt;&lt;a href=&quot;#原理&quot; class=&quot;headerlink&quot; title=&quot;原理&quot;&gt;&lt;/a&gt;原理&lt;/h2&gt;&lt;p&gt;浏览器可以向服务器发起请求，从服务器获取资源，之后经过解析渲染，可以在页面显示文字和图片等内容，我们通过浏览器查看源代码可以看到网页的DOM结构，在控制台也可以通过选择DOM获取到相关的信息和资源。使用爬虫爬取网页信息就是这个原理，只不过爬虫没有浏览器的图形界面，所以请求到数据后不需要解析渲染，直接保存到本地就行了。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Web前端" scheme="http://yoursite.com/categories/Web%E5%89%8D%E7%AB%AF/"/>
+    
+    
+      <category term="Node.js" scheme="http://yoursite.com/tags/Node-js/"/>
+    
+      <category term="爬虫" scheme="http://yoursite.com/tags/%E7%88%AC%E8%99%AB/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Vue.js常见用法</title>
-    <link href="http://lijianqiang.net/2017/11/26/Vue-js%E5%B8%B8%E8%A7%81%E7%94%A8%E6%B3%95/"/>
-    <id>http://lijianqiang.net/2017/11/26/Vue-js常见用法/</id>
+    <link href="http://yoursite.com/2017/11/26/Vue-js%E5%B8%B8%E8%A7%81%E7%94%A8%E6%B3%95/"/>
+    <id>http://yoursite.com/2017/11/26/Vue-js常见用法/</id>
     <published>2017-11-26T14:26:18.000Z</published>
     <updated>2017-12-16T12:19:47.796Z</updated>
     
@@ -1402,17 +1448,17 @@ this.$router.push(&quot;/content/&quot; + id); // 跳转到localhost:8080/index.
     
     </summary>
     
-      <category term="Web前端" scheme="http://lijianqiang.net/categories/Web%E5%89%8D%E7%AB%AF/"/>
+      <category term="Web前端" scheme="http://yoursite.com/categories/Web%E5%89%8D%E7%AB%AF/"/>
     
     
-      <category term="Vue" scheme="http://lijianqiang.net/tags/Vue/"/>
+      <category term="Vue" scheme="http://yoursite.com/tags/Vue/"/>
     
   </entry>
   
   <entry>
     <title>Hexo、GitHub Pages搭建个人博客总结</title>
-    <link href="http://lijianqiang.net/2017/06/28/Hexo%E5%92%8CGitHub-Pages%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%80%BB%E7%BB%93/"/>
-    <id>http://lijianqiang.net/2017/06/28/Hexo和GitHub-Pages搭建个人博客总结/</id>
+    <link href="http://yoursite.com/2017/06/28/Hexo%E5%92%8CGitHub-Pages%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%80%BB%E7%BB%93/"/>
+    <id>http://yoursite.com/2017/06/28/Hexo和GitHub-Pages搭建个人博客总结/</id>
     <published>2017-06-27T16:03:56.000Z</published>
     <updated>2017-12-09T17:31:12.813Z</updated>
     
@@ -1600,7 +1646,7 @@ Sitemap: http://lijianqiang.net/baidusitemap.xml
 <li>无序列表（ul）：- 项目名</li>
 <li>有序列表（ol）：数字. 项目名（如 1. aaa）</li>
 <li>插入引用（blockquote）：&gt; 引用的段子</li>
-<li>插入链接（a）：[链接显示文字](链接url)（如 [Lijq’s Blog](<a href="http://lijianqiang.net">http://lijianqiang.net</a> )）</li>
+<li>插入链接（a）：[链接显示文字](链接url)（如 [Lijq’s Blog](<a href="http://lijianqiang.net" target="_blank" rel="noopener">http://lijianqiang.net</a> )）</li>
 <li>插入图片（img）：![图片标签alt属性值](图片url)</li>
 <li>斜体（em）：*文字*</li>
 <li>粗体（strong）：**文字**</li>
@@ -1645,12 +1691,12 @@ Sitemap: http://lijianqiang.net/baidusitemap.xml
     
     </summary>
     
-      <category term="Web前端" scheme="http://lijianqiang.net/categories/Web%E5%89%8D%E7%AB%AF/"/>
+      <category term="Web前端" scheme="http://yoursite.com/categories/Web%E5%89%8D%E7%AB%AF/"/>
     
     
-      <category term="Hexo" scheme="http://lijianqiang.net/tags/Hexo/"/>
+      <category term="Hexo" scheme="http://yoursite.com/tags/Hexo/"/>
     
-      <category term="GitHub" scheme="http://lijianqiang.net/tags/GitHub/"/>
+      <category term="GitHub" scheme="http://yoursite.com/tags/GitHub/"/>
     
   </entry>
   
