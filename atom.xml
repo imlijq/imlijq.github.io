@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-03-17T10:16:53.518Z</updated>
+  <updated>2018-03-17T10:30:01.317Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2018/03/16/Node-js%E5%AE%9E%E7%8E%B0%E7%AE%80%E5%8D%95%E7%88%AC%E8%99%AB/"/>
     <id>http://yoursite.com/2018/03/16/Node-js实现简单爬虫/</id>
     <published>2018-03-16T15:28:49.000Z</published>
-    <updated>2018-03-17T10:16:53.518Z</updated>
+    <updated>2018-03-17T10:30:01.317Z</updated>
     
     <content type="html"><![CDATA[<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>浏览器可以向服务器发起请求，从服务器获取资源，之后经过解析渲染，可以在页面显示文字和图片等内容，我们通过浏览器查看源代码可以看到网页的DOM结构，在控制台也可以通过选择DOM获取到相关的信息和资源。使用爬虫爬取网页信息就是这个原理，只不过爬虫没有浏览器的图形界面，所以请求到数据后不需要解析渲染，直接保存到本地就行了。</p>
 <a id="more"></a>
