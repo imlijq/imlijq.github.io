@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[test]]></title>
-    <url>%2F2018%2F03%2F17%2Ftest%2F</url>
-    <content type="text"><![CDATA[htg38iehtgi3htgi3hi]]></content>
-  </entry>
-  <entry>
     <title><![CDATA[Node.js实现简单爬虫]]></title>
     <url>%2F2018%2F03%2F16%2FNode-js%E5%AE%9E%E7%8E%B0%E7%AE%80%E5%8D%95%E7%88%AC%E8%99%AB%2F</url>
     <content type="text"><![CDATA[原理浏览器可以向服务器发起请求，从服务器获取资源，之后经过解析渲染，可以在页面显示文字和图片等内容，我们通过浏览器查看源代码可以看到网页的DOM结构，在控制台也可以通过选择DOM获取到相关的信息和资源。使用爬虫爬取网页信息就是这个原理，只不过爬虫没有浏览器的图形界面，所以请求到数据后不需要解析渲染，直接保存到本地就行了。 工具这里我们使用Node.js相关的两个工具，来实现一个简单爬虫，爬取豆瓣电影 Top 250中的数据 request：可以发起请求来获取网页内容 cheerio：可以分析获取到的网页内容，使用类似于jQuery的方法进行DOM操作 步骤安装request和cheerio npm init npm install --save request cheerio 使用request根据url发起请求，获取数据 var url =&quot;https://movie.douban.com/top250&quot;; function moviesFromUrl(url){ request(url, function(error, response, body){ // 回调函数三个参数为错误、响应、响应数据（该网页的源码字符串，和浏览器中查看网页源代码看到的是一样的） if(error === null &amp;&amp; response.statusCode == 200){ }else{ } }); } moviesFromUrl(url);]]></content>
