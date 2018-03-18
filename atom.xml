@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-03-17T10:36:13.121Z</updated>
+  <updated>2018-03-18T10:07:56.027Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2018/03/16/Node-js%E5%AE%9E%E7%8E%B0%E7%AE%80%E5%8D%95%E7%88%AC%E8%99%AB/"/>
     <id>http://yoursite.com/2018/03/16/Node-js实现简单爬虫/</id>
     <published>2018-03-16T15:28:49.000Z</published>
-    <updated>2018-03-17T10:36:13.121Z</updated>
+    <updated>2018-03-18T10:07:56.027Z</updated>
     
     <content type="html"><![CDATA[<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>浏览器可以向服务器发起请求，从服务器获取资源，之后经过解析渲染，可以在页面显示文字和图片等内容，我们通过浏览器查看源代码可以看到网页的DOM结构，在控制台也可以通过选择DOM获取到相关的信息和资源。使用爬虫爬取网页信息就是这个原理，只不过爬虫没有浏览器的图形界面，所以请求到数据后不需要解析渲染，直接保存到本地就行了。</p>
 <a id="more"></a>
@@ -31,20 +31,173 @@
 </ul>
 <h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><h3 id="安装request和cheerio"><a href="#安装request和cheerio" class="headerlink" title="安装request和cheerio"></a>安装request和cheerio</h3><pre><code>    npm init
     npm install --save request cheerio
-</code></pre><h3 id="使用request根据url发起请求，获取数据"><a href="#使用request根据url发起请求，获取数据" class="headerlink" title="使用request根据url发起请求，获取数据"></a>使用request根据url发起请求，获取数据</h3><pre><code class="js">    var url =&quot;https://movie.douban.com/top250&quot;;
+</code></pre><h3 id="使用request根据url发起请求，获取数据"><a href="#使用request根据url发起请求，获取数据" class="headerlink" title="使用request根据url发起请求，获取数据"></a>使用request根据url发起请求，获取数据</h3><pre><code class="js">    var request = require(&quot;request&quot;);
+    var cheerio = require(&quot;cheerio&quot;);
+
+    var url =&quot;https://movie.douban.com/top250&quot;;
     function moviesFromUrl(url){
         request(url, function(error, response, body){
-            // 回调函数三个参数为错误、响应、响应数据（该网页的源码字符串，和浏览器中查看网页源代码看到的是一样的）
             if(error === null &amp;&amp; response.statusCode == 200){
-
+                console.log(body)                  
             }else{
-
+                console.log(&quot;请求失败：&quot;,error);                                 
             }
         });
     }
     moviesFromUrl(url);
 </code></pre>
-<!-- 一边测试，一边截图，一边补充，最终贴出完成代码和结果 -->]]></content>
+<h3 id="使用cheerio解析数据"><a href="#使用cheerio解析数据" class="headerlink" title="使用cheerio解析数据"></a>使用cheerio解析数据</h3><pre><code class="js">    function Movie(){
+        this.name=&quot;&quot;;
+        this.score=0;
+        this.quote=&quot;&quot;;
+        this.ranking=0;
+        this.coverUrl=&quot;&quot;;
+    }
+    function movieFromDiv(div) {
+        var movie=new Movie();
+        var $=cheerio.load(div);
+
+        movie.name=$(&quot;.title&quot;).text();
+        movie.score = $(&quot;.rating_num&quot;).text();
+        movie.quote=$(&quot;.inq&quot;).text();
+
+        var pic=$(&quot;.pic&quot;);
+        movie.ranking=pic.find(&quot;em&quot;).text();
+        movie.coverUrl=pic.find(&quot;img&quot;).attr(&quot;src&quot;);
+        return movie;
+    }
+    var $=cheerio.load(body);
+    var movies=[];
+    var movieDivs=$(&quot;.item&quot;);
+    for(var i=0;i&lt;movieDivs.length;i++){
+        var div = $(movieDivs[i]).html();
+        var m = movieFromDiv(div);
+        movies.push(m);
+    }
+    console.log(movies);
+</code></pre>
+<h3 id="使用fs模块保存数据"><a href="#使用fs模块保存数据" class="headerlink" title="使用fs模块保存数据"></a>使用fs模块保存数据</h3><pre><code class="js">    var fs=require(&quot;fs&quot;);
+    function saveMovies(movies){
+        var path =&quot;douban.txt&quot;;
+        var str=JSON.stringify(movies, null, 4);
+        fs.writeFile(path, str, function(error){
+            if(error){
+                console.log(&quot;写入文件错误：&quot;, error);
+            }else{
+                console.log(&quot;保存成功！&quot;);
+            }
+        })
+    }
+    saveMovies(movies);
+</code></pre>
+<p>进行到这里，获取到了url为 <a href="https://movie.douban.com/top250" target="_blank" rel="noopener">https://movie.douban.com/top250</a> 时也就是第一页的数据，只有25条，但总的数据共有250条，共10页，浏览器中依次点击第2页、第3页…，url为 <a href="https://movie.douban.com/top250?start=n&amp;filter=" target="_blank" rel="noopener">https://movie.douban.com/top250?start=n&amp;filter=</a> （n为25、50、75…），所以每请求一次后必须改变url获取下一页的数据，并且每次请求都是异步的，最后获取到的数据不是按照页数顺序排列下来的，所以还需要对数据排序整理一下，下边是完整的代码</p>
+<pre><code class="js">    &quot;use strict&quot;;
+
+    var request = require(&quot;request&quot;);
+    var cheerio = require(&quot;cheerio&quot;);
+    var fs = require(&quot;fs&quot;);
+
+    var moviesAll = []; // 所有页的数据
+    var isFail = false; // 当前页是否失败
+    var completePage = 0; // 总共完成页数    
+
+    // 电影信息
+    function Movie() {
+        this.name = &quot;&quot;;
+        this.score = 0;
+        this.quote = &quot;&quot;;
+        this.ranking = 0;
+        this.coverUrl = &quot;&quot;;
+    }
+
+    // 从一个电影div里读取电影信息
+    function movieFromDiv(div) {
+        var movie = new Movie();
+        var $ = cheerio.load(div);
+
+        // text()方法获取文本信息
+        movie.name = $(&quot;.title&quot;).text(); // 两个.title的文本合并
+        // movie.name=$(&quot;.hd a .title&quot;).eq(0).text(); // 只获取第一个.title的文本
+        movie.score = $(&quot;.rating_num&quot;).text();
+        movie.quote = $(&quot;.inq&quot;).text();
+
+        var pic = $(&quot;.pic&quot;);
+        movie.ranking = pic.find(&quot;em&quot;).text();
+        movie.coverUrl = pic.find(&quot;img&quot;).attr(&quot;src&quot;);
+        return movie;
+    }
+
+    // 保存数据
+    function saveMovies(movies) {
+        var path = &quot;douban.txt&quot;;
+        // 第三个参数为缩进层次4个空格
+        var str = JSON.stringify(movies, null, 4);
+
+        fs.writeFile(path, str, function (error) {
+            if (error) {
+                console.log(&quot;写入文件错误：&quot;, error);
+            } else {
+                console.log(&quot;保存成功！&quot;);
+            }
+        })
+    }
+
+    // 按电影排名顺序进行排序
+    function sortMovies(movies) {
+        movies.sort(function (a, b) {
+            return a.ranking - b.ranking;
+        })
+    }
+
+    // 根据url获取电影信息
+    function moviesFromUrl(url, page) {
+        // request方法从url下载数据，并调用回调函数
+        // 回调函数三个参数为错误、响应、响应数据（该网页的源码字符串，和浏览器中查看网页源代码看到的是一样的）
+        request(url, function (error, response, body) {
+            if (error === null &amp;&amp; response.statusCode == 200) {
+                // cheerio.load()方法参数为字符串，将其转换为对象，类似于jQuery对象（$），可调用相关方法
+                var $ = cheerio.load(body);
+                var movies = [];
+
+                // 每一条电影信息所在的div.item
+                var movieDivs = $(&quot;.item&quot;);
+                for (var i = 0; i &lt; movieDivs.length; i++) {
+                    // 获取到每个div的html字符串，并用movieFromDiv解析
+                    var div = $(movieDivs[i]).html();
+                    var m = movieFromDiv(div);
+                    movies.push(m);
+                }
+
+                console.log(`第${page}页获取成功`);
+                moviesAll = moviesAll.concat(movies);
+                completePage++;
+                console.log(&quot;成功总页数：---&quot;, completePage);
+                if (completePage === 10) {
+                    sortMovies(moviesAll);
+                    saveMovies(moviesAll);
+                }
+
+            } else {
+                console.log(&quot;请求失败：&quot;, page + &quot;页&quot;, error);
+                isFail = true;
+            }
+        });
+    }
+
+    function __main() {
+        for(var page=1;page&lt;=10;page++){
+            if (!isFail) {
+                var url = &quot;https://movie.douban.com/top250?start=&quot; + (page-1)*25 + &quot;&amp;filter=&quot;
+                moviesFromUrl(url, page);
+            } else {
+                break;
+            }        
+        }
+    }
+
+    __main();
+</code></pre>
+]]></content>
     
     <summary type="html">
     
@@ -66,7 +219,7 @@
     <link href="http://yoursite.com/2017/11/26/Vue-js%E5%B8%B8%E8%A7%81%E7%94%A8%E6%B3%95/"/>
     <id>http://yoursite.com/2017/11/26/Vue-js常见用法/</id>
     <published>2017-11-26T14:26:18.000Z</published>
-    <updated>2017-12-16T12:19:47.796Z</updated>
+    <updated>2018-03-17T11:04:21.098Z</updated>
     
     <content type="html"><![CDATA[<p>本文按照Vue.js官方文档中的介绍顺序，结合具体的实例代码，对Vue.js的常见用法做一个简单的总结。</p>
 <a id="more"></a>
