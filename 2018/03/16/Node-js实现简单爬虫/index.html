@@ -251,7 +251,7 @@
 
     
         <meta property="article:published_time" content="Fri Mar 16 2018 23:28:49 GMT+0800" />
-        <meta property="article:modified_time" content="Sun Mar 18 2018 18:26:04 GMT+0800" />
+        <meta property="article:modified_time" content="Tue Mar 20 2018 02:02:08 GMT+0800" />
     
 
     <!-- The Twitter Card protocol -->
@@ -278,7 +278,7 @@
     "mainEntityOfPage": "http://yoursite.com/2018/03/16/Node-js实现简单爬虫/index.html",
     "headline": "Node.js实现简单爬虫",
     "datePublished": "Fri Mar 16 2018 23:28:49 GMT+0800",
-    "dateModified": "Sun Mar 18 2018 18:26:04 GMT+0800",
+    "dateModified": "Tue Mar 20 2018 02:02:08 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "Lijq",
@@ -626,7 +626,7 @@
     }
     saveMovies(movies);
 </code></pre>
-<p>进行到这里，获取到了url为 <a href="https://movie.douban.com/top250" target="_blank" rel="noopener">https://movie.douban.com/top250</a> 时也就是第一页的数据，只有25条，但总的数据共有250条，共10页，浏览器中依次点击第2页、第3页…，url为 <a href="https://movie.douban.com/top250?start=n&amp;filter=" target="_blank" rel="noopener">https://movie.douban.com/top250?start=n&amp;filter=</a> （n为25、50、75…），所以每请求一次后必须改变url获取下一页的数据，并且每次请求都是异步的，最后获取到的数据不是按照页数顺序排列下来的，所以还需要对数据排序整理一下，下边是完整的代码</p>
+<p>进行到这里，获取到了url为 <a href="https://movie.douban.com/top250" target="_blank" rel="noopener">https://movie.douban.com/top250</a> 时也就是第一页的数据，只有25条，但总的数据共有250条，共10页，浏览器中依次点击第2页、第3页…，url为 <a href="https://movie.douban.com/top250?start=n&amp;filter=" target="_blank" rel="noopener">https://movie.douban.com/top250?start=n&amp;filter=</a> （n为25、50、75…），所以每请求一次后必须改变url获取下一页的数据，并且每次请求都是异步的，最后获取到的数据不是按照页数顺序排列下来的，所以还需要对数据排序整理一下。另外还要保存图片资源，下边是完整的代码</p>
 <pre><code class="js">    &quot;use strict&quot;;
 
     var request = require(&quot;request&quot;);
@@ -685,6 +685,17 @@
         })
     }
 
+    // 保存封面图片
+    function downloadCovers(movies){
+        for(var i=0;i&lt;movies.length;i++){
+            var m=movies[i];
+            var url=m.coverUrl;
+            var path=m.ranking + &quot;-&quot; + m.name.split(&quot;/&quot;)[0] + &quot;.jpg&quot;;
+
+            request(url).pipe(fs.createWriteStream(path));
+        }
+    }    
+
     // 根据url获取电影信息
     function moviesFromUrl(url, page) {
         // request方法从url下载数据，并调用回调函数
@@ -734,7 +745,7 @@
     __main();
 </code></pre>
 <p>爬取到的数据最后保存在了douban.txt中：</p>
-<p><img src="https://thumbnail10.baidupcs.com/thumbnail/b9cde7c16899aacd465aa8d465704b93?fid=10443401-250528-585310160143358&amp;time=1521367200&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-CcPH890zomRAtQBGU7cRZ8ICYBA%3d&amp;expires=8h&amp;chkbd=0&amp;chkv=0&amp;dp-logid=1780395181505700176&amp;dp-callid=0&amp;size=c1366_u768&amp;quality=90&amp;vuk=10443401&amp;ft=image" alt="douban.txt"></p>
+<p><img src="http://images-of-blog.test.upcdn.net/images/2018-03-20_010051-Nodejs%E5%AE%9E%E7%8E%B0%E7%AE%80%E5%8D%95%E7%88%AC%E8%99%AB.png" alt="douban.txt"></p>
 
         
                 <blockquote style="margin: 2em 0 0;padding: 0.5em 1em;border-left: 3px solid #F44336;background-color: #F5F5F5;list-style: none;">
