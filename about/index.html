@@ -2,10 +2,6 @@
 <html style="display: none;" lang="zh">
     <head>
     <meta charset="utf-8">
-    <!--
-        © Material Theme
-        https://github.com/viosey/hexo-theme-material
-        Version: 1.5.2 -->
     <script>
         window.materialVersion = "1.5.2"
         // Delete localstorage with these tags
@@ -27,6 +23,8 @@
 
     <link rel="dns-prefetch" href="https://busuanzi.ibruce.info"/>
 
+
+    <link rel="dns-prefetch" href="https://changyan.sohu.com"/>
 
 
 
@@ -500,31 +498,25 @@
                 <!-- Post Comments -->
                 
                     
-    <!-- 使用 gitcoment -->
-<div id="gitment-comment">
-    <!-- Gitment 评论框 -->
-<div id="container"></div>
+    <!-- 使用 changyan -->
+<div id="changyan-comment">
+    <!--PC和WAP自适应版-->
+<div id="SOHUCS" sid="about/index.html"  ></div>
+<script type="text/javascript">
+(function(){
+var appid = 'cytTQ56sk';
+var conf = 'prod_72746497bcc8a757b36c46ef4c37389c';
+var width = window.innerWidth || document.documentElement.clientWidth;
+if (width < 960) {
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+
 </div>
 <style>
-    #gitment-comment{
+    #changyan-comment{
         background-color: #eee;
         padding: 2pc;
     }
 </style>
-<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
-<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
-<script>
-    var gitment = new Gitment({
-        //id: '页面 ID', // 可选。默认为 location.href
-        owner: 'imlijq',
-        repo: 'imlijq.github.io',
-        oauth: {
-            client_id: 'c8525a54b6f43c44a349',
-            client_secret: '0bf1f7a8f2a3b7b629b0685e80293e65fcd01912',
-        },
-    })
-    gitment.render('container')
-</script>
 
                 
             </div>
@@ -694,15 +686,7 @@
 
 
         <!-- Sidebar Footer -->
-        <!--
-I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
-If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
-It will not impact the appearance and can give developers a lot of support :)
-
-很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
-如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
-它不会影响美观并可以给开发者很大的支持和动力。 :)
--->
+        
 
 <!-- Sidebar Divider -->
 
@@ -787,19 +771,16 @@ It will not impact the appearance and can give developers a lot of support :)
 
         <!--Copyright-->
         <div id="copyright">
-            Copyright&nbsp;©<script type="text/javascript">var fd = new Date();document.write("&nbsp;" + fd.getFullYear() + "&nbsp;");</script>Lijq's Blog
+            Copyright&nbsp;©&nbsp;2017&nbsp;-<script type="text/javascript">var fd = new Date();document.write("&nbsp;" + fd.getFullYear() + "&nbsp;");</script>Lijq's Blog
+            
+                <br>
+                
+                    <a href="http://www.miitbeian.gov.cn" rel="nofollow" target="_blank">京ICP备18054880号-1</a>
+                
             
         </div>
 
         <!-- Paradox Footer Right Section -->
-
-        <!--
-        I am glad you use this theme, the development is no so easy, I hope you can keep the copyright.
-        It will not impact the appearance and can give developers a lot of support :)
-
-        很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
-        它不会影响美观并可以给开发者很大的支持。 :)
-        -->
 
         <div class="mdl-mini-footer--right-section">
             <div>
@@ -951,7 +932,10 @@ It will not impact the appearance and can give developers a lot of support :)
 
 
 
-   <!-- Gitment -->
+   <!-- 畅言公共 js 代码 start -->
+<script id="cy_cmt_num" src="https://changyan.sohu.com/upload/plugins/plugins.list.count.js?clientId=cytTQ56sk">
+</script>
+<!-- 畅言公共 js 代码 end -->
 
 
 
