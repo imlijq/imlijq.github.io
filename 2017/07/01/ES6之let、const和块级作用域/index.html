@@ -45,7 +45,7 @@
     
     <title>
         
-            categories | 
+            ES6之let、const和块级作用域 | 
         
         Lijq&#39;s Blog
     </title>
@@ -55,8 +55,16 @@
     <link rel="icon" href="/img/favicon.png">
 
     <meta name="format-detection" content="telephone=no"/>
-    <meta name="description" itemprop="description" content="">
-    <meta name="keywords" content="web前端,前端开发,前端学习笔记,前端教程,技术博客">
+    <meta name="description" itemprop="description" content="
+let命令
+块级作用域
+const命令
+跨模块常量
+全局对象属性
+
+let命令let基本用法
+ES5中使用var声明变量，ES6中声明变量新增了let命令，用法类似于var，但是let声明的变量其所在的代码块内有效，即let定义的是“局部变量”">
+    <meta name="keywords" content="web前端,前端开发,前端学习笔记,前端教程,技术博客,ES6">
     <meta name="theme-color" content="#0097A7">
 
     <!-- Disable Fucking Bloody Baidu Tranformation -->
@@ -83,6 +91,9 @@
         <style id="style_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("style_css","/css/style.min.css?MKetZV3cUTfDxvMffaOezg==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
 
         
+            
+                <style id="prettify_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("prettify_css","/css/prettify.min.css?zp8STOU9v89XWFEnN+6YmQ==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+                <style id="prettify_theme"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("prettify_theme","/css/prettify/atelier-cave-light.min.css?5MK/TK/zbpdHM7rmG+ehCw==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
             
         
 
@@ -219,7 +230,7 @@
     <!-- WebAPP Icons -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Lijq&#39;s Blog">
-    <meta name="msapplication-starturl" content="https://lijianqiang.net/categories/">
+    <meta name="msapplication-starturl" content="https://lijianqiang.net/2017/07/01/ES6之let、const和块级作用域/">
     <meta name="msapplication-navbutton-color" content="#0097A7">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Lijq&#39;s Blog">
@@ -238,13 +249,24 @@
     
 
     <!-- The Open Graph protocol -->
-    <meta property="og:url" content="https://lijianqiang.net/categories/">
+    <meta property="og:url" content="https://lijianqiang.net/2017/07/01/ES6之let、const和块级作用域/">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="categories | Lijq&#39;s Blog">
+    <meta property="og:title" content="ES6之let、const和块级作用域 | Lijq&#39;s Blog">
     <meta property="og:image" content="/img/favicon.png">
-    <meta property="og:description" content="">
-    
+    <meta property="og:description" content="
+let命令
+块级作用域
+const命令
+跨模块常量
+全局对象属性
 
+let命令let基本用法
+ES5中使用var声明变量，ES6中声明变量新增了let命令，用法类似于var，但是let声明的变量其所在的代码块内有效，即let定义的是“局部变量”">
+    <meta property="og:article:tag" content="ES6"> 
+
+    
+        <meta property="article:published_time" content="Sat Jul 01 2017 00:03:56 GMT+0800">
+        <meta property="article:modified_time" content="Mon Nov 05 2018 16:49:38 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -252,13 +274,51 @@
 
     <!-- Add canonical link for SEO -->
     
-        <link rel="canonical" href="https://lijianqiang.net/categories/index.html" />
+        <link rel="canonical" href="https://lijianqiang.net/2017/07/01/ES6之let、const和块级作用域/index.html" />
     
 
     <!-- Structured-data for SEO -->
     
         
 
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": "https://lijianqiang.net/2017/07/01/ES6之let、const和块级作用域/index.html",
+    "headline": "ES6之let、const和块级作用域",
+    "datePublished": "Sat Jul 01 2017 00:03:56 GMT+0800",
+    "dateModified": "Mon Nov 05 2018 16:49:38 GMT+0800",
+    "author": {
+        "@type": "Person",
+        "name": "Lijq",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/uploads/avatar.png"
+        },
+        "description": "怕什么真理无穷，进一寸有一寸的欢喜"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "Lijq&#39;s Blog",
+        "logo": {
+            "@type":"ImageObject",
+            "url": "/img/favicon.png"
+        }
+    },
+    "keywords": ",ES6web前端,前端开发,前端学习笔记,前端教程,技术博客",
+    "description": "
+let命令
+块级作用域
+const命令
+跨模块常量
+全局对象属性
+
+let命令let基本用法
+ES5中使用var声明变量，ES6中声明变量新增了let命令，用法类似于var，但是let声明的变量其所在的代码块内有效，即let定义的是“局部变量”",
+}
+</script>
 
 
     
@@ -311,6 +371,39 @@
 
                     <!-- Post TOC -->
 
+    
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+
+    <!-- Left aligned menu below button -->
+    
+    
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#let命令"><span class="post-toc-number">1.</span> <span class="post-toc-text">let命令</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#块级作用域"><span class="post-toc-number">2.</span> <span class="post-toc-text">块级作用域</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#const命令"><span class="post-toc-number">3.</span> <span class="post-toc-text">const命令</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#跨模块常量"><span class="post-toc-number">4.</span> <span class="post-toc-text">跨模块常量</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#全局对象属性"><span class="post-toc-number">5.</span> <span class="post-toc-text">全局对象属性</span></a></li></ol>
+    </ul>
+    
+
+
+
 
 <!-- Layouts -->
 
@@ -337,7 +430,7 @@
         
     
             <p class="article-headline-p">
-                categories
+                ES6之let、const和块级作用域
             </p>
         </div>
 
@@ -356,7 +449,7 @@
     <!-- Author Name & Date -->
     <div>
         <strong>Lijq</strong>
-        <span>6月 20, 2017</span>
+        <span>7月 01, 2017</span>
     </div>
 
     <div class="section-spacer"></div>
@@ -378,13 +471,22 @@
 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
     <li class="mdl-menu__item">在其它设备中阅读本文章</li>
     
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACYklEQVR42u3awW6DMBAE0Pz/T7fXHhoyswaDosepSgj4Uclexvv6+erjhYeHh4eHh4eH9zDeKz7+udCfz/Nz3l3z3Sft2PDw8PD28D5MtYdDz789BuT3/fBQ8PDw8Dby3k24785JGMl0nyw2ydjw8PDwns9bKZGPz8HDw8P7Pl4bH0SlcEDFw8PDexoveeE/Pv+YlMNuy1rw8PDwYl6+ybT/7637e3h4eHgBr25pGsWveYy7fuDh4eFdzZtFtGfhk6ChHQ8eHh7eTl4SQ+RDaVsN8g2z09pV8fDw8Ea8/Ab5tlY9lS9shkVvDHh4eHin8toWqPWFJH9Aw6YEPDw8vJt4Z7WltotNW6zj4eHh3cubhaqzZSZ/uEnhjoeHh7eTNwtz25L6rNK5Xhjw8PDwLuDVBetJy0a79VX8M/Dw8PAu5iXtU+sbVPlwV36Lh4eHt5+3Hh+0EUMSXuRXwMPDw9vJm20+1VN2MN23dy+yFjw8PLyTeMcv9rMlZL11ID8fDw8P715eG6cm5e+sQF+KRfDw8PC28BJGWzq37Vnt48DDw8O7l9e2EazHEO2jKZob8PDw8LbzZjHEOqAtrPHw8PCewMs/yQPWdpmZxbt4eHh4O3nrW1+zYCIvx+uiHA8PD+9i3sqkvBLjJlFy3vaKh4eHt5+XLwaz26+UyHXEjIeHh7eR107QyYOYxbhtIY6Hh4f3fF47fectBflvL1wY8PDw8LbUnG0Z3YYUxa/w8PDwNvLaTa+kXE6unDdy4eHh4T2Hl0cAs0GvbIDVTQZ4eHh4F/O+78DDw8PDw8PDw3vA8QuTcMRw7LfjbwAAAABJRU5ErkJggg==">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAAC0ElEQVR42u3aS1LEMAwFwLn/pYcTJDxJgXLs9moKhsStBSp9Pt8jzwcbGxsbGxsbGxt7SfYnPpePu/hm/pP7z1e/rd4ZGxsbe2/2L//6Ly6RXCV/132I74MS3RkbGxv7APZ9Kuqlq15Aq5+Tt2NjY2Njz3l5ept/ExsbGxu7yq42ffJwLJ3AsLGxsRdjJwXDhJ03kpJg/WsvDRsbG3t5djXlrPD5X+fb2NjY2AuzyyuM8WJNklTyFPgdH2xsbOxd2XliqKa9+dJPr2mFjY2NfRo7b9PMGb2yZ1K0YGNjY5/DngwDqks21SdPxhLY2NjYJ7Dz5JEje42k/C15ELGxsbFPYE+a/pMmfvWZvZYTNjY29gns6ppjb62nN2xIipnRoBcbGxt7I3bSMMoDMW/u99YuC+MBbGxs7I3YeWtmsqDTaxLlq0XRKBobGxt7U3a1PIhSRSuNzQfDzUEvNjY29svZT63vVIPSK2CSAqlcimBjY2O/nN1r9ORPyBd6JvjmoBcbGxt7C3a1JOiRqmksL4oKjSpsbGzsTdk5YNLQr55qoZK8CxsbG3tv9ryh0/vbZ9PhqKmEjY2N/XL2vKEzHwZPyo9mLw0bGxt7O/a82EiWMvP1zepoGRsbGxt7so4zKSR6Y4O8KMLGxsY+jT1vKj0Vyvk9sbGxsc9hJ0ml2nLKBwB5iRKVHHkCw8bGxt6OnVyuWjDkraV8cQcbGxsbez5wzdtG85FAdfR7acHGxsbelF09V49OLp03qnplTKGphI2Njb0Ru5oY8hA8Fcrq59GgFxsbG/u17Ml44H5sUB3f3hdF1SEBNjY29mns5BJ/kdLyN+YrQVEpgo2NjX0wO0la1QFAb7ib47GxsbGx86vnI+Q8fHnJhI2NjX0yOwHk6aS6ppO/vTc2xsbGxt6b3Wvc5IzqgKE6bI5CjI2Njb0p+5yDjY2NjY2NjY2Nvcz5AUxLXP/qHtdKAAAAAElFTkSuQmCC">
     
 </ul>
 
     
 
     <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/ES6/">ES6</a>
+    </ul>
     
 
     <!-- Share -->
@@ -398,7 +500,7 @@
     <!-- Leancloud Views -->
         <a class="post_share-link" href="#">
             <li class="mdl-menu__item">
-                <span id="/categories/index.html" class="leancloud-views_num" data-flag-title="categories">
+                <span id="/2017/07/01/ES6之let、const和块级作用域/" class="leancloud-views_num" data-flag-title="ES6之let、const和块级作用域">
      &nbsp;浏览量
 </span>
 
@@ -421,7 +523,7 @@
 
     <!-- Share Weibo -->
     
-        <a class="post_share-link" href="https://service.weibo.com/share/share.php?appkey=&title=categories&url=https://lijianqiang.net/categories/index.html&pic=https://lijianqiang.net/img/favicon.png&searchPic=false&style=simple" target="_blank">
+        <a class="post_share-link" href="https://service.weibo.com/share/share.php?appkey=&title=ES6之let、const和块级作用域&url=https://lijianqiang.net/2017/07/01/ES6之let、const和块级作用域/index.html&pic=https://lijianqiang.net/img/favicon.png&searchPic=false&style=simple" target="_blank">
             <li class="mdl-menu__item">
                 分享到微博
             </li>
@@ -430,7 +532,7 @@
 
     <!-- Share Twitter -->
     
-        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=categories&url=https://lijianqiang.net/categories/index.html&via=Lijq" target="_blank">
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=ES6之let、const和块级作用域&url=https://lijianqiang.net/2017/07/01/ES6之let、const和块级作用域/index.html&via=Lijq" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Twitter
             </li>
@@ -439,7 +541,7 @@
 
     <!-- Share Facebook -->
     
-        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=https://lijianqiang.net/categories/index.html" target="_blank">
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=https://lijianqiang.net/2017/07/01/ES6之let、const和块级作用域/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Facebook
             </li>
@@ -448,7 +550,7 @@
 
     <!-- Share Google+ -->
     
-        <a class="post_share-link" href="https://plus.google.com/share?url=https://lijianqiang.net/categories/index.html" target="_blank">
+        <a class="post_share-link" href="https://plus.google.com/share?url=https://lijianqiang.net/2017/07/01/ES6之let、const和块级作用域/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Google+
             </li>
@@ -473,7 +575,201 @@
                 <!-- Post Content -->
                 <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
-        
+        <ul>
+<li>let命令</li>
+<li>块级作用域</li>
+<li>const命令</li>
+<li>跨模块常量</li>
+<li>全局对象属性</li>
+</ul>
+<h2 id="let命令"><a href="#let命令" class="headerlink" title="let命令"></a>let命令</h2><p><strong>let基本用法</strong></p>
+<p>ES5中使用<code>var</code>声明变量，ES6中声明变量新增了<code>let</code>命令，用法类似于<code>var</code>，但是<code>let</code>声明的变量其所在的代码块内有效，即<code>let</code>定义的是“局部变量”</p>
+<a id="more"></a>
+<pre><code class="js">    {
+        var a=1;
+        let b=2;
+    }
+    console.log(a); // 1
+    console.log(b); // Uncaught ReferenceError: b is not defined（只在所在代码块内有效）
+</code></pre>
+<p><strong>不存在变量提升</strong></p>
+<p><code>let</code>不像<code>var</code>一样会发生变量提升现象</p>
+<pre><code class="js">    // ES5
+    var arr1=[];
+    for(var i=0;i&lt;10;i++){
+        var c=i;
+        arr1[i]=function(){
+            console.log(c);
+        }
+    }
+    // console.log(c); // 9
+    arr1[5](); // 9
+
+    // ES6
+    let arr2=[];
+    for(var j=0;j&lt;10;j++){
+        let k=j;
+        arr2[j]=function(){
+            console.log(k);
+        }
+    }
+    // console.log(k); // Uncaught ReferenceError: k is not defined
+    arr2[5]();
+</code></pre>
+<p><strong>暂时性死区</strong></p>
+<p>只要块级作用域内存在<code>let</code>命令，它所声明的变量就“绑定”（binding）在这个区域，不再受外部影响。在当前作用域中，<code>let</code>声明变量之前的区域，叫做暂时性死区</p>
+<pre><code class="js">    var a = 100;
+    {
+        console.log(a); // Uncaught ReferenceError: a is not defined（暂时性死区）
+        let a = 1; // 块级作用域中，let声明之前，都是暂时性死区
+        // console.log(a); // 1
+    }
+</code></pre>
+<p><strong>不允许重复声明</strong></p>
+<p><code>let</code>不允许在相同的作用域内，重复声明同一个变量</p>
+<pre><code class="js">    var a=1;
+    var a=2; 
+    console.log(a); // 2
+</code></pre>
+<pre><code class="js">    let b=3;
+    let b=4; // Uncaught TypeError: embedded: Line 6: Duplicate declaration &quot;b&quot;
+</code></pre>
+<pre><code class="js">    var c=5;
+    let c=6;
+    console.log(c); // Uncaught TypeError: embedded: Line 5: Duplicate declaration &quot;c&quot;
+</code></pre>
+<h2 id="块级作用域"><a href="#块级作用域" class="headerlink" title="块级作用域"></a>块级作用域</h2><p><strong>为什么需要块级作用域</strong></p>
+<p>ES5 只有全局作用域和函数作用域，没有块级作用域，这会带来很多不合理的场景，如：</p>
+<ul>
+<li>内层变量可能会覆盖外层变量</li>
+<li>用来计数的循环变量泄露为全局变量</li>
+</ul>
+<pre><code class="js">    var str=&quot;123&quot;;
+    function fn(){
+        console.log(str);
+        if(false){
+            var str=&quot;456&quot;; // 没有块级作用域，变量提升到函数作用域中
+        }
+    }
+    fn(); // undefined
+</code></pre>
+<pre><code class="js">    var str=&quot;123&quot;;
+    function fn(){
+        console.log(str);
+        if(true){
+            var str=&quot;456&quot;;
+        }
+    }
+    fn(); // undefined
+</code></pre>
+<pre><code class="js">    var str=&quot;123&quot;;
+    function fn(){
+        console.log(str);
+        var str=&quot;456&quot;;
+    }
+    fn(); // undefined
+</code></pre>
+<pre><code class="js">    for(var i=0;i&lt;10;i++){
+        console.log(&quot;abc&quot;);
+    }
+    console.log(i); // 全局能访问
+</code></pre>
+<p><strong>ES6的块级作用域</strong></p>
+<p>使用<code>let</code>即为JavaScript增加了块级作用域</p>
+<pre><code class="js">    for(let i=0;i&lt;10;i++){
+        console.log(&quot;abc&quot;);
+    }
+    console.log(i); // Uncaught ReferenceError: i is not defined
+</code></pre>
+<h2 id="const命令"><a href="#const命令" class="headerlink" title="const命令"></a>const命令</h2><p><code>const</code>用来声明常量，一旦声明，该常量的值（该变量的内存地址）就不可修改；和<code>let</code>类似，<code>const</code>声明的常量也会绑定到块级作用域，也有暂时性死区，也不能重复声明；<code>const</code>声明的对象和数组是可以修改的</p>
+<pre><code class="js">    const Pi=3.14159;
+    Pi=3.14; // Uncaught SyntaxError: embedded: Line 6: &quot;Pi&quot; is read-only
+</code></pre>
+<pre><code class="js">    const person={}
+    person.name=&quot;Tom&quot;; // 变量的内存地址没有变化，这是允许的
+    person.age=18;
+    console.log(person); // {name: &quot;Tom&quot;, age: 18}
+</code></pre>
+<pre><code class="js">    const arr=[]
+    arr.push(1); // 变量的内存地址没有变化
+    console.log(arr); // [1]
+</code></pre>
+<p><strong>const对象冻结</strong></p>
+<p><code>const</code>声明对象时属性仍然可修改，并不是真正意义上的“常量”，若要在声明对象后完全禁止修改，可以使用对象冻结的方法，禁止操作该对象的属性（只可读取）</p>
+<pre><code class="js">    const person=Object.freeze({ name:&quot;Tom&quot; }); // Object.freeze方法冻结一个对象并返回
+    console.log(person.name); // Tom
+    person.name=&quot;Tony&quot;; // Uncaught TypeError: Cannot assign to read only property &#39;name&#39; of object &#39;#&lt;Object&gt;&#39; （无法分配给对象&#39;＃&lt;Object&gt;&#39;的只读属性&#39;name&#39;）
+</code></pre>
+<pre><code class="js">    const person=Object.freeze({ name:&quot;Tom&quot; });
+    person.age=18; // Uncaught TypeError: Cannot add property age, object is not extensible （无法添加属性age，对象不可扩展）
+</code></pre>
+<p>使用上述方法定义的对象的属性也为对象时，不能被同时冻结：</p>
+<pre><code class="js">    const person=Object.freeze({
+        love:{
+            person:&quot;heqiqi&quot;,
+            sport:&quot;run&quot;,
+        }
+    });
+    console.log(person.love.sport); // run 
+    person.love.sport=&quot;football&quot;;
+    console.log(person.love.sport); // football
+</code></pre>
+<p>使所有属性也全部被冻结：</p>
+<pre><code class="js">    function deepFreeze(obj){
+        Object.freeze(obj); // 冻结对象
+        Object.keys(obj).forEach((item)=&gt;{
+            if(typeof obj[item] === &quot;object&quot;){ // 该对象属性为对象时，继续冻结 递归调用
+                deepFreeze(obj[item]);
+            }
+        });
+    }
+    const person={
+        name:&quot;Tom&quot;,
+        age:18,
+        love:{
+            person:&quot;heqiqi&quot;,
+            sport:&quot;run&quot;,
+            movies:{
+                a:1,
+                b:2,
+            }
+        }
+    }
+    person.love.movies.a=3;
+    console.log(person.love.movies.a); // 3
+    deepFreeze(person); // 冻结
+    person.love.movies.a=4; // Uncaught TypeError: Cannot assign to read only property &#39;a&#39; of object &#39;#&lt;Object&gt;&#39;
+</code></pre>
+<h2 id="跨模块常量"><a href="#跨模块常量" class="headerlink" title="跨模块常量"></a>跨模块常量</h2><p><code>const</code>声明的常量只在当前代码块中有效，设置跨模块的常量，即使用 export、import 导出导入模块的形式</p>
+<pre><code class="js">    // module1.js
+    export const str=&quot;123&quot;;
+    export const num=123;
+    export const bol=true;
+</code></pre>
+<pre><code class="js">    // module2.js
+    import * as module1 from &quot;./module1.js&quot;; // 将 module1 的导出全部引入
+    console.log(module1.str);
+    console.log(module1.num);
+    console.log(module1.bol);
+</code></pre>
+<pre><code class="js">    // module3.js
+    import { str,num } as module1 from &quot;./module1.js&quot;; // 引入部分 module1 的导出
+    console.log(module1.str);
+    console.log(module1.num);
+</code></pre>
+<pre><code class="js">    // module4.js
+    import {str,num} from &quot;./module1.js&quot;;
+    console.log(str);
+    console.log(num);
+</code></pre>
+<h2 id="全局对象属性"><a href="#全局对象属性" class="headerlink" title="全局对象属性"></a>全局对象属性</h2><p>全局对象是最顶层的对象，在浏览器环境中指 window 对象，在Node.js环境中指 global 对象。在JavaScript语言中，所有全局变量都是全局对象的属性。（Node 的环境比较特殊，这一条只对 REPL 环境适用，模块环境必须显式声明成 global 的属性）</p>
+<p>ES6规定，<code>var</code>和<code>function</code>声明的全局变量，属于全局对象的属性；<code>let</code>、<code>const</code>和<code>class</code>声明的全局变量，不属于全局对象的属性</p>
+<pre><code class="js">    let num1=123;
+    const PI=3.14;
+    console.log(window.num1); // undefined
+    console.log(window.PI); // undefined
+</code></pre>
+
         
                 <blockquote style="margin: 2em 0 0;padding: 0.5em 1em;border-left: 3px solid #F44336;background-color: #F5F5F5;list-style: none;">
                     <p><strong>
@@ -481,7 +777,7 @@
                             本文使用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/">CC BY-NC-SA 3.0 中国大陆</a> 协议许可
                         </strong>
                         <br>
-                        <strong>本文链接：</strong><a href="https://lijianqiang.net/categories/index.html">https://lijianqiang.net/categories/index.html</a>
+                        <strong>本文链接：</strong><a href="https://lijianqiang.net/2017/07/01/ES6之let、const和块级作用域/">https://lijianqiang.net/2017/07/01/ES6之let、const和块级作用域/</a>
                     </p>
                 </blockquote>
         
@@ -499,7 +795,7 @@
     <!-- 使用 changyan -->
 <div id="changyan-comment">
     <!--PC和WAP自适应版-->
-<div id="SOHUCS" sid="categories/index.html"  ></div>
+<div id="SOHUCS" sid="2017/07/01/ES6之let、const和块级作用域/"  ></div>
 <script type="text/javascript">
 (function(){
 var appid = 'cytTQ56sk';
@@ -523,11 +819,27 @@ window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="tex
             <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
     <!-- Prev Nav -->
     
+        <a href="/2017/07/02/ES6之结构赋值/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            新篇
+        </a>
+    
 
     <!-- Section Spacer -->
     <div class="section-spacer"></div>
 
     <!-- Next Nav -->
+    
+        <a href="/2017/06/28/Hexo和GitHub-Pages搭建个人博客总结/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
     
 </nav>
 
@@ -715,6 +1027,14 @@ window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="tex
 </aside>
 
                     
+
+                    
+                        <!-- Footer Top Button -->
+                        <div id="back-to-top" class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
 
                     
 
@@ -945,6 +1265,10 @@ window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="tex
 <!-- Import prettify js  -->
 
     
+        
+            <script>lsloader.load("prettify_js","/js/prettify.min.js?WN07fivHQSMKWy7BmHBB6w==", true)</script>
+        
+    
 
 
 
@@ -957,6 +1281,11 @@ window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="tex
     });
 
     
+        
+            $(function() {
+                $('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+                prettyPrint();
+                })
         
     
     

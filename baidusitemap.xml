@@ -4,6 +4,66 @@
 
     
   <url>
+    <loc>https://lijianqiang.net/2017/07/08/ES6%E4%B9%8BPromise%E3%80%81async%E5%92%8Cawait/</loc>
+    <lastmod>2018-11-05T10:42:32.454Z</lastmod>
+    <data>
+        <display>
+        <title>ES6之Promise、async和await</title>
+        <pubTime>2017-07-07T16:03:56.000Z</pubTime>
+        
+        <tag>ES6</tag>
+         
+         
+           
+             
+              <breadCrumb title="Web前端" url="https://lijianqiang.net/categories/Web%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://lijianqiang.net/2017/07/02/ES6%E4%B9%8B%E7%BB%93%E6%9E%84%E8%B5%8B%E5%80%BC/</loc>
+    <lastmod>2018-11-05T08:56:00.889Z</lastmod>
+    <data>
+        <display>
+        <title>ES6之结构赋值</title>
+        <pubTime>2017-07-01T16:03:56.000Z</pubTime>
+        
+        <tag>ES6</tag>
+         
+         
+           
+             
+              <breadCrumb title="Web前端" url="https://lijianqiang.net/categories/Web%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://lijianqiang.net/2017/07/01/ES6%E4%B9%8Blet%E3%80%81const%E5%92%8C%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F/</loc>
+    <lastmod>2018-11-05T08:49:38.726Z</lastmod>
+    <data>
+        <display>
+        <title>ES6之let、const和块级作用域</title>
+        <pubTime>2017-06-30T16:03:56.000Z</pubTime>
+        
+        <tag>ES6</tag>
+         
+         
+           
+             
+              <breadCrumb title="Web前端" url="https://lijianqiang.net/categories/Web%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://lijianqiang.net/2017/06/28/Hexo%E5%92%8CGitHub-Pages%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%80%BB%E7%BB%93/</loc>
     <lastmod>2018-06-16T11:31:27.387Z</lastmod>
     <data>
