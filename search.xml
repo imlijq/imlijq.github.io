@@ -324,208 +324,256 @@
       </tags>
   </entry>
   <entry>
-    <title>ES6之let、const和块级作用域</title>
-    <url>/2017/07/01/ES6%E4%B9%8Blet%E3%80%81const%E5%92%8C%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F/</url>
-    <content><![CDATA[<ul>
-<li>let命令</li>
-<li>块级作用域</li>
-<li>const命令</li>
-<li>跨模块常量</li>
-<li>全局对象属性</li>
-</ul>
-<h2 id="let命令"><a href="#let命令" class="headerlink" title="let命令"></a>let命令</h2><p><strong>let基本用法</strong></p>
-<p>ES5中使用<code>var</code>声明变量，ES6中声明变量新增了<code>let</code>命令，用法类似于<code>var</code>，但是<code>let</code>声明的变量其所在的代码块内有效，即<code>let</code>定义的是“局部变量”</p>
+    <title>Hexo、GitHub Pages搭建个人博客总结</title>
+    <url>/2017/06/28/Hexo%E5%92%8CGitHub-Pages%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<p>使用Hexo和GitHub Pages搭建个人博客整个过程的总结记录。</p>
 <span id="more"></span>
-<pre><code class="js">    &#123;
-        var a=1;
-        let b=2;
-    &#125;
-    console.log(a); // 1
-    console.log(b); // Uncaught ReferenceError: b is not defined（只在所在代码块内有效）
-</code></pre>
-<p><strong>不存在变量提升</strong></p>
-<p><code>let</code>不像<code>var</code>一样会发生变量提升现象</p>
-<pre><code class="js">    // ES5
-    var arr1=[];
-    for(var i=0;i&lt;10;i++)&#123;
-        var c=i;
-        arr1[i]=function()&#123;
-            console.log(c);
-        &#125;
-    &#125;
-    // console.log(c); // 9
-    arr1[5](); // 9
+<h2 id="使用Hexo初始化博客"><a href="#使用Hexo初始化博客" class="headerlink" title="使用Hexo初始化博客"></a>使用Hexo初始化博客</h2><ol>
+<li>安装 <a href="https://git-scm.com/downloads">Git</a> 和 <a href="https://nodejs.org/en/download/">Node</a></li>
+<li><code>npm install -g hexo-cli</code>（全局安装 <a href="https://github.com/hexojs/hexo">Hexo</a> ）</li>
+<li><code>hexo init myblog</code>（创建并初始化myblog文件夹，不加名字myblog则将当前目录作为博客目录初始化）</li>
+<li><code>cd myblog</code>（进入到博客目录）</li>
+<li><code>npm install</code>（安装package.json中的依赖项）</li>
+<li><code>hexo server</code>（启动本地服务器）</li>
+<li>浏览器打开 <a href="http://localhost:4000/">http://localhost:4000/</a> 看最初效果<!-- more -->
+</li>
+</ol>
+<h2 id="站点配置文件（-config-yml）"><a href="#站点配置文件（-config-yml）" class="headerlink" title="站点配置文件（/_config.yml）"></a>站点配置文件（/_config.yml）</h2><pre><code class="yml"># Site
+title: 博客名称
+subtitle: 博客副标题
+description: 站点描述的关键词，主要用于SEO
+author: 作者名字
+language: 博客语言，中文简体是zh-Hans
+timezone: 时区，留空即可
 
-    // ES6
-    let arr2=[];
-    for(var j=0;j&lt;10;j++)&#123;
-        let k=j;
-        arr2[j]=function()&#123;
-            console.log(k);
-        &#125;
-    &#125;
-    // console.log(k); // Uncaught ReferenceError: k is not defined
-    arr2[5]();
+# URL
+url: 博客地址
+root: /
+permalink: :year/:month/:day/:title/
+permalink_defaults:
+
+# Pagination
+per_page: 每页显示的文章数量
+pagination_dir: page
+
+# Extensions
+theme: 使用的hexo主题，默认landscape，我这里用的next
 </code></pre>
-<p><strong>暂时性死区</strong></p>
-<p>只要块级作用域内存在<code>let</code>命令，它所声明的变量就“绑定”（binding）在这个区域，不再受外部影响。在当前作用域中，<code>let</code>声明变量之前的区域，叫做暂时性死区</p>
-<pre><code class="js">    var a = 100;
-    &#123;
-        console.log(a); // Uncaught ReferenceError: a is not defined（暂时性死区）
-        let a = 1; // 块级作用域中，let声明之前，都是暂时性死区
-        // console.log(a); // 1
-    &#125;
+<h2 id="安装主题"><a href="#安装主题" class="headerlink" title="安装主题"></a>安装主题</h2><ol>
+<li><code>cd themes</code>（进入到博客主题目录）</li>
+<li><code>git clone https://github.com/iissnan/hexo-theme-next.git</code>（安装Next主题）</li>
+<li>安装完成后，/themes中的hexo-theme-next文件夹就是next主题所在目录，将该文件夹名改为next，因为在/_config.yml配置文件中theme项值为next，也可改成其他名字但两者要一致</li>
+<li><code>hexo server</code>，浏览器打开 <a href="http://localhost:4000/">http://localhost:4000/</a> ，博客样式就变为所安装主题的样式</li>
+<li>以后若要更新主题，在/themes/next中执行<code>git pull</code>即可</li>
+</ol>
+<h2 id="主题配置文件（-themes-next-config-yml）"><a href="#主题配置文件（-themes-next-config-yml）" class="headerlink" title="主题配置文件（/themes/next/_config.yml）"></a>主题配置文件（/themes/next/_config.yml）</h2><pre><code class="yml">favicon: /uploads/favicon.ico（头像地址，如不存在uploads目录，新建即可）
+
+keywords: 站点描述
+
+since: 站点创建时间
+
+menu: # 设置菜单
+  home: /
+  categories: /categories
+  tags: /tags
+  archives: /archives
+  about: /about
+  #search: /search
+  #sitemap: /sitemap.xml
+  #commonweal: /404.html
+
+menu_icons: # 设置菜单图标，图标名字为Awesome图标名称
+  enable: true
+  home: home
+  categories: th
+  tags: tags
+  archives: archive
+  about: user
+  search: search
+  sitemap: sitemap
+  commonweal: heartbeat
+  schedule: calendar
+
+social: # 设置社交链接
+  LinkLabel: 
+  GitHub: 
+  Twitter: 
+  Weibo: 
+
+social_icons: # 设置社交链接图标
+  enable: true
+  GitHub: github
+  Twitter: twitter
+  Weibo: weibo
+
+avatar: /uploads/avatar.jpeg # 侧边栏头像
+
+auto_excerpt: # 设置显示更多时自动截取，也可在文章中通过&lt;!-- more --&gt;手动截断
+  enable: true
+  length: 150
+
+highlight_theme: night # 代码高亮主题
 </code></pre>
-<p><strong>不允许重复声明</strong></p>
-<p><code>let</code>不允许在相同的作用域内，重复声明同一个变量</p>
-<pre><code class="js">    var a=1;
-    var a=2; 
-    console.log(a); // 2
+<h2 id="设置GitHub-Pages"><a href="#设置GitHub-Pages" class="headerlink" title="设置GitHub Pages"></a>设置GitHub Pages</h2><ol>
+<li>在GitHub上创建名为username.github.io的仓库（username是GitHub中的用户名）</li>
+<li><code>npm install --save hexo-deployer-git</code>（安装deploy插件）</li>
+<li>编辑站点配置文件（/_config.yml）：<pre><code class="yml">deploy:
+type: git
+repository: 刚刚创建的GitHub仓库的地址，如git@github.com:username/username.github.io.git
+branch: master
+message: Site updated at &#123;&#123; now("YYYY-MM-DD HH:mm:ss") &#125;&#125; # 每次提交代码的描述信息（非必需）
 </code></pre>
-<pre><code class="js">    let b=3;
-    let b=4; // Uncaught TypeError: embedded: Line 6: Duplicate declaration &quot;b&quot;    
+</li>
+<li>分别执行<code>hexo clean</code>（清除缓存文件db.json和之前生成的public中的静态文件），<code>hexo generate</code>（生成静态文件到public文件夹），<code>hexo deploy</code>（根据/_config.yml中deploy的配置信息，将静态文件上传到GitHub）</li>
+<li>浏览器打开 <a href="https://username.github.io/">https://username.github.io/</a> 查看博客</li>
+</ol>
+<h2 id="博客绑定域名"><a href="#博客绑定域名" class="headerlink" title="博客绑定域名"></a>博客绑定域名</h2><p>绑定个人域名可以让自己的博客地址更加简单好记，同时也方便使用网易云跟帖（网易云跟帖只支持主域名）：</p>
+<h3 id="个人域名解析设置"><a href="#个人域名解析设置" class="headerlink" title="个人域名解析设置"></a>个人域名解析设置</h3><p>给个人域名添加三条解析记录：</p>
+<table>
+<thead>
+<tr>
+<th>记录类型</th>
+<th>主机记录</th>
+<th>解析线路</th>
+<th>记录值</th>
+<th>TTL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CNAME</td>
+<td>www</td>
+<td>默认</td>
+<td>username.github.io<br />（GitHub博客的地址）</td>
+<td>10分钟（默认）</td>
+</tr>
+<tr>
+<td>A</td>
+<td>@</td>
+<td>默认</td>
+<td>192.30.252.153<br />（GItHub Pages服务器地址）</td>
+<td>10分钟（默认）</td>
+</tr>
+<tr>
+<td>A</td>
+<td>@</td>
+<td>默认</td>
+<td>192.30.252.154<br />（GItHub Pages服务器地址）</td>
+<td>10分钟（默认）</td>
+</tr>
+</tbody>
+</table>
+<p>记录类型中，CNAME表示重命名、指向一个域名，A表示指向一个IP。<br>主机记录表示前缀，@表示根域名。<br>第一条记录就是表示把<a href="http://www.aaaaa.com解析到username.github.io，第二条表示把aaaaa.com解析到192.30.252.153">www.aaaaa.com解析到username.github.io，第二条表示把aaaaa.com解析到192.30.252.153</a><br>因为我的域名是在万网购买的，所以以上操作是在阿里云域名控制台进行的，其他服务商购买的域名操作也是一样</p>
+<h3 id="GitHub中添加CNAME"><a href="#GitHub中添加CNAME" class="headerlink" title="GitHub中添加CNAME"></a>GitHub中添加CNAME</h3><p>在/themes/next/source/中创建名为CNAME（必须为大写）文件，内容设置为购买的域名如aaaaa.com。<br>然后执行<code>hexo  generate -d</code>，浏览器访问 <a href="https://username.github.io">https://username.github.io</a> 时地址栏变为 aaaaa.com 表示绑定成功了<br>若/themes/next/source/CNAME内容设置为<a href="http://www.aaa.net，访问">www.aaa.net，访问</a> <a href="https://username.github.io">https://username.github.io</a> 浏览器中显示则是二级域名<a href="http://www.aaaaa.com">www.aaaaa.com</a></p>
+<h2 id="配置站点地图sitemap"><a href="#配置站点地图sitemap" class="headerlink" title="配置站点地图sitemap"></a>配置站点地图sitemap</h2><ol>
+<li>配置站点地图有利于搜索引擎抓取网站，有利于SEO，首先要安装谷歌和百度sitemap插件：<br><code>npm install --save hexo-generator-sitemap</code><br><code>npm install --save hexo-generator-baidu-sitemap</code></li>
+<li>在站点配置文件中（/_config.yml）中添加：<pre><code class="yml">sitemap: 
+path: sitemap.xml # 提交给谷歌搜索引擎
+baidusitemap:
+path: baidusitemap.xml # 提交给百度搜索引擎
 </code></pre>
-<pre><code class="js">    var c=5;
-    let c=6;
-    console.log(c); // Uncaught TypeError: embedded: Line 5: Duplicate declaration &quot;c&quot;
+</li>
+<li>/themes/next/source/中添加robots.txt文件（网络爬虫排除标准），内容为：<pre><code class="yml">User-agent: *
+Allow: /
+Allow: /archives/
+Disallow: /js/
+Disallow: /css/
+Disallow: /fonts/
+Sitemap: http://aaaaa.com/sitemap.xml
+Sitemap: http://aaaaa.com/baidusitemap.xml
 </code></pre>
-<h2 id="块级作用域"><a href="#块级作用域" class="headerlink" title="块级作用域"></a>块级作用域</h2><p><strong>为什么需要块级作用域</strong></p>
-<p>ES5 只有全局作用域和函数作用域，没有块级作用域，这会带来很多不合理的场景，如：</p>
-<ul>
-<li>内层变量可能会覆盖外层变量</li>
-<li>用来计数的循环变量泄露为全局变量</li>
+这样每次执行<code>hexo generate</code>编译成页面静态文件时也会在public目录中生成sitemap.xml、baidusitemap.xml、和robots.txt</li>
+</ol>
+<h2 id="添加本地搜索功能"><a href="#添加本地搜索功能" class="headerlink" title="添加本地搜索功能"></a>添加本地搜索功能</h2><p><code>npm install --save hexo-generator-searchdb</code>（安装本地搜索插件）<br>站点配置文件（/_config.yml）：</p>
+<pre><code class="yml">search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
+</code></pre>
+<p>主题配置文件（/themes/next/_config.yml）：</p>
+<pre><code>local_search:
+  enable: true
+</code></pre><p>添加本地搜索功能后，主题配置文件中不需要配置搜索页（search: /search）</p>
+<h2 id="Hexo常用命令"><a href="#Hexo常用命令" class="headerlink" title="Hexo常用命令"></a>Hexo常用命令</h2><ul>
+<li><code>hexo new page pagename</code>（/source/中创建pagename文件夹，并在其中创建index.md）</li>
+<li><code>hexo new articlename</code>（/source/中创建articlename.md）</li>
+<li><code>hexo server --debug</code>（以调试模式开启静态服务器）</li>
+<li><code>hexo clean</code>（清除缓存文件db.json和之前生成的public中的静态文件）</li>
+<li><code>hexo generate</code>（或hexo g，生成静态文件到public目录中）</li>
+<li><code>hexo deploy</code>（或hexo d，提交public中静态文件到GitHub）</li>
+<li><code>hexo generate -deploy</code>（或hexo g -d，生成+部署）</li>
 </ul>
-<pre><code class="js">    var str=&quot;123&quot;;
-    function fn()&#123;
-        console.log(str);
-        if(false)&#123;
-            var str=&quot;456&quot;; // 没有块级作用域，变量提升到函数作用域中
-        &#125;
-    &#125;
-    fn(); // undefined
+<h2 id="将文章底部标签前的-替换为Awesome图标"><a href="#将文章底部标签前的-替换为Awesome图标" class="headerlink" title="将文章底部标签前的#替换为Awesome图标"></a>将文章底部标签前的#替换为Awesome图标</h2><p>将/themes/next/layout/_macro/post.swig中rel=”tag”&gt;后边的#替换为<code>&lt;i class=&quot;fa fa-tag&quot;&gt;&lt;/i&gt;</code>，保存即可变为<i class="fa fa-tag"></i></p>
+<h2 id="禁止hexo渲染文件"><a href="#禁止hexo渲染文件" class="headerlink" title="禁止hexo渲染文件"></a>禁止hexo渲染文件</h2><p>默认情况下hexo会将source目录中的所有md文件解析渲染成html文件，有时我们保留md文件不被解析，可以设置_config.yml中的skip_render选项，skip_render设置的文件相对于source目录：</p>
+<pre><code class="yml">skip_render: 
+  - README.md
+  - 404.html
+  - robots.txt
+  - aaa/*（source/aaa目录中的所有文件都不会被解析）
 </code></pre>
-<pre><code class="js">    var str=&quot;123&quot;;
-    function fn()&#123;
-        console.log(str);
-        if(true)&#123;
-            var str=&quot;456&quot;;
-        &#125;
-    &#125;
-    fn(); // undefined
+<h2 id="Markdown主要语法"><a href="#Markdown主要语法" class="headerlink" title="Markdown主要语法"></a>Markdown主要语法</h2><p>Markdown是一种轻量级的标记语言，使用它撰写文章，我们只需要专注于内容的创作，不再需要担心排版的问题。它简单易学，掌握之后可以很大程度的提高效率、节约时间。下面是Markdown的主要语法：</p>
+<h3 id="标题（h1-h6）"><a href="#标题（h1-h6）" class="headerlink" title="标题（h1-h6）"></a>标题（h1-h6）</h3><p># 一级标题名<br>## 二级标题名<br>…<br>###### 六级标题名</p>
+<h3 id="无序列表（ul）"><a href="#无序列表（ul）" class="headerlink" title="无序列表（ul）"></a>无序列表（ul）</h3><p>- 项目名1<br>- 项目名2</p>
+<h3 id="有序列表（ol）"><a href="#有序列表（ol）" class="headerlink" title="有序列表（ol）"></a>有序列表（ol）</h3><p>&nbsp;1. 项目名1<br>&nbsp;2. 项目名2</p>
+<h3 id="分割线（hr）"><a href="#分割线（hr）" class="headerlink" title="分割线（hr）"></a>分割线（hr）</h3><p>***</p>
+<h3 id="插入引用（blockquote）"><a href="#插入引用（blockquote）" class="headerlink" title="插入引用（blockquote）"></a>插入引用（blockquote）</h3><p>> 引用的句子<br>> 引用的句子<br>> 引用的句子</p>
+<h3 id="插入链接（a）"><a href="#插入链接（a）" class="headerlink" title="插入链接（a）"></a>插入链接（a）</h3><p>[百度](<a href="https://www.baidu.com\">https://www.baidu.com\</a>)</p>
+<p>渲染结果：</p>
+<p><a href="https://www.baidu.com">百度</a></p>
+<h3 id="插入图片（img）"><a href="#插入图片（img）" class="headerlink" title="插入图片（img）"></a>插入图片（img）</h3><p>语法和插入链接类似，只不过前边要加一个<code>!</code></p>
+<p>![图片标签alt属性值](图片url)</p>
+<h3 id="插入锚点链接"><a href="#插入锚点链接" class="headerlink" title="插入锚点链接"></a>插入锚点链接</h3><p>[点击跳到详情部分](#details)</p>
+<p><code>详情部分&lt;a name=&quot;details&quot;&gt;&amp;nbsp;&lt;/a&gt;</code></p>
+<p>渲染结果：</p>
+<p><a href="#details">点击跳到详情部分</a></p>
+<p>详情部分<a name="details">&nbsp;</a></p>
+<h3 id="斜体（em）"><a href="#斜体（em）" class="headerlink" title="斜体（em）"></a>斜体（em）</h3><p>*文字*</p>
+<p>渲染结果：<em>文字</em></p>
+<h3 id="粗体（strong）"><a href="#粗体（strong）" class="headerlink" title="粗体（strong）"></a>粗体（strong）</h3><p>**文字**</p>
+<p>渲染结果：<strong>粗体</strong></p>
+<h3 id="粗斜体（strong中嵌套em）"><a href="#粗斜体（strong中嵌套em）" class="headerlink" title="粗斜体（strong中嵌套em）"></a>粗斜体（strong中嵌套em）</h3><p>***文字***</p>
+<p>渲染结果：<strong><em>文字</em></strong></p>
+<h3 id="设置行内代码格式（code）"><a href="#设置行内代码格式（code）" class="headerlink" title="设置行内代码格式（code）"></a>设置行内代码格式（code）</h3><p>`hexo clean`</p>
+<p>渲染结果：<code>hexo clean</code></p>
+<h3 id="设置整段代码格式（pre中嵌套code）"><a href="#设置整段代码格式（pre中嵌套code）" class="headerlink" title="设置整段代码格式（pre中嵌套code）"></a>设置整段代码格式（pre中嵌套code）</h3><p>```javascript<br>&nbsp;&nbsp;var a=1;<br>&nbsp;&nbsp;console.log(a);<br>```</p>
+<p>渲染结果：</p>
+<pre><code class="javascript">  var a=1;
+  console.log(a);
 </code></pre>
-<pre><code class="js">    var str=&quot;123&quot;;
-    function fn()&#123;
-        console.log(str);
-        var str=&quot;456&quot;;
-    &#125;
-    fn(); // undefined
-</code></pre>
-<pre><code class="js">    for(var i=0;i&lt;10;i++)&#123;
-        console.log(&quot;abc&quot;);
-    &#125;
-    console.log(i); // 全局能访问
-</code></pre>
-<p><strong>ES6的块级作用域</strong></p>
-<p>使用<code>let</code>即为JavaScript增加了块级作用域</p>
-<pre><code class="js">    for(let i=0;i&lt;10;i++)&#123;
-        console.log(&quot;abc&quot;);
-    &#125;
-    console.log(i); // Uncaught ReferenceError: i is not defined
-</code></pre>
-<h2 id="const命令"><a href="#const命令" class="headerlink" title="const命令"></a>const命令</h2><p><code>const</code>用来声明常量，一旦声明，该常量的值（该变量的内存地址）就不可修改；和<code>let</code>类似，<code>const</code>声明的常量也会绑定到块级作用域，也有暂时性死区，也不能重复声明；<code>const</code>声明的对象和数组是可以修改的</p>
-<pre><code class="js">    const Pi=3.14159;
-    Pi=3.14; // Uncaught SyntaxError: embedded: Line 6: &quot;Pi&quot; is read-only
-</code></pre>
-<pre><code class="js">    const person=&#123;&#125;
-    person.name=&quot;Tom&quot;; // 变量的内存地址没有变化，这是允许的
-    person.age=18;
-    console.log(person); // &#123;name: &quot;Tom&quot;, age: 18&#125;    
-</code></pre>
-<pre><code class="js">    const arr=[]
-    arr.push(1); // 变量的内存地址没有变化
-    console.log(arr); // [1]
-</code></pre>
-<p><strong>const对象冻结</strong></p>
-<p><code>const</code>声明对象时属性仍然可修改，并不是真正意义上的“常量”，若要在声明对象后完全禁止修改，可以使用对象冻结的方法，禁止操作该对象的属性（只可读取）</p>
-<pre><code class="js">    const person=Object.freeze(&#123; name:&quot;Tom&quot; &#125;); // Object.freeze方法冻结一个对象并返回
-    console.log(person.name); // Tom
-    person.name=&quot;Tony&quot;; // Uncaught TypeError: Cannot assign to read only property &#39;name&#39; of object &#39;#&lt;Object&gt;&#39; （无法分配给对象&#39;＃&lt;Object&gt;&#39;的只读属性&#39;name&#39;）
-</code></pre>
-<pre><code class="js">    const person=Object.freeze(&#123; name:&quot;Tom&quot; &#125;);
-    person.age=18; // Uncaught TypeError: Cannot add property age, object is not extensible （无法添加属性age，对象不可扩展）    
-</code></pre>
-<p>使用上述方法定义的对象的属性也为对象时，不能被同时冻结：</p>
-<pre><code class="js">    const person=Object.freeze(&#123;
-        love:&#123;
-            person:&quot;heqiqi&quot;,
-            sport:&quot;run&quot;,
-        &#125;
-    &#125;);
-    console.log(person.love.sport); // run 
-    person.love.sport=&quot;football&quot;;
-    console.log(person.love.sport); // football
-</code></pre>
-<p>使所有属性也全部被冻结：</p>
-<pre><code class="js">    function deepFreeze(obj)&#123;
-        Object.freeze(obj); // 冻结对象
-        Object.keys(obj).forEach((item)=&gt;&#123;
-            if(typeof obj[item] === &quot;object&quot;)&#123; // 该对象属性为对象时，继续冻结 递归调用
-                deepFreeze(obj[item]);
-            &#125;
-        &#125;);
-    &#125;
-    const person=&#123;
-        name:&quot;Tom&quot;,
-        age:18,
-        love:&#123;
-            person:&quot;heqiqi&quot;,
-            sport:&quot;run&quot;,
-            movies:&#123;
-                a:1,
-                b:2,
-            &#125;
-        &#125;
-    &#125;
-    person.love.movies.a=3;
-    console.log(person.love.movies.a); // 3
-    deepFreeze(person); // 冻结
-    person.love.movies.a=4; // Uncaught TypeError: Cannot assign to read only property &#39;a&#39; of object &#39;#&lt;Object&gt;&#39;
-</code></pre>
-<h2 id="跨模块常量"><a href="#跨模块常量" class="headerlink" title="跨模块常量"></a>跨模块常量</h2><p><code>const</code>声明的常量只在当前代码块中有效，设置跨模块的常量，即使用 export、import 导出导入模块的形式</p>
-<pre><code class="js">    // module1.js
-    export const str=&quot;123&quot;;
-    export const num=123;
-    export const bol=true;
-</code></pre>
-<pre><code class="js">    // module2.js
-    import * as module1 from &quot;./module1.js&quot;; // 将 module1 的导出全部引入
-    console.log(module1.str);
-    console.log(module1.num);
-    console.log(module1.bol);
-</code></pre>
-<pre><code class="js">    // module3.js
-    import &#123; str,num &#125; as module1 from &quot;./module1.js&quot;; // 引入部分 module1 的导出
-    console.log(module1.str);
-    console.log(module1.num);
-</code></pre>
-<pre><code class="js">    // module4.js
-    import &#123;str,num&#125; from &quot;./module1.js&quot;;
-    console.log(str);
-    console.log(num);
-</code></pre>
-<h2 id="全局对象属性"><a href="#全局对象属性" class="headerlink" title="全局对象属性"></a>全局对象属性</h2><p>全局对象是最顶层的对象，在浏览器环境中指 window 对象，在Node.js环境中指 global 对象。在JavaScript语言中，所有全局变量都是全局对象的属性。（Node 的环境比较特殊，这一条只对 REPL 环境适用，模块环境必须显式声明成 global 的属性）</p>
-<p>ES6规定，<code>var</code>和<code>function</code>声明的全局变量，属于全局对象的属性；<code>let</code>、<code>const</code>和<code>class</code>声明的全局变量，不属于全局对象的属性</p>
-<pre><code class="js">    let num1=123;
-    const PI=3.14;
-    console.log(window.num1); // undefined
-    console.log(window.PI); // undefined
-</code></pre>
+<h3 id="插入表格（table）："><a href="#插入表格（table）：" class="headerlink" title="插入表格（table）："></a>插入表格（table）：</h3><p>| 学生的姓名 | 学生的性别 | 学生的年龄 |<br>| ------ | :------: | ------: |<br>| 张三 | 男 | 16 |<br>| 李四 | 女 | 17 |</p>
+<p>渲染结果：</p>
+<table>
+<thead>
+<tr>
+<th>学生的姓名</th>
+<th style="text-align:center">学生的性别</th>
+<th style="text-align:right">学生的年龄</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>张三</td>
+<td style="text-align:center">男</td>
+<td style="text-align:right">16</td>
+</tr>
+<tr>
+<td>李四</td>
+<td style="text-align:center">女</td>
+<td style="text-align:right">17</td>
+</tr>
+</tbody>
+</table>
+<p>注：两个竖线<code>|</code>之间的部分表示一个单元格。第一行是表头，第二行用多个<code>-</code>和<code>:</code>确定单元格中文字对齐方式，不加<code>:</code>或左边加<code>:</code>表示左对齐，两边加<code>:</code>表示居中对齐，右边加<code>:</code>表示右对齐。第二行每个单元格中不要只写一个<code>-</code>，有时可能不会正常解析，建议最少三个。</p>
+<p>许多站点的在线Markdown编辑器支持直接编写html代码，如掘金、GitHub等，有些则不支持。</p>
+<p>一款开源的在线Markdown编辑器：<a href="https://github.com/joemccann/dillinger">dillinger</a></p>
 ]]></content>
       <categories>
         <category>Web前端</category>
       </categories>
       <tags>
-        <tag>ES6</tag>
+        <tag>Hexo</tag>
+        <tag>GitHub</tag>
       </tags>
   </entry>
   <entry>
@@ -796,256 +844,208 @@
       </tags>
   </entry>
   <entry>
-    <title>Hexo、GitHub Pages搭建个人博客总结</title>
-    <url>/2017/06/28/Hexo%E5%92%8CGitHub-Pages%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<p>使用Hexo和GitHub Pages搭建个人博客整个过程的总结记录。</p>
-<span id="more"></span>
-<h2 id="使用Hexo初始化博客"><a href="#使用Hexo初始化博客" class="headerlink" title="使用Hexo初始化博客"></a>使用Hexo初始化博客</h2><ol>
-<li>安装 <a href="https://git-scm.com/downloads">Git</a> 和 <a href="https://nodejs.org/en/download/">Node</a></li>
-<li><code>npm install -g hexo-cli</code>（全局安装 <a href="https://github.com/hexojs/hexo">Hexo</a> ）</li>
-<li><code>hexo init myblog</code>（创建并初始化myblog文件夹，不加名字myblog则将当前目录作为博客目录初始化）</li>
-<li><code>cd myblog</code>（进入到博客目录）</li>
-<li><code>npm install</code>（安装package.json中的依赖项）</li>
-<li><code>hexo server</code>（启动本地服务器）</li>
-<li>浏览器打开 <a href="http://localhost:4000/">http://localhost:4000/</a> 看最初效果<!-- more -->
-</li>
-</ol>
-<h2 id="站点配置文件（-config-yml）"><a href="#站点配置文件（-config-yml）" class="headerlink" title="站点配置文件（/_config.yml）"></a>站点配置文件（/_config.yml）</h2><pre><code class="yml"># Site
-title: 博客名称
-subtitle: 博客副标题
-description: 站点描述的关键词，主要用于SEO
-author: 作者名字
-language: 博客语言，中文简体是zh-Hans
-timezone: 时区，留空即可
-
-# URL
-url: 博客地址
-root: /
-permalink: :year/:month/:day/:title/
-permalink_defaults:
-
-# Pagination
-per_page: 每页显示的文章数量
-pagination_dir: page
-
-# Extensions
-theme: 使用的hexo主题，默认landscape，我这里用的next
-</code></pre>
-<h2 id="安装主题"><a href="#安装主题" class="headerlink" title="安装主题"></a>安装主题</h2><ol>
-<li><code>cd themes</code>（进入到博客主题目录）</li>
-<li><code>git clone https://github.com/iissnan/hexo-theme-next.git</code>（安装Next主题）</li>
-<li>安装完成后，/themes中的hexo-theme-next文件夹就是next主题所在目录，将该文件夹名改为next，因为在/_config.yml配置文件中theme项值为next，也可改成其他名字但两者要一致</li>
-<li><code>hexo server</code>，浏览器打开 <a href="http://localhost:4000/">http://localhost:4000/</a> ，博客样式就变为所安装主题的样式</li>
-<li>以后若要更新主题，在/themes/next中执行<code>git pull</code>即可</li>
-</ol>
-<h2 id="主题配置文件（-themes-next-config-yml）"><a href="#主题配置文件（-themes-next-config-yml）" class="headerlink" title="主题配置文件（/themes/next/_config.yml）"></a>主题配置文件（/themes/next/_config.yml）</h2><pre><code class="yml">favicon: /uploads/favicon.ico（头像地址，如不存在uploads目录，新建即可）
-
-keywords: 站点描述
-
-since: 站点创建时间
-
-menu: # 设置菜单
-  home: /
-  categories: /categories
-  tags: /tags
-  archives: /archives
-  about: /about
-  #search: /search
-  #sitemap: /sitemap.xml
-  #commonweal: /404.html
-
-menu_icons: # 设置菜单图标，图标名字为Awesome图标名称
-  enable: true
-  home: home
-  categories: th
-  tags: tags
-  archives: archive
-  about: user
-  search: search
-  sitemap: sitemap
-  commonweal: heartbeat
-  schedule: calendar
-
-social: # 设置社交链接
-  LinkLabel: 
-  GitHub: 
-  Twitter: 
-  Weibo: 
-
-social_icons: # 设置社交链接图标
-  enable: true
-  GitHub: github
-  Twitter: twitter
-  Weibo: weibo
-
-avatar: /uploads/avatar.jpeg # 侧边栏头像
-
-auto_excerpt: # 设置显示更多时自动截取，也可在文章中通过&lt;!-- more --&gt;手动截断
-  enable: true
-  length: 150
-
-highlight_theme: night # 代码高亮主题
-</code></pre>
-<h2 id="设置GitHub-Pages"><a href="#设置GitHub-Pages" class="headerlink" title="设置GitHub Pages"></a>设置GitHub Pages</h2><ol>
-<li>在GitHub上创建名为username.github.io的仓库（username是GitHub中的用户名）</li>
-<li><code>npm install --save hexo-deployer-git</code>（安装deploy插件）</li>
-<li>编辑站点配置文件（/_config.yml）：<pre><code class="yml">deploy:
-type: git
-repository: 刚刚创建的GitHub仓库的地址，如git@github.com:username/username.github.io.git
-branch: master
-message: Site updated at &#123;&#123; now("YYYY-MM-DD HH:mm:ss") &#125;&#125; # 每次提交代码的描述信息（非必需）
-</code></pre>
-</li>
-<li>分别执行<code>hexo clean</code>（清除缓存文件db.json和之前生成的public中的静态文件），<code>hexo generate</code>（生成静态文件到public文件夹），<code>hexo deploy</code>（根据/_config.yml中deploy的配置信息，将静态文件上传到GitHub）</li>
-<li>浏览器打开 <a href="https://username.github.io/">https://username.github.io/</a> 查看博客</li>
-</ol>
-<h2 id="博客绑定域名"><a href="#博客绑定域名" class="headerlink" title="博客绑定域名"></a>博客绑定域名</h2><p>绑定个人域名可以让自己的博客地址更加简单好记，同时也方便使用网易云跟帖（网易云跟帖只支持主域名）：</p>
-<h3 id="个人域名解析设置"><a href="#个人域名解析设置" class="headerlink" title="个人域名解析设置"></a>个人域名解析设置</h3><p>给个人域名添加三条解析记录：</p>
-<table>
-<thead>
-<tr>
-<th>记录类型</th>
-<th>主机记录</th>
-<th>解析线路</th>
-<th>记录值</th>
-<th>TTL</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>CNAME</td>
-<td>www</td>
-<td>默认</td>
-<td>username.github.io<br />（GitHub博客的地址）</td>
-<td>10分钟（默认）</td>
-</tr>
-<tr>
-<td>A</td>
-<td>@</td>
-<td>默认</td>
-<td>192.30.252.153<br />（GItHub Pages服务器地址）</td>
-<td>10分钟（默认）</td>
-</tr>
-<tr>
-<td>A</td>
-<td>@</td>
-<td>默认</td>
-<td>192.30.252.154<br />（GItHub Pages服务器地址）</td>
-<td>10分钟（默认）</td>
-</tr>
-</tbody>
-</table>
-<p>记录类型中，CNAME表示重命名、指向一个域名，A表示指向一个IP。<br>主机记录表示前缀，@表示根域名。<br>第一条记录就是表示把<a href="http://www.aaaaa.com解析到username.github.io，第二条表示把aaaaa.com解析到192.30.252.153">www.aaaaa.com解析到username.github.io，第二条表示把aaaaa.com解析到192.30.252.153</a><br>因为我的域名是在万网购买的，所以以上操作是在阿里云域名控制台进行的，其他服务商购买的域名操作也是一样</p>
-<h3 id="GitHub中添加CNAME"><a href="#GitHub中添加CNAME" class="headerlink" title="GitHub中添加CNAME"></a>GitHub中添加CNAME</h3><p>在/themes/next/source/中创建名为CNAME（必须为大写）文件，内容设置为购买的域名如aaaaa.com。<br>然后执行<code>hexo  generate -d</code>，浏览器访问 <a href="https://username.github.io">https://username.github.io</a> 时地址栏变为 aaaaa.com 表示绑定成功了<br>若/themes/next/source/CNAME内容设置为<a href="http://www.aaa.net，访问">www.aaa.net，访问</a> <a href="https://username.github.io">https://username.github.io</a> 浏览器中显示则是二级域名<a href="http://www.aaaaa.com">www.aaaaa.com</a></p>
-<h2 id="配置站点地图sitemap"><a href="#配置站点地图sitemap" class="headerlink" title="配置站点地图sitemap"></a>配置站点地图sitemap</h2><ol>
-<li>配置站点地图有利于搜索引擎抓取网站，有利于SEO，首先要安装谷歌和百度sitemap插件：<br><code>npm install --save hexo-generator-sitemap</code><br><code>npm install --save hexo-generator-baidu-sitemap</code></li>
-<li>在站点配置文件中（/_config.yml）中添加：<pre><code class="yml">sitemap: 
-path: sitemap.xml # 提交给谷歌搜索引擎
-baidusitemap:
-path: baidusitemap.xml # 提交给百度搜索引擎
-</code></pre>
-</li>
-<li>/themes/next/source/中添加robots.txt文件（网络爬虫排除标准），内容为：<pre><code class="yml">User-agent: *
-Allow: /
-Allow: /archives/
-Disallow: /js/
-Disallow: /css/
-Disallow: /fonts/
-Sitemap: http://aaaaa.com/sitemap.xml
-Sitemap: http://aaaaa.com/baidusitemap.xml
-</code></pre>
-这样每次执行<code>hexo generate</code>编译成页面静态文件时也会在public目录中生成sitemap.xml、baidusitemap.xml、和robots.txt</li>
-</ol>
-<h2 id="添加本地搜索功能"><a href="#添加本地搜索功能" class="headerlink" title="添加本地搜索功能"></a>添加本地搜索功能</h2><p><code>npm install --save hexo-generator-searchdb</code>（安装本地搜索插件）<br>站点配置文件（/_config.yml）：</p>
-<pre><code class="yml">search:
-  path: search.xml
-  field: post
-  format: html
-  limit: 10000
-</code></pre>
-<p>主题配置文件（/themes/next/_config.yml）：</p>
-<pre><code>local_search:
-  enable: true
-</code></pre><p>添加本地搜索功能后，主题配置文件中不需要配置搜索页（search: /search）</p>
-<h2 id="Hexo常用命令"><a href="#Hexo常用命令" class="headerlink" title="Hexo常用命令"></a>Hexo常用命令</h2><ul>
-<li><code>hexo new page pagename</code>（/source/中创建pagename文件夹，并在其中创建index.md）</li>
-<li><code>hexo new articlename</code>（/source/中创建articlename.md）</li>
-<li><code>hexo server --debug</code>（以调试模式开启静态服务器）</li>
-<li><code>hexo clean</code>（清除缓存文件db.json和之前生成的public中的静态文件）</li>
-<li><code>hexo generate</code>（或hexo g，生成静态文件到public目录中）</li>
-<li><code>hexo deploy</code>（或hexo d，提交public中静态文件到GitHub）</li>
-<li><code>hexo generate -deploy</code>（或hexo g -d，生成+部署）</li>
+    <title>ES6之let、const和块级作用域</title>
+    <url>/2017/07/01/ES6%E4%B9%8Blet%E3%80%81const%E5%92%8C%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F/</url>
+    <content><![CDATA[<ul>
+<li>let命令</li>
+<li>块级作用域</li>
+<li>const命令</li>
+<li>跨模块常量</li>
+<li>全局对象属性</li>
 </ul>
-<h2 id="将文章底部标签前的-替换为Awesome图标"><a href="#将文章底部标签前的-替换为Awesome图标" class="headerlink" title="将文章底部标签前的#替换为Awesome图标"></a>将文章底部标签前的#替换为Awesome图标</h2><p>将/themes/next/layout/_macro/post.swig中rel=”tag”&gt;后边的#替换为<code>&lt;i class=&quot;fa fa-tag&quot;&gt;&lt;/i&gt;</code>，保存即可变为<i class="fa fa-tag"></i></p>
-<h2 id="禁止hexo渲染文件"><a href="#禁止hexo渲染文件" class="headerlink" title="禁止hexo渲染文件"></a>禁止hexo渲染文件</h2><p>默认情况下hexo会将source目录中的所有md文件解析渲染成html文件，有时我们保留md文件不被解析，可以设置_config.yml中的skip_render选项，skip_render设置的文件相对于source目录：</p>
-<pre><code class="yml">skip_render: 
-  - README.md
-  - 404.html
-  - robots.txt
-  - aaa/*（source/aaa目录中的所有文件都不会被解析）
+<h2 id="let命令"><a href="#let命令" class="headerlink" title="let命令"></a>let命令</h2><p><strong>let基本用法</strong></p>
+<p>ES5中使用<code>var</code>声明变量，ES6中声明变量新增了<code>let</code>命令，用法类似于<code>var</code>，但是<code>let</code>声明的变量其所在的代码块内有效，即<code>let</code>定义的是“局部变量”</p>
+<span id="more"></span>
+<pre><code class="js">    &#123;
+        var a=1;
+        let b=2;
+    &#125;
+    console.log(a); // 1
+    console.log(b); // Uncaught ReferenceError: b is not defined（只在所在代码块内有效）
 </code></pre>
-<h2 id="Markdown主要语法"><a href="#Markdown主要语法" class="headerlink" title="Markdown主要语法"></a>Markdown主要语法</h2><p>Markdown是一种轻量级的标记语言，使用它撰写文章，我们只需要专注于内容的创作，不再需要担心排版的问题。它简单易学，掌握之后可以很大程度的提高效率、节约时间。下面是Markdown的主要语法：</p>
-<h3 id="标题（h1-h6）"><a href="#标题（h1-h6）" class="headerlink" title="标题（h1-h6）"></a>标题（h1-h6）</h3><p># 一级标题名<br>## 二级标题名<br>…<br>###### 六级标题名</p>
-<h3 id="无序列表（ul）"><a href="#无序列表（ul）" class="headerlink" title="无序列表（ul）"></a>无序列表（ul）</h3><p>- 项目名1<br>- 项目名2</p>
-<h3 id="有序列表（ol）"><a href="#有序列表（ol）" class="headerlink" title="有序列表（ol）"></a>有序列表（ol）</h3><p>&nbsp;1. 项目名1<br>&nbsp;2. 项目名2</p>
-<h3 id="分割线（hr）"><a href="#分割线（hr）" class="headerlink" title="分割线（hr）"></a>分割线（hr）</h3><p>***</p>
-<h3 id="插入引用（blockquote）"><a href="#插入引用（blockquote）" class="headerlink" title="插入引用（blockquote）"></a>插入引用（blockquote）</h3><p>> 引用的句子<br>> 引用的句子<br>> 引用的句子</p>
-<h3 id="插入链接（a）"><a href="#插入链接（a）" class="headerlink" title="插入链接（a）"></a>插入链接（a）</h3><p>[百度](<a href="https://www.baidu.com\">https://www.baidu.com\</a>)</p>
-<p>渲染结果：</p>
-<p><a href="https://www.baidu.com">百度</a></p>
-<h3 id="插入图片（img）"><a href="#插入图片（img）" class="headerlink" title="插入图片（img）"></a>插入图片（img）</h3><p>语法和插入链接类似，只不过前边要加一个<code>!</code></p>
-<p>![图片标签alt属性值](图片url)</p>
-<h3 id="插入锚点链接"><a href="#插入锚点链接" class="headerlink" title="插入锚点链接"></a>插入锚点链接</h3><p>[点击跳到详情部分](#details)</p>
-<p><code>详情部分&lt;a name=&quot;details&quot;&gt;&amp;nbsp;&lt;/a&gt;</code></p>
-<p>渲染结果：</p>
-<p><a href="#details">点击跳到详情部分</a></p>
-<p>详情部分<a name="details">&nbsp;</a></p>
-<h3 id="斜体（em）"><a href="#斜体（em）" class="headerlink" title="斜体（em）"></a>斜体（em）</h3><p>*文字*</p>
-<p>渲染结果：<em>文字</em></p>
-<h3 id="粗体（strong）"><a href="#粗体（strong）" class="headerlink" title="粗体（strong）"></a>粗体（strong）</h3><p>**文字**</p>
-<p>渲染结果：<strong>粗体</strong></p>
-<h3 id="粗斜体（strong中嵌套em）"><a href="#粗斜体（strong中嵌套em）" class="headerlink" title="粗斜体（strong中嵌套em）"></a>粗斜体（strong中嵌套em）</h3><p>***文字***</p>
-<p>渲染结果：<strong><em>文字</em></strong></p>
-<h3 id="设置行内代码格式（code）"><a href="#设置行内代码格式（code）" class="headerlink" title="设置行内代码格式（code）"></a>设置行内代码格式（code）</h3><p>`hexo clean`</p>
-<p>渲染结果：<code>hexo clean</code></p>
-<h3 id="设置整段代码格式（pre中嵌套code）"><a href="#设置整段代码格式（pre中嵌套code）" class="headerlink" title="设置整段代码格式（pre中嵌套code）"></a>设置整段代码格式（pre中嵌套code）</h3><p>```javascript<br>&nbsp;&nbsp;var a=1;<br>&nbsp;&nbsp;console.log(a);<br>```</p>
-<p>渲染结果：</p>
-<pre><code class="javascript">  var a=1;
-  console.log(a);
+<p><strong>不存在变量提升</strong></p>
+<p><code>let</code>不像<code>var</code>一样会发生变量提升现象</p>
+<pre><code class="js">    // ES5
+    var arr1=[];
+    for(var i=0;i&lt;10;i++)&#123;
+        var c=i;
+        arr1[i]=function()&#123;
+            console.log(c);
+        &#125;
+    &#125;
+    // console.log(c); // 9
+    arr1[5](); // 9
+
+    // ES6
+    let arr2=[];
+    for(var j=0;j&lt;10;j++)&#123;
+        let k=j;
+        arr2[j]=function()&#123;
+            console.log(k);
+        &#125;
+    &#125;
+    // console.log(k); // Uncaught ReferenceError: k is not defined
+    arr2[5]();
 </code></pre>
-<h3 id="插入表格（table）："><a href="#插入表格（table）：" class="headerlink" title="插入表格（table）："></a>插入表格（table）：</h3><p>| 学生的姓名 | 学生的性别 | 学生的年龄 |<br>| ------ | :------: | ------: |<br>| 张三 | 男 | 16 |<br>| 李四 | 女 | 17 |</p>
-<p>渲染结果：</p>
-<table>
-<thead>
-<tr>
-<th>学生的姓名</th>
-<th style="text-align:center">学生的性别</th>
-<th style="text-align:right">学生的年龄</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>张三</td>
-<td style="text-align:center">男</td>
-<td style="text-align:right">16</td>
-</tr>
-<tr>
-<td>李四</td>
-<td style="text-align:center">女</td>
-<td style="text-align:right">17</td>
-</tr>
-</tbody>
-</table>
-<p>注：两个竖线<code>|</code>之间的部分表示一个单元格。第一行是表头，第二行用多个<code>-</code>和<code>:</code>确定单元格中文字对齐方式，不加<code>:</code>或左边加<code>:</code>表示左对齐，两边加<code>:</code>表示居中对齐，右边加<code>:</code>表示右对齐。第二行每个单元格中不要只写一个<code>-</code>，有时可能不会正常解析，建议最少三个。</p>
-<p>许多站点的在线Markdown编辑器支持直接编写html代码，如掘金、GitHub等，有些则不支持。</p>
-<p>一款开源的在线Markdown编辑器：<a href="https://github.com/joemccann/dillinger">dillinger</a></p>
+<p><strong>暂时性死区</strong></p>
+<p>只要块级作用域内存在<code>let</code>命令，它所声明的变量就“绑定”（binding）在这个区域，不再受外部影响。在当前作用域中，<code>let</code>声明变量之前的区域，叫做暂时性死区</p>
+<pre><code class="js">    var a = 100;
+    &#123;
+        console.log(a); // Uncaught ReferenceError: a is not defined（暂时性死区）
+        let a = 1; // 块级作用域中，let声明之前，都是暂时性死区
+        // console.log(a); // 1
+    &#125;
+</code></pre>
+<p><strong>不允许重复声明</strong></p>
+<p><code>let</code>不允许在相同的作用域内，重复声明同一个变量</p>
+<pre><code class="js">    var a=1;
+    var a=2; 
+    console.log(a); // 2
+</code></pre>
+<pre><code class="js">    let b=3;
+    let b=4; // Uncaught TypeError: embedded: Line 6: Duplicate declaration &quot;b&quot;    
+</code></pre>
+<pre><code class="js">    var c=5;
+    let c=6;
+    console.log(c); // Uncaught TypeError: embedded: Line 5: Duplicate declaration &quot;c&quot;
+</code></pre>
+<h2 id="块级作用域"><a href="#块级作用域" class="headerlink" title="块级作用域"></a>块级作用域</h2><p><strong>为什么需要块级作用域</strong></p>
+<p>ES5 只有全局作用域和函数作用域，没有块级作用域，这会带来很多不合理的场景，如：</p>
+<ul>
+<li>内层变量可能会覆盖外层变量</li>
+<li>用来计数的循环变量泄露为全局变量</li>
+</ul>
+<pre><code class="js">    var str=&quot;123&quot;;
+    function fn()&#123;
+        console.log(str);
+        if(false)&#123;
+            var str=&quot;456&quot;; // 没有块级作用域，变量提升到函数作用域中
+        &#125;
+    &#125;
+    fn(); // undefined
+</code></pre>
+<pre><code class="js">    var str=&quot;123&quot;;
+    function fn()&#123;
+        console.log(str);
+        if(true)&#123;
+            var str=&quot;456&quot;;
+        &#125;
+    &#125;
+    fn(); // undefined
+</code></pre>
+<pre><code class="js">    var str=&quot;123&quot;;
+    function fn()&#123;
+        console.log(str);
+        var str=&quot;456&quot;;
+    &#125;
+    fn(); // undefined
+</code></pre>
+<pre><code class="js">    for(var i=0;i&lt;10;i++)&#123;
+        console.log(&quot;abc&quot;);
+    &#125;
+    console.log(i); // 全局能访问
+</code></pre>
+<p><strong>ES6的块级作用域</strong></p>
+<p>使用<code>let</code>即为JavaScript增加了块级作用域</p>
+<pre><code class="js">    for(let i=0;i&lt;10;i++)&#123;
+        console.log(&quot;abc&quot;);
+    &#125;
+    console.log(i); // Uncaught ReferenceError: i is not defined
+</code></pre>
+<h2 id="const命令"><a href="#const命令" class="headerlink" title="const命令"></a>const命令</h2><p><code>const</code>用来声明常量，一旦声明，该常量的值（该变量的内存地址）就不可修改；和<code>let</code>类似，<code>const</code>声明的常量也会绑定到块级作用域，也有暂时性死区，也不能重复声明；<code>const</code>声明的对象和数组是可以修改的</p>
+<pre><code class="js">    const Pi=3.14159;
+    Pi=3.14; // Uncaught SyntaxError: embedded: Line 6: &quot;Pi&quot; is read-only
+</code></pre>
+<pre><code class="js">    const person=&#123;&#125;
+    person.name=&quot;Tom&quot;; // 变量的内存地址没有变化，这是允许的
+    person.age=18;
+    console.log(person); // &#123;name: &quot;Tom&quot;, age: 18&#125;    
+</code></pre>
+<pre><code class="js">    const arr=[]
+    arr.push(1); // 变量的内存地址没有变化
+    console.log(arr); // [1]
+</code></pre>
+<p><strong>const对象冻结</strong></p>
+<p><code>const</code>声明对象时属性仍然可修改，并不是真正意义上的“常量”，若要在声明对象后完全禁止修改，可以使用对象冻结的方法，禁止操作该对象的属性（只可读取）</p>
+<pre><code class="js">    const person=Object.freeze(&#123; name:&quot;Tom&quot; &#125;); // Object.freeze方法冻结一个对象并返回
+    console.log(person.name); // Tom
+    person.name=&quot;Tony&quot;; // Uncaught TypeError: Cannot assign to read only property &#39;name&#39; of object &#39;#&lt;Object&gt;&#39; （无法分配给对象&#39;＃&lt;Object&gt;&#39;的只读属性&#39;name&#39;）
+</code></pre>
+<pre><code class="js">    const person=Object.freeze(&#123; name:&quot;Tom&quot; &#125;);
+    person.age=18; // Uncaught TypeError: Cannot add property age, object is not extensible （无法添加属性age，对象不可扩展）    
+</code></pre>
+<p>使用上述方法定义的对象的属性也为对象时，不能被同时冻结：</p>
+<pre><code class="js">    const person=Object.freeze(&#123;
+        love:&#123;
+            person:&quot;heqiqi&quot;,
+            sport:&quot;run&quot;,
+        &#125;
+    &#125;);
+    console.log(person.love.sport); // run 
+    person.love.sport=&quot;football&quot;;
+    console.log(person.love.sport); // football
+</code></pre>
+<p>使所有属性也全部被冻结：</p>
+<pre><code class="js">    function deepFreeze(obj)&#123;
+        Object.freeze(obj); // 冻结对象
+        Object.keys(obj).forEach((item)=&gt;&#123;
+            if(typeof obj[item] === &quot;object&quot;)&#123; // 该对象属性为对象时，继续冻结 递归调用
+                deepFreeze(obj[item]);
+            &#125;
+        &#125;);
+    &#125;
+    const person=&#123;
+        name:&quot;Tom&quot;,
+        age:18,
+        love:&#123;
+            person:&quot;heqiqi&quot;,
+            sport:&quot;run&quot;,
+            movies:&#123;
+                a:1,
+                b:2,
+            &#125;
+        &#125;
+    &#125;
+    person.love.movies.a=3;
+    console.log(person.love.movies.a); // 3
+    deepFreeze(person); // 冻结
+    person.love.movies.a=4; // Uncaught TypeError: Cannot assign to read only property &#39;a&#39; of object &#39;#&lt;Object&gt;&#39;
+</code></pre>
+<h2 id="跨模块常量"><a href="#跨模块常量" class="headerlink" title="跨模块常量"></a>跨模块常量</h2><p><code>const</code>声明的常量只在当前代码块中有效，设置跨模块的常量，即使用 export、import 导出导入模块的形式</p>
+<pre><code class="js">    // module1.js
+    export const str=&quot;123&quot;;
+    export const num=123;
+    export const bol=true;
+</code></pre>
+<pre><code class="js">    // module2.js
+    import * as module1 from &quot;./module1.js&quot;; // 将 module1 的导出全部引入
+    console.log(module1.str);
+    console.log(module1.num);
+    console.log(module1.bol);
+</code></pre>
+<pre><code class="js">    // module3.js
+    import &#123; str,num &#125; as module1 from &quot;./module1.js&quot;; // 引入部分 module1 的导出
+    console.log(module1.str);
+    console.log(module1.num);
+</code></pre>
+<pre><code class="js">    // module4.js
+    import &#123;str,num&#125; from &quot;./module1.js&quot;;
+    console.log(str);
+    console.log(num);
+</code></pre>
+<h2 id="全局对象属性"><a href="#全局对象属性" class="headerlink" title="全局对象属性"></a>全局对象属性</h2><p>全局对象是最顶层的对象，在浏览器环境中指 window 对象，在Node.js环境中指 global 对象。在JavaScript语言中，所有全局变量都是全局对象的属性。（Node 的环境比较特殊，这一条只对 REPL 环境适用，模块环境必须显式声明成 global 的属性）</p>
+<p>ES6规定，<code>var</code>和<code>function</code>声明的全局变量，属于全局对象的属性；<code>let</code>、<code>const</code>和<code>class</code>声明的全局变量，不属于全局对象的属性</p>
+<pre><code class="js">    let num1=123;
+    const PI=3.14;
+    console.log(window.num1); // undefined
+    console.log(window.PI); // undefined
+</code></pre>
 ]]></content>
       <categories>
         <category>Web前端</category>
       </categories>
       <tags>
-        <tag>Hexo</tag>
-        <tag>GitHub</tag>
+        <tag>ES6</tag>
       </tags>
   </entry>
   <entry>
