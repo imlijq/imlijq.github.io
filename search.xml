@@ -529,259 +529,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Hexo、GitHub Pages搭建个人博客总结</title>
-    <url>/2017/06/28/Hexo%E5%92%8CGitHub-Pages%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<p>使用Hexo和GitHub Pages搭建个人博客整个过程的总结记录。</p>
-<span id="more"></span>
-<h2 id="使用Hexo初始化博客"><a href="#使用Hexo初始化博客" class="headerlink" title="使用Hexo初始化博客"></a>使用Hexo初始化博客</h2><ol>
-<li>安装 <a href="https://git-scm.com/downloads">Git</a> 和 <a href="https://nodejs.org/en/download/">Node</a></li>
-<li><code>npm install -g hexo-cli</code>（全局安装 <a href="https://github.com/hexojs/hexo">Hexo</a> ）</li>
-<li><code>hexo init myblog</code>（创建并初始化myblog文件夹，不加名字myblog则将当前目录作为博客目录初始化）</li>
-<li><code>cd myblog</code>（进入到博客目录）</li>
-<li><code>npm install</code>（安装package.json中的依赖项）</li>
-<li><code>hexo server</code>（启动本地服务器）</li>
-<li>浏览器打开 <a href="http://localhost:4000/">http://localhost:4000/</a> 看最初效果<!-- more -->
-</li>
-</ol>
-<h2 id="站点配置文件（-config-yml）"><a href="#站点配置文件（-config-yml）" class="headerlink" title="站点配置文件（/_config.yml）"></a>站点配置文件（/_config.yml）</h2><pre><code class="yml"># Site
-title: 博客名称
-subtitle: 博客副标题
-description: 站点描述的关键词，主要用于SEO
-author: 作者名字
-language: 博客语言，中文简体是zh-Hans
-timezone: 时区，留空即可
-
-# URL
-url: 博客地址
-root: /
-permalink: :year/:month/:day/:title/
-permalink_defaults:
-
-# Pagination
-per_page: 每页显示的文章数量
-pagination_dir: page
-
-# Extensions
-theme: 使用的hexo主题，默认landscape，我这里用的next
-</code></pre>
-<h2 id="安装主题"><a href="#安装主题" class="headerlink" title="安装主题"></a>安装主题</h2><ol>
-<li><code>cd themes</code>（进入到博客主题目录）</li>
-<li><code>git clone https://github.com/iissnan/hexo-theme-next.git</code>（安装Next主题）</li>
-<li>安装完成后，/themes中的hexo-theme-next文件夹就是next主题所在目录，将该文件夹名改为next，因为在/_config.yml配置文件中theme项值为next，也可改成其他名字但两者要一致</li>
-<li><code>hexo server</code>，浏览器打开 <a href="http://localhost:4000/">http://localhost:4000/</a> ，博客样式就变为所安装主题的样式</li>
-<li>以后若要更新主题，在/themes/next中执行<code>git pull</code>即可</li>
-</ol>
-<h2 id="主题配置文件（-themes-next-config-yml）"><a href="#主题配置文件（-themes-next-config-yml）" class="headerlink" title="主题配置文件（/themes/next/_config.yml）"></a>主题配置文件（/themes/next/_config.yml）</h2><pre><code class="yml">favicon: /uploads/favicon.ico（头像地址，如不存在uploads目录，新建即可）
-
-keywords: 站点描述
-
-since: 站点创建时间
-
-menu: # 设置菜单
-  home: /
-  categories: /categories
-  tags: /tags
-  archives: /archives
-  about: /about
-  #search: /search
-  #sitemap: /sitemap.xml
-  #commonweal: /404.html
-
-menu_icons: # 设置菜单图标，图标名字为Awesome图标名称
-  enable: true
-  home: home
-  categories: th
-  tags: tags
-  archives: archive
-  about: user
-  search: search
-  sitemap: sitemap
-  commonweal: heartbeat
-  schedule: calendar
-
-social: # 设置社交链接
-  LinkLabel: 
-  GitHub: 
-  Twitter: 
-  Weibo: 
-
-social_icons: # 设置社交链接图标
-  enable: true
-  GitHub: github
-  Twitter: twitter
-  Weibo: weibo
-
-avatar: /uploads/avatar.jpeg # 侧边栏头像
-
-auto_excerpt: # 设置显示更多时自动截取，也可在文章中通过&lt;!-- more --&gt;手动截断
-  enable: true
-  length: 150
-
-highlight_theme: night # 代码高亮主题
-</code></pre>
-<h2 id="设置GitHub-Pages"><a href="#设置GitHub-Pages" class="headerlink" title="设置GitHub Pages"></a>设置GitHub Pages</h2><ol>
-<li>在GitHub上创建名为username.github.io的仓库（username是GitHub中的用户名）</li>
-<li><code>npm install --save hexo-deployer-git</code>（安装deploy插件）</li>
-<li>编辑站点配置文件（/_config.yml）：<pre><code class="yml">deploy:
-type: git
-repository: 刚刚创建的GitHub仓库的地址，如git@github.com:username/username.github.io.git
-branch: master
-message: Site updated at &#123;&#123; now("YYYY-MM-DD HH:mm:ss") &#125;&#125; # 每次提交代码的描述信息（非必需）
-</code></pre>
-</li>
-<li>分别执行<code>hexo clean</code>（清除缓存文件db.json和之前生成的public中的静态文件），<code>hexo generate</code>（生成静态文件到public文件夹），<code>hexo deploy</code>（根据/_config.yml中deploy的配置信息，将静态文件上传到GitHub）</li>
-<li>浏览器打开 <a href="https://username.github.io/">https://username.github.io/</a> 查看博客</li>
-</ol>
-<h2 id="博客绑定域名"><a href="#博客绑定域名" class="headerlink" title="博客绑定域名"></a>博客绑定域名</h2><p>绑定个人域名可以让自己的博客地址更加简单好记，同时也方便使用网易云跟帖（网易云跟帖只支持主域名）：</p>
-<h3 id="个人域名解析设置"><a href="#个人域名解析设置" class="headerlink" title="个人域名解析设置"></a>个人域名解析设置</h3><p>给个人域名添加三条解析记录：</p>
-<table>
-<thead>
-<tr>
-<th>记录类型</th>
-<th>主机记录</th>
-<th>解析线路</th>
-<th>记录值</th>
-<th>TTL</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>CNAME</td>
-<td>www</td>
-<td>默认</td>
-<td>username.github.io<br />（GitHub博客的地址）</td>
-<td>10分钟（默认）</td>
-</tr>
-<tr>
-<td>A</td>
-<td>@</td>
-<td>默认</td>
-<td>192.30.252.153<br />（GItHub Pages服务器地址）</td>
-<td>10分钟（默认）</td>
-</tr>
-<tr>
-<td>A</td>
-<td>@</td>
-<td>默认</td>
-<td>192.30.252.154<br />（GItHub Pages服务器地址）</td>
-<td>10分钟（默认）</td>
-</tr>
-</tbody>
-</table>
-<p>记录类型中，CNAME表示重命名、指向一个域名，A表示指向一个IP。<br>主机记录表示前缀，@表示根域名。<br>第一条记录就是表示把<a href="http://www.aaaaa.com解析到username.github.io，第二条表示把aaaaa.com解析到192.30.252.153">www.aaaaa.com解析到username.github.io，第二条表示把aaaaa.com解析到192.30.252.153</a><br>因为我的域名是在万网购买的，所以以上操作是在阿里云域名控制台进行的，其他服务商购买的域名操作也是一样</p>
-<h3 id="GitHub中添加CNAME"><a href="#GitHub中添加CNAME" class="headerlink" title="GitHub中添加CNAME"></a>GitHub中添加CNAME</h3><p>在/themes/next/source/中创建名为CNAME（必须为大写）文件，内容设置为购买的域名如aaaaa.com。<br>然后执行<code>hexo  generate -d</code>，浏览器访问 <a href="https://username.github.io">https://username.github.io</a> 时地址栏变为 aaaaa.com 表示绑定成功了<br>若/themes/next/source/CNAME内容设置为<a href="http://www.aaa.net，访问">www.aaa.net，访问</a> <a href="https://username.github.io">https://username.github.io</a> 浏览器中显示则是二级域名<a href="http://www.aaaaa.com">www.aaaaa.com</a></p>
-<h2 id="配置站点地图sitemap"><a href="#配置站点地图sitemap" class="headerlink" title="配置站点地图sitemap"></a>配置站点地图sitemap</h2><ol>
-<li>配置站点地图有利于搜索引擎抓取网站，有利于SEO，首先要安装谷歌和百度sitemap插件：<br><code>npm install --save hexo-generator-sitemap</code><br><code>npm install --save hexo-generator-baidu-sitemap</code></li>
-<li>在站点配置文件中（/_config.yml）中添加：<pre><code class="yml">sitemap: 
-path: sitemap.xml # 提交给谷歌搜索引擎
-baidusitemap:
-path: baidusitemap.xml # 提交给百度搜索引擎
-</code></pre>
-</li>
-<li>/themes/next/source/中添加robots.txt文件（网络爬虫排除标准），内容为：<pre><code class="yml">User-agent: *
-Allow: /
-Allow: /archives/
-Disallow: /js/
-Disallow: /css/
-Disallow: /fonts/
-Sitemap: http://aaaaa.com/sitemap.xml
-Sitemap: http://aaaaa.com/baidusitemap.xml
-</code></pre>
-这样每次执行<code>hexo generate</code>编译成页面静态文件时也会在public目录中生成sitemap.xml、baidusitemap.xml、和robots.txt</li>
-</ol>
-<h2 id="添加本地搜索功能"><a href="#添加本地搜索功能" class="headerlink" title="添加本地搜索功能"></a>添加本地搜索功能</h2><p><code>npm install --save hexo-generator-searchdb</code>（安装本地搜索插件）<br>站点配置文件（/_config.yml）：</p>
-<pre><code class="yml">search:
-  path: search.xml
-  field: post
-  format: html
-  limit: 10000
-</code></pre>
-<p>主题配置文件（/themes/next/_config.yml）：</p>
-<pre><code>local_search:
-  enable: true
-</code></pre><p>添加本地搜索功能后，主题配置文件中不需要配置搜索页（search: /search）</p>
-<h2 id="Hexo常用命令"><a href="#Hexo常用命令" class="headerlink" title="Hexo常用命令"></a>Hexo常用命令</h2><ul>
-<li><code>hexo new page pagename</code>（/source/中创建pagename文件夹，并在其中创建index.md）</li>
-<li><code>hexo new articlename</code>（/source/中创建articlename.md）</li>
-<li><code>hexo server --debug</code>（以调试模式开启静态服务器）</li>
-<li><code>hexo clean</code>（清除缓存文件db.json和之前生成的public中的静态文件）</li>
-<li><code>hexo generate</code>（或hexo g，生成静态文件到public目录中）</li>
-<li><code>hexo deploy</code>（或hexo d，提交public中静态文件到GitHub）</li>
-<li><code>hexo generate -deploy</code>（或hexo g -d，生成+部署）</li>
-</ul>
-<h2 id="将文章底部标签前的-替换为Awesome图标"><a href="#将文章底部标签前的-替换为Awesome图标" class="headerlink" title="将文章底部标签前的#替换为Awesome图标"></a>将文章底部标签前的#替换为Awesome图标</h2><p>将/themes/next/layout/_macro/post.swig中rel=”tag”&gt;后边的#替换为<code>&lt;i class=&quot;fa fa-tag&quot;&gt;&lt;/i&gt;</code>，保存即可变为<i class="fa fa-tag"></i></p>
-<h2 id="禁止hexo渲染文件"><a href="#禁止hexo渲染文件" class="headerlink" title="禁止hexo渲染文件"></a>禁止hexo渲染文件</h2><p>默认情况下hexo会将source目录中的所有md文件解析渲染成html文件，有时我们保留md文件不被解析，可以设置_config.yml中的skip_render选项，skip_render设置的文件相对于source目录：</p>
-<pre><code class="yml">skip_render: 
-  - README.md
-  - 404.html
-  - robots.txt
-  - aaa/*（source/aaa目录中的所有文件都不会被解析）
-</code></pre>
-<h2 id="Markdown主要语法"><a href="#Markdown主要语法" class="headerlink" title="Markdown主要语法"></a>Markdown主要语法</h2><p>Markdown是一种轻量级的标记语言，使用它撰写文章，我们只需要专注于内容的创作，不再需要担心排版的问题。它简单易学，掌握之后可以很大程度的提高效率、节约时间。下面是Markdown的主要语法：</p>
-<h3 id="标题（h1-h6）"><a href="#标题（h1-h6）" class="headerlink" title="标题（h1-h6）"></a>标题（h1-h6）</h3><p># 一级标题名<br>## 二级标题名<br>…<br>###### 六级标题名</p>
-<h3 id="无序列表（ul）"><a href="#无序列表（ul）" class="headerlink" title="无序列表（ul）"></a>无序列表（ul）</h3><p>- 项目名1<br>- 项目名2</p>
-<h3 id="有序列表（ol）"><a href="#有序列表（ol）" class="headerlink" title="有序列表（ol）"></a>有序列表（ol）</h3><p>&nbsp;1. 项目名1<br>&nbsp;2. 项目名2</p>
-<h3 id="分割线（hr）"><a href="#分割线（hr）" class="headerlink" title="分割线（hr）"></a>分割线（hr）</h3><p>***</p>
-<h3 id="插入引用（blockquote）"><a href="#插入引用（blockquote）" class="headerlink" title="插入引用（blockquote）"></a>插入引用（blockquote）</h3><p>> 引用的句子<br>> 引用的句子<br>> 引用的句子</p>
-<h3 id="插入链接（a）"><a href="#插入链接（a）" class="headerlink" title="插入链接（a）"></a>插入链接（a）</h3><p>[百度](<a href="https://www.baidu.com\">https://www.baidu.com\</a>)</p>
-<p>渲染结果：</p>
-<p><a href="https://www.baidu.com">百度</a></p>
-<h3 id="插入图片（img）"><a href="#插入图片（img）" class="headerlink" title="插入图片（img）"></a>插入图片（img）</h3><p>语法和插入链接类似，只不过前边要加一个<code>!</code></p>
-<p>![图片标签alt属性值](图片url)</p>
-<h3 id="插入锚点链接"><a href="#插入锚点链接" class="headerlink" title="插入锚点链接"></a>插入锚点链接</h3><p>[点击跳到详情部分](#details)</p>
-<p><code>详情部分&lt;a name=&quot;details&quot;&gt;&amp;nbsp;&lt;/a&gt;</code></p>
-<p>渲染结果：</p>
-<p><a href="#details">点击跳到详情部分</a></p>
-<p>详情部分<a name="details">&nbsp;</a></p>
-<h3 id="斜体（em）"><a href="#斜体（em）" class="headerlink" title="斜体（em）"></a>斜体（em）</h3><p>*文字*</p>
-<p>渲染结果：<em>文字</em></p>
-<h3 id="粗体（strong）"><a href="#粗体（strong）" class="headerlink" title="粗体（strong）"></a>粗体（strong）</h3><p>**文字**</p>
-<p>渲染结果：<strong>粗体</strong></p>
-<h3 id="粗斜体（strong中嵌套em）"><a href="#粗斜体（strong中嵌套em）" class="headerlink" title="粗斜体（strong中嵌套em）"></a>粗斜体（strong中嵌套em）</h3><p>***文字***</p>
-<p>渲染结果：<strong><em>文字</em></strong></p>
-<h3 id="设置行内代码格式（code）"><a href="#设置行内代码格式（code）" class="headerlink" title="设置行内代码格式（code）"></a>设置行内代码格式（code）</h3><p>`hexo clean`</p>
-<p>渲染结果：<code>hexo clean</code></p>
-<h3 id="设置整段代码格式（pre中嵌套code）"><a href="#设置整段代码格式（pre中嵌套code）" class="headerlink" title="设置整段代码格式（pre中嵌套code）"></a>设置整段代码格式（pre中嵌套code）</h3><p>```javascript<br>&nbsp;&nbsp;var a=1;<br>&nbsp;&nbsp;console.log(a);<br>```</p>
-<p>渲染结果：</p>
-<pre><code class="javascript">  var a=1;
-  console.log(a);
-</code></pre>
-<h3 id="插入表格（table）："><a href="#插入表格（table）：" class="headerlink" title="插入表格（table）："></a>插入表格（table）：</h3><p>| 学生的姓名 | 学生的性别 | 学生的年龄 |<br>| ------ | :------: | ------: |<br>| 张三 | 男 | 16 |<br>| 李四 | 女 | 17 |</p>
-<p>渲染结果：</p>
-<table>
-<thead>
-<tr>
-<th>学生的姓名</th>
-<th style="text-align:center">学生的性别</th>
-<th style="text-align:right">学生的年龄</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>张三</td>
-<td style="text-align:center">男</td>
-<td style="text-align:right">16</td>
-</tr>
-<tr>
-<td>李四</td>
-<td style="text-align:center">女</td>
-<td style="text-align:right">17</td>
-</tr>
-</tbody>
-</table>
-<p>注：两个竖线<code>|</code>之间的部分表示一个单元格。第一行是表头，第二行用多个<code>-</code>和<code>:</code>确定单元格中文字对齐方式，不加<code>:</code>或左边加<code>:</code>表示左对齐，两边加<code>:</code>表示居中对齐，右边加<code>:</code>表示右对齐。第二行每个单元格中不要只写一个<code>-</code>，有时可能不会正常解析，建议最少三个。</p>
-<p>许多站点的在线Markdown编辑器支持直接编写html代码，如掘金、GitHub等，有些则不支持。</p>
-<p>一款开源的在线Markdown编辑器：<a href="https://github.com/joemccann/dillinger">dillinger</a></p>
-]]></content>
-      <categories>
-        <category>Web前端</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>GitHub</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>ES6之结构赋值</title>
     <url>/2017/07/02/ES6%E4%B9%8B%E7%BB%93%E6%9E%84%E8%B5%8B%E5%80%BC/</url>
     <content><![CDATA[<p>Destructuring：ES6允许按照一定模式，从数组和对象中提取值，对变量进行赋值，这叫做解构（Destructuring）</p>
@@ -1046,6 +793,259 @@ Sitemap: http://aaaaa.com/baidusitemap.xml
       </categories>
       <tags>
         <tag>ES6</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo、GitHub Pages搭建个人博客总结</title>
+    <url>/2017/06/28/Hexo%E5%92%8CGitHub-Pages%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<p>使用Hexo和GitHub Pages搭建个人博客整个过程的总结记录。</p>
+<span id="more"></span>
+<h2 id="使用Hexo初始化博客"><a href="#使用Hexo初始化博客" class="headerlink" title="使用Hexo初始化博客"></a>使用Hexo初始化博客</h2><ol>
+<li>安装 <a href="https://git-scm.com/downloads">Git</a> 和 <a href="https://nodejs.org/en/download/">Node</a></li>
+<li><code>npm install -g hexo-cli</code>（全局安装 <a href="https://github.com/hexojs/hexo">Hexo</a> ）</li>
+<li><code>hexo init myblog</code>（创建并初始化myblog文件夹，不加名字myblog则将当前目录作为博客目录初始化）</li>
+<li><code>cd myblog</code>（进入到博客目录）</li>
+<li><code>npm install</code>（安装package.json中的依赖项）</li>
+<li><code>hexo server</code>（启动本地服务器）</li>
+<li>浏览器打开 <a href="http://localhost:4000/">http://localhost:4000/</a> 看最初效果<!-- more -->
+</li>
+</ol>
+<h2 id="站点配置文件（-config-yml）"><a href="#站点配置文件（-config-yml）" class="headerlink" title="站点配置文件（/_config.yml）"></a>站点配置文件（/_config.yml）</h2><pre><code class="yml"># Site
+title: 博客名称
+subtitle: 博客副标题
+description: 站点描述的关键词，主要用于SEO
+author: 作者名字
+language: 博客语言，中文简体是zh-Hans
+timezone: 时区，留空即可
+
+# URL
+url: 博客地址
+root: /
+permalink: :year/:month/:day/:title/
+permalink_defaults:
+
+# Pagination
+per_page: 每页显示的文章数量
+pagination_dir: page
+
+# Extensions
+theme: 使用的hexo主题，默认landscape，我这里用的next
+</code></pre>
+<h2 id="安装主题"><a href="#安装主题" class="headerlink" title="安装主题"></a>安装主题</h2><ol>
+<li><code>cd themes</code>（进入到博客主题目录）</li>
+<li><code>git clone https://github.com/iissnan/hexo-theme-next.git</code>（安装Next主题）</li>
+<li>安装完成后，/themes中的hexo-theme-next文件夹就是next主题所在目录，将该文件夹名改为next，因为在/_config.yml配置文件中theme项值为next，也可改成其他名字但两者要一致</li>
+<li><code>hexo server</code>，浏览器打开 <a href="http://localhost:4000/">http://localhost:4000/</a> ，博客样式就变为所安装主题的样式</li>
+<li>以后若要更新主题，在/themes/next中执行<code>git pull</code>即可</li>
+</ol>
+<h2 id="主题配置文件（-themes-next-config-yml）"><a href="#主题配置文件（-themes-next-config-yml）" class="headerlink" title="主题配置文件（/themes/next/_config.yml）"></a>主题配置文件（/themes/next/_config.yml）</h2><pre><code class="yml">favicon: /uploads/favicon.ico（头像地址，如不存在uploads目录，新建即可）
+
+keywords: 站点描述
+
+since: 站点创建时间
+
+menu: # 设置菜单
+  home: /
+  categories: /categories
+  tags: /tags
+  archives: /archives
+  about: /about
+  #search: /search
+  #sitemap: /sitemap.xml
+  #commonweal: /404.html
+
+menu_icons: # 设置菜单图标，图标名字为Awesome图标名称
+  enable: true
+  home: home
+  categories: th
+  tags: tags
+  archives: archive
+  about: user
+  search: search
+  sitemap: sitemap
+  commonweal: heartbeat
+  schedule: calendar
+
+social: # 设置社交链接
+  LinkLabel: 
+  GitHub: 
+  Twitter: 
+  Weibo: 
+
+social_icons: # 设置社交链接图标
+  enable: true
+  GitHub: github
+  Twitter: twitter
+  Weibo: weibo
+
+avatar: /uploads/avatar.jpeg # 侧边栏头像
+
+auto_excerpt: # 设置显示更多时自动截取，也可在文章中通过&lt;!-- more --&gt;手动截断
+  enable: true
+  length: 150
+
+highlight_theme: night # 代码高亮主题
+</code></pre>
+<h2 id="设置GitHub-Pages"><a href="#设置GitHub-Pages" class="headerlink" title="设置GitHub Pages"></a>设置GitHub Pages</h2><ol>
+<li>在GitHub上创建名为username.github.io的仓库（username是GitHub中的用户名）</li>
+<li><code>npm install --save hexo-deployer-git</code>（安装deploy插件）</li>
+<li>编辑站点配置文件（/_config.yml）：<pre><code class="yml">deploy:
+type: git
+repository: 刚刚创建的GitHub仓库的地址，如git@github.com:username/username.github.io.git
+branch: master
+message: Site updated at &#123;&#123; now("YYYY-MM-DD HH:mm:ss") &#125;&#125; # 每次提交代码的描述信息（非必需）
+</code></pre>
+</li>
+<li>分别执行<code>hexo clean</code>（清除缓存文件db.json和之前生成的public中的静态文件），<code>hexo generate</code>（生成静态文件到public文件夹），<code>hexo deploy</code>（根据/_config.yml中deploy的配置信息，将静态文件上传到GitHub）</li>
+<li>浏览器打开 <a href="https://username.github.io/">https://username.github.io/</a> 查看博客</li>
+</ol>
+<h2 id="博客绑定域名"><a href="#博客绑定域名" class="headerlink" title="博客绑定域名"></a>博客绑定域名</h2><p>绑定个人域名可以让自己的博客地址更加简单好记，同时也方便使用网易云跟帖（网易云跟帖只支持主域名）：</p>
+<h3 id="个人域名解析设置"><a href="#个人域名解析设置" class="headerlink" title="个人域名解析设置"></a>个人域名解析设置</h3><p>给个人域名添加三条解析记录：</p>
+<table>
+<thead>
+<tr>
+<th>记录类型</th>
+<th>主机记录</th>
+<th>解析线路</th>
+<th>记录值</th>
+<th>TTL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CNAME</td>
+<td>www</td>
+<td>默认</td>
+<td>username.github.io<br />（GitHub博客的地址）</td>
+<td>10分钟（默认）</td>
+</tr>
+<tr>
+<td>A</td>
+<td>@</td>
+<td>默认</td>
+<td>192.30.252.153<br />（GItHub Pages服务器地址）</td>
+<td>10分钟（默认）</td>
+</tr>
+<tr>
+<td>A</td>
+<td>@</td>
+<td>默认</td>
+<td>192.30.252.154<br />（GItHub Pages服务器地址）</td>
+<td>10分钟（默认）</td>
+</tr>
+</tbody>
+</table>
+<p>记录类型中，CNAME表示重命名、指向一个域名，A表示指向一个IP。<br>主机记录表示前缀，@表示根域名。<br>第一条记录就是表示把<a href="http://www.aaaaa.com解析到username.github.io，第二条表示把aaaaa.com解析到192.30.252.153">www.aaaaa.com解析到username.github.io，第二条表示把aaaaa.com解析到192.30.252.153</a><br>因为我的域名是在万网购买的，所以以上操作是在阿里云域名控制台进行的，其他服务商购买的域名操作也是一样</p>
+<h3 id="GitHub中添加CNAME"><a href="#GitHub中添加CNAME" class="headerlink" title="GitHub中添加CNAME"></a>GitHub中添加CNAME</h3><p>在/themes/next/source/中创建名为CNAME（必须为大写）文件，内容设置为购买的域名如aaaaa.com。<br>然后执行<code>hexo  generate -d</code>，浏览器访问 <a href="https://username.github.io">https://username.github.io</a> 时地址栏变为 aaaaa.com 表示绑定成功了<br>若/themes/next/source/CNAME内容设置为<a href="http://www.aaa.net，访问">www.aaa.net，访问</a> <a href="https://username.github.io">https://username.github.io</a> 浏览器中显示则是二级域名<a href="http://www.aaaaa.com">www.aaaaa.com</a></p>
+<h2 id="配置站点地图sitemap"><a href="#配置站点地图sitemap" class="headerlink" title="配置站点地图sitemap"></a>配置站点地图sitemap</h2><ol>
+<li>配置站点地图有利于搜索引擎抓取网站，有利于SEO，首先要安装谷歌和百度sitemap插件：<br><code>npm install --save hexo-generator-sitemap</code><br><code>npm install --save hexo-generator-baidu-sitemap</code></li>
+<li>在站点配置文件中（/_config.yml）中添加：<pre><code class="yml">sitemap: 
+path: sitemap.xml # 提交给谷歌搜索引擎
+baidusitemap:
+path: baidusitemap.xml # 提交给百度搜索引擎
+</code></pre>
+</li>
+<li>/themes/next/source/中添加robots.txt文件（网络爬虫排除标准），内容为：<pre><code class="yml">User-agent: *
+Allow: /
+Allow: /archives/
+Disallow: /js/
+Disallow: /css/
+Disallow: /fonts/
+Sitemap: http://aaaaa.com/sitemap.xml
+Sitemap: http://aaaaa.com/baidusitemap.xml
+</code></pre>
+这样每次执行<code>hexo generate</code>编译成页面静态文件时也会在public目录中生成sitemap.xml、baidusitemap.xml、和robots.txt</li>
+</ol>
+<h2 id="添加本地搜索功能"><a href="#添加本地搜索功能" class="headerlink" title="添加本地搜索功能"></a>添加本地搜索功能</h2><p><code>npm install --save hexo-generator-searchdb</code>（安装本地搜索插件）<br>站点配置文件（/_config.yml）：</p>
+<pre><code class="yml">search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
+</code></pre>
+<p>主题配置文件（/themes/next/_config.yml）：</p>
+<pre><code>local_search:
+  enable: true
+</code></pre><p>添加本地搜索功能后，主题配置文件中不需要配置搜索页（search: /search）</p>
+<h2 id="Hexo常用命令"><a href="#Hexo常用命令" class="headerlink" title="Hexo常用命令"></a>Hexo常用命令</h2><ul>
+<li><code>hexo new page pagename</code>（/source/中创建pagename文件夹，并在其中创建index.md）</li>
+<li><code>hexo new articlename</code>（/source/中创建articlename.md）</li>
+<li><code>hexo server --debug</code>（以调试模式开启静态服务器）</li>
+<li><code>hexo clean</code>（清除缓存文件db.json和之前生成的public中的静态文件）</li>
+<li><code>hexo generate</code>（或hexo g，生成静态文件到public目录中）</li>
+<li><code>hexo deploy</code>（或hexo d，提交public中静态文件到GitHub）</li>
+<li><code>hexo generate -deploy</code>（或hexo g -d，生成+部署）</li>
+</ul>
+<h2 id="将文章底部标签前的-替换为Awesome图标"><a href="#将文章底部标签前的-替换为Awesome图标" class="headerlink" title="将文章底部标签前的#替换为Awesome图标"></a>将文章底部标签前的#替换为Awesome图标</h2><p>将/themes/next/layout/_macro/post.swig中rel=”tag”&gt;后边的#替换为<code>&lt;i class=&quot;fa fa-tag&quot;&gt;&lt;/i&gt;</code>，保存即可变为<i class="fa fa-tag"></i></p>
+<h2 id="禁止hexo渲染文件"><a href="#禁止hexo渲染文件" class="headerlink" title="禁止hexo渲染文件"></a>禁止hexo渲染文件</h2><p>默认情况下hexo会将source目录中的所有md文件解析渲染成html文件，有时我们保留md文件不被解析，可以设置_config.yml中的skip_render选项，skip_render设置的文件相对于source目录：</p>
+<pre><code class="yml">skip_render: 
+  - README.md
+  - 404.html
+  - robots.txt
+  - aaa/*（source/aaa目录中的所有文件都不会被解析）
+</code></pre>
+<h2 id="Markdown主要语法"><a href="#Markdown主要语法" class="headerlink" title="Markdown主要语法"></a>Markdown主要语法</h2><p>Markdown是一种轻量级的标记语言，使用它撰写文章，我们只需要专注于内容的创作，不再需要担心排版的问题。它简单易学，掌握之后可以很大程度的提高效率、节约时间。下面是Markdown的主要语法：</p>
+<h3 id="标题（h1-h6）"><a href="#标题（h1-h6）" class="headerlink" title="标题（h1-h6）"></a>标题（h1-h6）</h3><p># 一级标题名<br>## 二级标题名<br>…<br>###### 六级标题名</p>
+<h3 id="无序列表（ul）"><a href="#无序列表（ul）" class="headerlink" title="无序列表（ul）"></a>无序列表（ul）</h3><p>- 项目名1<br>- 项目名2</p>
+<h3 id="有序列表（ol）"><a href="#有序列表（ol）" class="headerlink" title="有序列表（ol）"></a>有序列表（ol）</h3><p>&nbsp;1. 项目名1<br>&nbsp;2. 项目名2</p>
+<h3 id="分割线（hr）"><a href="#分割线（hr）" class="headerlink" title="分割线（hr）"></a>分割线（hr）</h3><p>***</p>
+<h3 id="插入引用（blockquote）"><a href="#插入引用（blockquote）" class="headerlink" title="插入引用（blockquote）"></a>插入引用（blockquote）</h3><p>> 引用的句子<br>> 引用的句子<br>> 引用的句子</p>
+<h3 id="插入链接（a）"><a href="#插入链接（a）" class="headerlink" title="插入链接（a）"></a>插入链接（a）</h3><p>[百度](<a href="https://www.baidu.com\">https://www.baidu.com\</a>)</p>
+<p>渲染结果：</p>
+<p><a href="https://www.baidu.com">百度</a></p>
+<h3 id="插入图片（img）"><a href="#插入图片（img）" class="headerlink" title="插入图片（img）"></a>插入图片（img）</h3><p>语法和插入链接类似，只不过前边要加一个<code>!</code></p>
+<p>![图片标签alt属性值](图片url)</p>
+<h3 id="插入锚点链接"><a href="#插入锚点链接" class="headerlink" title="插入锚点链接"></a>插入锚点链接</h3><p>[点击跳到详情部分](#details)</p>
+<p><code>详情部分&lt;a name=&quot;details&quot;&gt;&amp;nbsp;&lt;/a&gt;</code></p>
+<p>渲染结果：</p>
+<p><a href="#details">点击跳到详情部分</a></p>
+<p>详情部分<a name="details">&nbsp;</a></p>
+<h3 id="斜体（em）"><a href="#斜体（em）" class="headerlink" title="斜体（em）"></a>斜体（em）</h3><p>*文字*</p>
+<p>渲染结果：<em>文字</em></p>
+<h3 id="粗体（strong）"><a href="#粗体（strong）" class="headerlink" title="粗体（strong）"></a>粗体（strong）</h3><p>**文字**</p>
+<p>渲染结果：<strong>粗体</strong></p>
+<h3 id="粗斜体（strong中嵌套em）"><a href="#粗斜体（strong中嵌套em）" class="headerlink" title="粗斜体（strong中嵌套em）"></a>粗斜体（strong中嵌套em）</h3><p>***文字***</p>
+<p>渲染结果：<strong><em>文字</em></strong></p>
+<h3 id="设置行内代码格式（code）"><a href="#设置行内代码格式（code）" class="headerlink" title="设置行内代码格式（code）"></a>设置行内代码格式（code）</h3><p>`hexo clean`</p>
+<p>渲染结果：<code>hexo clean</code></p>
+<h3 id="设置整段代码格式（pre中嵌套code）"><a href="#设置整段代码格式（pre中嵌套code）" class="headerlink" title="设置整段代码格式（pre中嵌套code）"></a>设置整段代码格式（pre中嵌套code）</h3><p>```javascript<br>&nbsp;&nbsp;var a=1;<br>&nbsp;&nbsp;console.log(a);<br>```</p>
+<p>渲染结果：</p>
+<pre><code class="javascript">  var a=1;
+  console.log(a);
+</code></pre>
+<h3 id="插入表格（table）："><a href="#插入表格（table）：" class="headerlink" title="插入表格（table）："></a>插入表格（table）：</h3><p>| 学生的姓名 | 学生的性别 | 学生的年龄 |<br>| ------ | :------: | ------: |<br>| 张三 | 男 | 16 |<br>| 李四 | 女 | 17 |</p>
+<p>渲染结果：</p>
+<table>
+<thead>
+<tr>
+<th>学生的姓名</th>
+<th style="text-align:center">学生的性别</th>
+<th style="text-align:right">学生的年龄</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>张三</td>
+<td style="text-align:center">男</td>
+<td style="text-align:right">16</td>
+</tr>
+<tr>
+<td>李四</td>
+<td style="text-align:center">女</td>
+<td style="text-align:right">17</td>
+</tr>
+</tbody>
+</table>
+<p>注：两个竖线<code>|</code>之间的部分表示一个单元格。第一行是表头，第二行用多个<code>-</code>和<code>:</code>确定单元格中文字对齐方式，不加<code>:</code>或左边加<code>:</code>表示左对齐，两边加<code>:</code>表示居中对齐，右边加<code>:</code>表示右对齐。第二行每个单元格中不要只写一个<code>-</code>，有时可能不会正常解析，建议最少三个。</p>
+<p>许多站点的在线Markdown编辑器支持直接编写html代码，如掘金、GitHub等，有些则不支持。</p>
+<p>一款开源的在线Markdown编辑器：<a href="https://github.com/joemccann/dillinger">dillinger</a></p>
+]]></content>
+      <categories>
+        <category>Web前端</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>GitHub</tag>
       </tags>
   </entry>
   <entry>
