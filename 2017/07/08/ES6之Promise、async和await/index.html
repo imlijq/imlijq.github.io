@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"lijianqiang.net","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="单线程和异步单线程 JavaScript 这门编程语言从诞生之初有一个特性就是单线程，这个特性随着 JavaScript 以后不断的发展也不会改变。 单线程就是只有一个线程，同一时间只做一件事，两段 JS 不能同时执行。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ES6之Promise、async和await">
+<meta property="og:url" content="https://lijianqiang.net/2017/07/08/ES6%E4%B9%8BPromise%E3%80%81async%E5%92%8Cawait/index.html">
+<meta property="og:site_name" content="Lijq&#39;s Blog">
+<meta property="og:description" content="单线程和异步单线程 JavaScript 这门编程语言从诞生之初有一个特性就是单线程，这个特性随着 JavaScript 以后不断的发展也不会改变。 单线程就是只有一个线程，同一时间只做一件事，两段 JS 不能同时执行。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-07-07T16:03:56.000Z">
+<meta property="article:modified_time" content="2018-11-05T11:01:14.000Z">
+<meta property="article:author" content="Lijq">
+<meta property="article:tag" content="ES6">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://lijianqiang.net/2017/07/08/ES6%E4%B9%8BPromise%E3%80%81async%E5%92%8Cawait/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>ES6之Promise、async和await | Lijq's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Lijq's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://lijianqiang.net/2017/07/08/ES6%E4%B9%8BPromise%E3%80%81async%E5%92%8Cawait/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Lijq">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lijq's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ES6之Promise、async和await
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-07-08 00:03:56" itemprop="dateCreated datePublished" datetime="2017-07-08T00:03:56+08:00">2017-07-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-11-05 19:01:14" itemprop="dateModified" datetime="2018-11-05T19:01:14+08:00">2018-11-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">Web前端</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="单线程和异步"><a href="#单线程和异步" class="headerlink" title="单线程和异步"></a>单线程和异步</h2><p><strong>单线程</strong></p>
+<p>JavaScript 这门编程语言从诞生之初有一个特性就是单线程，这个特性随着 JavaScript 以后不断的发展也不会改变。</p>
+<p>单线程就是只有一个线程，同一时间只做一件事，两段 JS 不能同时执行。</p>
+<span id="more"></span>
+<p>浏览器在加载一个页面时，需要根据服务器返回数据，渲染 DOM。而 JS 是可以操作、修改 DOM 的，JS 执行期间会阻塞浏览器的 DOM 渲染，这也就是为什么我们提倡将页面引入的 JS 文件放到 body 底部的原因。JS 必须是单线程的，因为如果两段 JS 代码同时操作一个 DOM 节点，浏览器无法判断应该如何执行，JS 单线程的目的就是避免 DOM 操作的冲突。HTML5 中提供了 Web Worker 的特性，可以开启多个线程，但在 Web Worker 中不能访问 DOM，目的当然也是为了避免 DOM 操作冲突，Web Worker 的出现也没有改变 JS 单线程的本质。</p>
+<pre><code class="js">    // 循环执行执行期间，JS 执行和 DOM 渲染暂时卡顿
+    var i, sum=0;
+    for(i=0;i&lt;1000000000;i++)&#123;
+        sum+=i;
+    &#125;
+    console.log(sum);
+
+
+    // alert 不处理，JS 执行和 DOM 渲染暂时卡顿
+    console.log(1);
+    alert(&quot;hello&quot;);
+    console.log(2);
+</code></pre>
+<p><strong>异步</strong></p>
+<p>单线程的解决方案就是异步。浏览器发起一个请求之后，总不能一直等待有了响应才去执行下边的代码，而是请求之后继续执行下面代码，等服务器返回相应执行相应的回调。异步解决了 JS 单线程的问题，但是通过回调函数的这种方式也有自己的缺点，比如没有按照代码书写的顺序执行，可读性差等。</p>
+<pre><code class="js">    console.log(100);
+    setTimeout(function()&#123;
+        console.log(200); // 直接跳过，继续执行后边代码
+    &#125;,1000);              
+    console.log(300);
+    console.log(400);
+</code></pre>
+<pre><code class="js">    console.log(100);
+    $.ajax(&#123;
+        url:&quot;xxx&quot;,
+        success: function(result)&#123; // 请求成功才会执行回调，不影响后面代码执行
+            console.log(result); 
+        &#125;
+    &#125;);
+    console.log(300);
+    console.log(400);
+</code></pre>
+<p><strong>Event Loop</strong></p>
+<p>Event Loop 通常被称为事件轮询、事件循环，是异步的具体实现方式。浏览器在执行 JS 代码时，首先会立刻执行所有的同步代码，异步函数会放入异步队列中，等待所有的同步代码执行完毕后，才会轮询执行异步队列中的代码</p>
+<pre><code class="js">    setTimeout(function()&#123; // 异步函数先放异步队列中
+        console.log(100);
+    &#125;, 1000);
+    console.log(200); // 同步函数在主进程中，立刻执行 
+</code></pre>
+<pre><code class="js">    setTimeout(function()&#123; // 100ms 后放到异步队列中
+        console.log(1); 
+    &#125;, 100);
+    setTimeout(function()&#123; // 立刻放到异步队列中（定时器有个最短时间限制，实际为 4ms）
+        console.log(2);
+    &#125;);
+    console.log(3); // 主进程
+    // 按顺序输出 3 2 1
+</code></pre>
+<h2 id="jQuery-中的-Deferred-函数和-Promise"><a href="#jQuery-中的-Deferred-函数和-Promise" class="headerlink" title="jQuery 中的 Deferred 函数和 Promise"></a>jQuery 中的 Deferred 函数和 Promise</h2><p>Deferred 是 jQuery 1.5 版本中出现的一个构造函数，可以创建一个延迟执行的对象实例，该实例有两类方法：</p>
+<ul>
+<li>resolve、reject（主动触发的方法）</li>
+<li>done、fail、then（监听的方法，可传入回调函数）</li>
+</ul>
+<p>done 方法中传入成功回调，执行成功后会执行，代码内部对应的是 resolve 方法，fail 中传入失败回调，对应 reject 方法。done 和 fail 方法可以 then 方法代替，then 方法中传入成功、失败函数两个参数</p>
+<pre><code class="js">    var wait=function()&#123;
+        var task=function()&#123;
+            console.log(&quot;执行完成&quot;);
+        &#125;
+        setTimeout(task, 2000);
+    &#125;
+    wait();
+</code></pre>
+<p>上面代码使用 Deferred 后，代码更加容易扩展：</p>
+<pre><code class="js">    function waitHandle()&#123;
+        var dtd=$.Deferred(); // 创建一个 deferred 对象
+
+        var wait = function (dtd) &#123;
+            var task=function()&#123;
+                console.log(&quot;执行完成&quot;);
+                dtd.resolve(); // 表示异步任务已经完成
+                // dtd.reject(); // 表示异步任务失败或出错
+            &#125;
+            setTimeout(task, 2000);
+            return dtd;
+        &#125;
+
+        return wait(dtd);
+    &#125;
+
+    var result = waitHandle();
+    // result.reject(); // 执行这个不报错，会导致后边都走 error 的回调，影响结果 
+    result.then(function()&#123;
+        console.log(&quot;ok 1&quot;);
+    &#125;, function()&#123;
+        console.log(&quot;error 1&quot;);
+    &#125;)
+    result.then(function()&#123;
+        console.log(&quot;ok 2&quot;);
+    &#125;, function()&#123;
+        console.log(&quot;error 2&quot;);
+    &#125;)
+</code></pre>
+<p>但由于 Deferred 有两类方法，在 then/done/fail 这种监听方法前主动 resolve/reject 方法，代码不会报错，会直接影响回调执行的结果，可以调用实例对象的 promise 方法，该方法返回一个 promise 对象，promise 对象中没有 resolve/reject 这类方法，所以不会出现这个问题：</p>
+<pre><code class="js">    function waitHandle()&#123;
+        var dtd=$.Deferred();
+
+        var wait = function (dtd) &#123; 
+            var task=function()&#123;
+                console.log(&quot;执行完成&quot;);
+                dtd.resolve();
+                // dtd.reject();
+            &#125;
+            setTimeout(task, 2000);
+            return dtd.promise(); // 这里返回的是 promise 对象而不是直接返回 deferred 对象
+        &#125;
+
+        return wait(dtd); 
+    &#125;
+
+    var result = waitHandle(); // promise 对象（没有 resolve/reject 方法）
+    // result.resolve(); // Uncaught TypeError: result.resolve is not a function
+    $.when(result).then(function () &#123;
+        console.log(&quot;ok 1&quot;);
+    &#125;, function()&#123;
+        console.log(&quot;error 1&quot;);
+    &#125;) 
+    $.when(result).then(function()&#123;
+        console.log(&quot;ok 2&quot;);
+    &#125;, function()&#123;
+        console.log(&quot;error 2&quot;);
+    &#125;)
+</code></pre>
+<h2 id="ES6-中的-Promise"><a href="#ES6-中的-Promise" class="headerlink" title="ES6 中的 Promise"></a>ES6 中的 Promise</h2><p>使用 Promise 构造函数创建实例对象，构造函数中传入一个函数，函数有两个参数：resolve 和 reject，分别作为执行成功、失败时要调用的方法，使用 then 方法监听结果</p>
+<pre><code class="js">    // ES5
+    function loadImg(src, callback, fail)&#123;
+        var img=document.createElement(&quot;img&quot;);
+        img.onload=function()&#123;
+            callback(img);
+        &#125;
+        img.onerror=function()&#123;
+            fail();
+        &#125;
+        img.src=src;
+    &#125;
+    var src=&quot;http://www.imooc.com/static/img/index/logo_new.png&quot;;
+    loadImg(src, function(img)&#123;
+        console.log(img.width);
+    &#125;,function() &#123;
+        console.log(&quot;failed&quot;);
+    &#125;);
+</code></pre>
+<p>使用 Promise 语法：</p>
+<pre><code class="js">    function loadImg(src)&#123; 
+        const promise=new Promise(function(resolve, reject)&#123;
+            var img=document.createElement(&quot;img&quot;);
+            img.onload=function()&#123;
+                resolve(img); // 成功时执行的函数
+            &#125;
+            img.onerror=function()&#123;
+                reject(); // 失败时执行的函数
+            &#125;
+            img.src=src;
+        &#125;);
+        return promise;
+    &#125;
+    var src=&quot;http://www.imooc.com/static/img/index/logo_new.png&quot;;
+    var result=loadImg(src);
+    result.then((img)=&gt;&#123; // 成功回调
+        console.log(img.width);
+    &#125;, function()&#123; // 失败回调
+        console.log(&quot;error&quot;);
+    &#125;);
+</code></pre>
+<p><strong>Promise 中的异常捕获</strong></p>
+<p>Promise 实例可以使用 catch 方法统一捕获异常，then 相应只需要传入一个成功回调方法</p>
+<pre><code class="js">    function loadImg(src) &#123;
+        const promise = new Promise(function (resolve, reject) &#123;
+            var img = document.createElement(&quot;img&quot;);
+            throw new Error(&quot;自定义错误&quot;);
+            img.onload = function () &#123;
+                resolve(img);
+            &#125;
+            img.onerror = function () &#123;
+                reject(); 
+            &#125;
+            img.src = src;
+        &#125;);
+        return promise;
+    &#125;
+
+    var src = &quot;http://www.imooc.com/static/img/index/logo_new.png&quot;;
+
+    var result = loadImg(src);
+
+    result.then((img) =&gt; &#123;
+        console.log(&quot;width&quot;,img.width);
+        return img;
+    &#125;).then(function(img)&#123;
+        console.log(&quot;height&quot;,img.height);
+    &#125;).catch(function(ex)&#123;
+        // 最后统一用 catch 捕获异常
+        console.log(ex);
+    &#125;);
+</code></pre>
+<pre><code class="js">    function loadImg(src) &#123;
+        const promise = new Promise(function (resolve, reject) &#123;
+            var img = document.createElement(&quot;img&quot;);
+            img.onload = function () &#123;
+                resolve(img);
+            &#125;
+            img.onerror = function () &#123;
+                reject(&quot;图片加载失败&quot;);
+            &#125;
+            img.src = src;
+        &#125;);
+        return promise;
+    &#125;
+
+    var src = &quot;http://www.imooc.com/static/img/index/logo_new1.png&quot;;
+
+    var result = loadImg(src);
+
+    result.then((img) =&gt; &#123;
+        console.log(&quot;width&quot;,img.width);
+        return img; 
+    &#125;).then(function(img)&#123;
+        console.log(&quot;height&quot;,img.height);
+    &#125;).catch(function(ex)&#123;
+        console.log(ex); // 图片加载失败
+    &#125;);
+</code></pre>
+<p><strong>顺序执行多个回调</strong></p>
+<pre><code class="js">    function loadImg(src) &#123;
+        const promise = new Promise(function (resolve, reject) &#123;
+            var img = document.createElement(&quot;img&quot;);
+            img.onload = function () &#123;
+                resolve(img);
+            &#125;
+            img.onerror = function () &#123;
+                reject(&quot;图片加载失败&quot;);
+            &#125;
+            img.src = src;
+        &#125;);
+        return promise;
+    &#125;
+    var src1 = &quot;http://www.imooc.com/static/img/index/logo_new.png&quot;;
+    var result1 = loadImg(src1);
+    var src2 = &quot;https://www.baidu.com/img/bd_logo1.png?where=super&quot;;
+    var result2 = loadImg(src2);
+
+    result1.then((img) =&gt; &#123;
+        console.log(&quot;第一个图片加载完成&quot;, img); 
+        return result2; // 返回 result2 后，下一个 then 中监听的是 result2
+    &#125;).then(function (img) &#123;
+        console.log(&quot;第二个图片加载完成&quot;, img);
+    &#125;).catch(function (ex) &#123;
+        console.log(ex);
+    &#125;);
+</code></pre>
+<p><strong>Promise.all 和 Promise.race 方法</strong></p>
+<p>Promise.all 接收一个包含多个 promise 对象的数组，所有的 promise 对象执行成功回调后，才会 then 中的方法</p>
+<p>Promise.race 接收一个包含多个 promise 对象的数组，只要有一个 promise 对象执行成功回调，就会执行 then 中方法</p>
+<pre><code class="js">    function loadImg(src) &#123;
+        const promise = new Promise(function (resolve, reject) &#123;
+            var img = document.createElement(&quot;img&quot;);
+            img.onload = function () &#123;
+                resolve(img);
+            &#125;
+            img.onerror = function () &#123;
+                reject(&quot;图片加载失败&quot;);
+            &#125;
+            img.src = src;
+        &#125;);
+        return promise;
+    &#125;
+
+    var src1 = &quot;http://www.imooc.com/static/img/index/logo_new.png&quot;;
+    var result1 = loadImg(src1);
+    var src2 = &quot;https://www.baidu.com/img/bd_logo1.png?where=super&quot;;
+    var result2 = loadImg(src2);
+
+    Promise.all([result1, result2]).then(datas=&gt;&#123;
+        console.log(datas); // [img, img]
+        console.log(datas[0]); // &lt;img src=&quot;http://www.imooc.com/static/img/index/logo_new.png&quot;&gt;
+        console.log(datas[1]); // &lt;img src=&quot;https://www.baidu.com/img/bd_logo1.png?where=super&quot;&gt;
+    &#125;);
+
+    Promise.race([result1, result2]).then(data=&gt;&#123;
+        // data 即最先执行完成的 promise 的返回值
+        console.log(data);
+    &#125;);
+</code></pre>
+<h2 id="Async-和-Await"><a href="#Async-和-Await" class="headerlink" title="Async 和 Await"></a>Async 和 Await</h2><p>async/await 对 Promise 进行了封装，可以使用同步的写法代替之前必须要传入回调的写法</p>
+<pre><code class="js">    function loadImg(src) &#123;
+        const promise = new Promise(function (resolve, reject) &#123;
+            var img = document.createElement(&quot;img&quot;);
+            img.onload = function () &#123;
+                resolve(img);
+            &#125;
+            img.onerror = function () &#123;
+                reject(&quot;图片加载失败&quot;);
+            &#125;
+            img.src = src;
+        &#125;);
+        return promise;
+    &#125;
+    var src1 = &quot;http://www.imooc.com/static/img/index/logo_new.png&quot;;
+    var src2 = &quot;https://www.baidu.com/img/bd_logo1.png?where=super&quot;;
+
+    const load=async function()&#123;
+        const result1 = await loadImg(src1);
+        console.log(result1);
+        const result2=await loadImg(src2);
+        console.log(result2);
+    &#125;
+    load();
+</code></pre>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/ES6/" rel="tag"># ES6</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/07/02/ES6%E4%B9%8B%E7%BB%93%E6%9E%84%E8%B5%8B%E5%80%BC/" rel="prev" title="ES6之结构赋值">
+      <i class="fa fa-chevron-left"></i> ES6之结构赋值
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/11/26/Vue-js%E5%B8%B8%E8%A7%81%E7%94%A8%E6%B3%95/" rel="next" title="Vue.js常见用法">
+      Vue.js常见用法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%95%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%BC%82%E6%AD%A5"><span class="nav-number">1.</span> <span class="nav-text">单线程和异步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jQuery-%E4%B8%AD%E7%9A%84-Deferred-%E5%87%BD%E6%95%B0%E5%92%8C-Promise"><span class="nav-number">2.</span> <span class="nav-text">jQuery 中的 Deferred 函数和 Promise</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ES6-%E4%B8%AD%E7%9A%84-Promise"><span class="nav-number">3.</span> <span class="nav-text">ES6 中的 Promise</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Async-%E5%92%8C-Await"><span class="nav-number">4.</span> <span class="nav-text">Async 和 Await</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Lijq</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lijq</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
