@@ -324,6 +324,211 @@
       </tags>
   </entry>
   <entry>
+    <title>ES6之let、const和块级作用域</title>
+    <url>/2017/07/01/ES6%E4%B9%8Blet%E3%80%81const%E5%92%8C%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F/</url>
+    <content><![CDATA[<ul>
+<li>let命令</li>
+<li>块级作用域</li>
+<li>const命令</li>
+<li>跨模块常量</li>
+<li>全局对象属性</li>
+</ul>
+<h2 id="let命令"><a href="#let命令" class="headerlink" title="let命令"></a>let命令</h2><p><strong>let基本用法</strong></p>
+<p>ES5中使用<code>var</code>声明变量，ES6中声明变量新增了<code>let</code>命令，用法类似于<code>var</code>，但是<code>let</code>声明的变量其所在的代码块内有效，即<code>let</code>定义的是“局部变量”</p>
+<span id="more"></span>
+<pre><code class="js">    &#123;
+        var a=1;
+        let b=2;
+    &#125;
+    console.log(a); // 1
+    console.log(b); // Uncaught ReferenceError: b is not defined（只在所在代码块内有效）
+</code></pre>
+<p><strong>不存在变量提升</strong></p>
+<p><code>let</code>不像<code>var</code>一样会发生变量提升现象</p>
+<pre><code class="js">    // ES5
+    var arr1=[];
+    for(var i=0;i&lt;10;i++)&#123;
+        var c=i;
+        arr1[i]=function()&#123;
+            console.log(c);
+        &#125;
+    &#125;
+    // console.log(c); // 9
+    arr1[5](); // 9
+
+    // ES6
+    let arr2=[];
+    for(var j=0;j&lt;10;j++)&#123;
+        let k=j;
+        arr2[j]=function()&#123;
+            console.log(k);
+        &#125;
+    &#125;
+    // console.log(k); // Uncaught ReferenceError: k is not defined
+    arr2[5]();
+</code></pre>
+<p><strong>暂时性死区</strong></p>
+<p>只要块级作用域内存在<code>let</code>命令，它所声明的变量就“绑定”（binding）在这个区域，不再受外部影响。在当前作用域中，<code>let</code>声明变量之前的区域，叫做暂时性死区</p>
+<pre><code class="js">    var a = 100;
+    &#123;
+        console.log(a); // Uncaught ReferenceError: a is not defined（暂时性死区）
+        let a = 1; // 块级作用域中，let声明之前，都是暂时性死区
+        // console.log(a); // 1
+    &#125;
+</code></pre>
+<p><strong>不允许重复声明</strong></p>
+<p><code>let</code>不允许在相同的作用域内，重复声明同一个变量</p>
+<pre><code class="js">    var a=1;
+    var a=2; 
+    console.log(a); // 2
+</code></pre>
+<pre><code class="js">    let b=3;
+    let b=4; // Uncaught TypeError: embedded: Line 6: Duplicate declaration &quot;b&quot;    
+</code></pre>
+<pre><code class="js">    var c=5;
+    let c=6;
+    console.log(c); // Uncaught TypeError: embedded: Line 5: Duplicate declaration &quot;c&quot;
+</code></pre>
+<h2 id="块级作用域"><a href="#块级作用域" class="headerlink" title="块级作用域"></a>块级作用域</h2><p><strong>为什么需要块级作用域</strong></p>
+<p>ES5 只有全局作用域和函数作用域，没有块级作用域，这会带来很多不合理的场景，如：</p>
+<ul>
+<li>内层变量可能会覆盖外层变量</li>
+<li>用来计数的循环变量泄露为全局变量</li>
+</ul>
+<pre><code class="js">    var str=&quot;123&quot;;
+    function fn()&#123;
+        console.log(str);
+        if(false)&#123;
+            var str=&quot;456&quot;; // 没有块级作用域，变量提升到函数作用域中
+        &#125;
+    &#125;
+    fn(); // undefined
+</code></pre>
+<pre><code class="js">    var str=&quot;123&quot;;
+    function fn()&#123;
+        console.log(str);
+        if(true)&#123;
+            var str=&quot;456&quot;;
+        &#125;
+    &#125;
+    fn(); // undefined
+</code></pre>
+<pre><code class="js">    var str=&quot;123&quot;;
+    function fn()&#123;
+        console.log(str);
+        var str=&quot;456&quot;;
+    &#125;
+    fn(); // undefined
+</code></pre>
+<pre><code class="js">    for(var i=0;i&lt;10;i++)&#123;
+        console.log(&quot;abc&quot;);
+    &#125;
+    console.log(i); // 全局能访问
+</code></pre>
+<p><strong>ES6的块级作用域</strong></p>
+<p>使用<code>let</code>即为JavaScript增加了块级作用域</p>
+<pre><code class="js">    for(let i=0;i&lt;10;i++)&#123;
+        console.log(&quot;abc&quot;);
+    &#125;
+    console.log(i); // Uncaught ReferenceError: i is not defined
+</code></pre>
+<h2 id="const命令"><a href="#const命令" class="headerlink" title="const命令"></a>const命令</h2><p><code>const</code>用来声明常量，一旦声明，该常量的值（该变量的内存地址）就不可修改；和<code>let</code>类似，<code>const</code>声明的常量也会绑定到块级作用域，也有暂时性死区，也不能重复声明；<code>const</code>声明的对象和数组是可以修改的</p>
+<pre><code class="js">    const Pi=3.14159;
+    Pi=3.14; // Uncaught SyntaxError: embedded: Line 6: &quot;Pi&quot; is read-only
+</code></pre>
+<pre><code class="js">    const person=&#123;&#125;
+    person.name=&quot;Tom&quot;; // 变量的内存地址没有变化，这是允许的
+    person.age=18;
+    console.log(person); // &#123;name: &quot;Tom&quot;, age: 18&#125;    
+</code></pre>
+<pre><code class="js">    const arr=[]
+    arr.push(1); // 变量的内存地址没有变化
+    console.log(arr); // [1]
+</code></pre>
+<p><strong>const对象冻结</strong></p>
+<p><code>const</code>声明对象时属性仍然可修改，并不是真正意义上的“常量”，若要在声明对象后完全禁止修改，可以使用对象冻结的方法，禁止操作该对象的属性（只可读取）</p>
+<pre><code class="js">    const person=Object.freeze(&#123; name:&quot;Tom&quot; &#125;); // Object.freeze方法冻结一个对象并返回
+    console.log(person.name); // Tom
+    person.name=&quot;Tony&quot;; // Uncaught TypeError: Cannot assign to read only property &#39;name&#39; of object &#39;#&lt;Object&gt;&#39; （无法分配给对象&#39;＃&lt;Object&gt;&#39;的只读属性&#39;name&#39;）
+</code></pre>
+<pre><code class="js">    const person=Object.freeze(&#123; name:&quot;Tom&quot; &#125;);
+    person.age=18; // Uncaught TypeError: Cannot add property age, object is not extensible （无法添加属性age，对象不可扩展）    
+</code></pre>
+<p>使用上述方法定义的对象的属性也为对象时，不能被同时冻结：</p>
+<pre><code class="js">    const person=Object.freeze(&#123;
+        love:&#123;
+            person:&quot;heqiqi&quot;,
+            sport:&quot;run&quot;,
+        &#125;
+    &#125;);
+    console.log(person.love.sport); // run 
+    person.love.sport=&quot;football&quot;;
+    console.log(person.love.sport); // football
+</code></pre>
+<p>使所有属性也全部被冻结：</p>
+<pre><code class="js">    function deepFreeze(obj)&#123;
+        Object.freeze(obj); // 冻结对象
+        Object.keys(obj).forEach((item)=&gt;&#123;
+            if(typeof obj[item] === &quot;object&quot;)&#123; // 该对象属性为对象时，继续冻结 递归调用
+                deepFreeze(obj[item]);
+            &#125;
+        &#125;);
+    &#125;
+    const person=&#123;
+        name:&quot;Tom&quot;,
+        age:18,
+        love:&#123;
+            person:&quot;heqiqi&quot;,
+            sport:&quot;run&quot;,
+            movies:&#123;
+                a:1,
+                b:2,
+            &#125;
+        &#125;
+    &#125;
+    person.love.movies.a=3;
+    console.log(person.love.movies.a); // 3
+    deepFreeze(person); // 冻结
+    person.love.movies.a=4; // Uncaught TypeError: Cannot assign to read only property &#39;a&#39; of object &#39;#&lt;Object&gt;&#39;
+</code></pre>
+<h2 id="跨模块常量"><a href="#跨模块常量" class="headerlink" title="跨模块常量"></a>跨模块常量</h2><p><code>const</code>声明的常量只在当前代码块中有效，设置跨模块的常量，即使用 export、import 导出导入模块的形式</p>
+<pre><code class="js">    // module1.js
+    export const str=&quot;123&quot;;
+    export const num=123;
+    export const bol=true;
+</code></pre>
+<pre><code class="js">    // module2.js
+    import * as module1 from &quot;./module1.js&quot;; // 将 module1 的导出全部引入
+    console.log(module1.str);
+    console.log(module1.num);
+    console.log(module1.bol);
+</code></pre>
+<pre><code class="js">    // module3.js
+    import &#123; str,num &#125; as module1 from &quot;./module1.js&quot;; // 引入部分 module1 的导出
+    console.log(module1.str);
+    console.log(module1.num);
+</code></pre>
+<pre><code class="js">    // module4.js
+    import &#123;str,num&#125; from &quot;./module1.js&quot;;
+    console.log(str);
+    console.log(num);
+</code></pre>
+<h2 id="全局对象属性"><a href="#全局对象属性" class="headerlink" title="全局对象属性"></a>全局对象属性</h2><p>全局对象是最顶层的对象，在浏览器环境中指 window 对象，在Node.js环境中指 global 对象。在JavaScript语言中，所有全局变量都是全局对象的属性。（Node 的环境比较特殊，这一条只对 REPL 环境适用，模块环境必须显式声明成 global 的属性）</p>
+<p>ES6规定，<code>var</code>和<code>function</code>声明的全局变量，属于全局对象的属性；<code>let</code>、<code>const</code>和<code>class</code>声明的全局变量，不属于全局对象的属性</p>
+<pre><code class="js">    let num1=123;
+    const PI=3.14;
+    console.log(window.num1); // undefined
+    console.log(window.PI); // undefined
+</code></pre>
+]]></content>
+      <categories>
+        <category>Web前端</category>
+      </categories>
+      <tags>
+        <tag>ES6</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hexo、GitHub Pages搭建个人博客总结</title>
     <url>/2017/06/28/Hexo%E5%92%8CGitHub-Pages%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<p>使用Hexo和GitHub Pages搭建个人博客整个过程的总结记录。</p>
@@ -834,211 +1039,6 @@ Sitemap: http://aaaaa.com/baidusitemap.xml
 <pre><code class="js">    import &#123;str,num&#125; from &quot;./module1.js&quot;;
     console.log(str);
     console.log(num);
-</code></pre>
-]]></content>
-      <categories>
-        <category>Web前端</category>
-      </categories>
-      <tags>
-        <tag>ES6</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ES6之let、const和块级作用域</title>
-    <url>/2017/07/01/ES6%E4%B9%8Blet%E3%80%81const%E5%92%8C%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F/</url>
-    <content><![CDATA[<ul>
-<li>let命令</li>
-<li>块级作用域</li>
-<li>const命令</li>
-<li>跨模块常量</li>
-<li>全局对象属性</li>
-</ul>
-<h2 id="let命令"><a href="#let命令" class="headerlink" title="let命令"></a>let命令</h2><p><strong>let基本用法</strong></p>
-<p>ES5中使用<code>var</code>声明变量，ES6中声明变量新增了<code>let</code>命令，用法类似于<code>var</code>，但是<code>let</code>声明的变量其所在的代码块内有效，即<code>let</code>定义的是“局部变量”</p>
-<span id="more"></span>
-<pre><code class="js">    &#123;
-        var a=1;
-        let b=2;
-    &#125;
-    console.log(a); // 1
-    console.log(b); // Uncaught ReferenceError: b is not defined（只在所在代码块内有效）
-</code></pre>
-<p><strong>不存在变量提升</strong></p>
-<p><code>let</code>不像<code>var</code>一样会发生变量提升现象</p>
-<pre><code class="js">    // ES5
-    var arr1=[];
-    for(var i=0;i&lt;10;i++)&#123;
-        var c=i;
-        arr1[i]=function()&#123;
-            console.log(c);
-        &#125;
-    &#125;
-    // console.log(c); // 9
-    arr1[5](); // 9
-
-    // ES6
-    let arr2=[];
-    for(var j=0;j&lt;10;j++)&#123;
-        let k=j;
-        arr2[j]=function()&#123;
-            console.log(k);
-        &#125;
-    &#125;
-    // console.log(k); // Uncaught ReferenceError: k is not defined
-    arr2[5]();
-</code></pre>
-<p><strong>暂时性死区</strong></p>
-<p>只要块级作用域内存在<code>let</code>命令，它所声明的变量就“绑定”（binding）在这个区域，不再受外部影响。在当前作用域中，<code>let</code>声明变量之前的区域，叫做暂时性死区</p>
-<pre><code class="js">    var a = 100;
-    &#123;
-        console.log(a); // Uncaught ReferenceError: a is not defined（暂时性死区）
-        let a = 1; // 块级作用域中，let声明之前，都是暂时性死区
-        // console.log(a); // 1
-    &#125;
-</code></pre>
-<p><strong>不允许重复声明</strong></p>
-<p><code>let</code>不允许在相同的作用域内，重复声明同一个变量</p>
-<pre><code class="js">    var a=1;
-    var a=2; 
-    console.log(a); // 2
-</code></pre>
-<pre><code class="js">    let b=3;
-    let b=4; // Uncaught TypeError: embedded: Line 6: Duplicate declaration &quot;b&quot;    
-</code></pre>
-<pre><code class="js">    var c=5;
-    let c=6;
-    console.log(c); // Uncaught TypeError: embedded: Line 5: Duplicate declaration &quot;c&quot;
-</code></pre>
-<h2 id="块级作用域"><a href="#块级作用域" class="headerlink" title="块级作用域"></a>块级作用域</h2><p><strong>为什么需要块级作用域</strong></p>
-<p>ES5 只有全局作用域和函数作用域，没有块级作用域，这会带来很多不合理的场景，如：</p>
-<ul>
-<li>内层变量可能会覆盖外层变量</li>
-<li>用来计数的循环变量泄露为全局变量</li>
-</ul>
-<pre><code class="js">    var str=&quot;123&quot;;
-    function fn()&#123;
-        console.log(str);
-        if(false)&#123;
-            var str=&quot;456&quot;; // 没有块级作用域，变量提升到函数作用域中
-        &#125;
-    &#125;
-    fn(); // undefined
-</code></pre>
-<pre><code class="js">    var str=&quot;123&quot;;
-    function fn()&#123;
-        console.log(str);
-        if(true)&#123;
-            var str=&quot;456&quot;;
-        &#125;
-    &#125;
-    fn(); // undefined
-</code></pre>
-<pre><code class="js">    var str=&quot;123&quot;;
-    function fn()&#123;
-        console.log(str);
-        var str=&quot;456&quot;;
-    &#125;
-    fn(); // undefined
-</code></pre>
-<pre><code class="js">    for(var i=0;i&lt;10;i++)&#123;
-        console.log(&quot;abc&quot;);
-    &#125;
-    console.log(i); // 全局能访问
-</code></pre>
-<p><strong>ES6的块级作用域</strong></p>
-<p>使用<code>let</code>即为JavaScript增加了块级作用域</p>
-<pre><code class="js">    for(let i=0;i&lt;10;i++)&#123;
-        console.log(&quot;abc&quot;);
-    &#125;
-    console.log(i); // Uncaught ReferenceError: i is not defined
-</code></pre>
-<h2 id="const命令"><a href="#const命令" class="headerlink" title="const命令"></a>const命令</h2><p><code>const</code>用来声明常量，一旦声明，该常量的值（该变量的内存地址）就不可修改；和<code>let</code>类似，<code>const</code>声明的常量也会绑定到块级作用域，也有暂时性死区，也不能重复声明；<code>const</code>声明的对象和数组是可以修改的</p>
-<pre><code class="js">    const Pi=3.14159;
-    Pi=3.14; // Uncaught SyntaxError: embedded: Line 6: &quot;Pi&quot; is read-only
-</code></pre>
-<pre><code class="js">    const person=&#123;&#125;
-    person.name=&quot;Tom&quot;; // 变量的内存地址没有变化，这是允许的
-    person.age=18;
-    console.log(person); // &#123;name: &quot;Tom&quot;, age: 18&#125;    
-</code></pre>
-<pre><code class="js">    const arr=[]
-    arr.push(1); // 变量的内存地址没有变化
-    console.log(arr); // [1]
-</code></pre>
-<p><strong>const对象冻结</strong></p>
-<p><code>const</code>声明对象时属性仍然可修改，并不是真正意义上的“常量”，若要在声明对象后完全禁止修改，可以使用对象冻结的方法，禁止操作该对象的属性（只可读取）</p>
-<pre><code class="js">    const person=Object.freeze(&#123; name:&quot;Tom&quot; &#125;); // Object.freeze方法冻结一个对象并返回
-    console.log(person.name); // Tom
-    person.name=&quot;Tony&quot;; // Uncaught TypeError: Cannot assign to read only property &#39;name&#39; of object &#39;#&lt;Object&gt;&#39; （无法分配给对象&#39;＃&lt;Object&gt;&#39;的只读属性&#39;name&#39;）
-</code></pre>
-<pre><code class="js">    const person=Object.freeze(&#123; name:&quot;Tom&quot; &#125;);
-    person.age=18; // Uncaught TypeError: Cannot add property age, object is not extensible （无法添加属性age，对象不可扩展）    
-</code></pre>
-<p>使用上述方法定义的对象的属性也为对象时，不能被同时冻结：</p>
-<pre><code class="js">    const person=Object.freeze(&#123;
-        love:&#123;
-            person:&quot;heqiqi&quot;,
-            sport:&quot;run&quot;,
-        &#125;
-    &#125;);
-    console.log(person.love.sport); // run 
-    person.love.sport=&quot;football&quot;;
-    console.log(person.love.sport); // football
-</code></pre>
-<p>使所有属性也全部被冻结：</p>
-<pre><code class="js">    function deepFreeze(obj)&#123;
-        Object.freeze(obj); // 冻结对象
-        Object.keys(obj).forEach((item)=&gt;&#123;
-            if(typeof obj[item] === &quot;object&quot;)&#123; // 该对象属性为对象时，继续冻结 递归调用
-                deepFreeze(obj[item]);
-            &#125;
-        &#125;);
-    &#125;
-    const person=&#123;
-        name:&quot;Tom&quot;,
-        age:18,
-        love:&#123;
-            person:&quot;heqiqi&quot;,
-            sport:&quot;run&quot;,
-            movies:&#123;
-                a:1,
-                b:2,
-            &#125;
-        &#125;
-    &#125;
-    person.love.movies.a=3;
-    console.log(person.love.movies.a); // 3
-    deepFreeze(person); // 冻结
-    person.love.movies.a=4; // Uncaught TypeError: Cannot assign to read only property &#39;a&#39; of object &#39;#&lt;Object&gt;&#39;
-</code></pre>
-<h2 id="跨模块常量"><a href="#跨模块常量" class="headerlink" title="跨模块常量"></a>跨模块常量</h2><p><code>const</code>声明的常量只在当前代码块中有效，设置跨模块的常量，即使用 export、import 导出导入模块的形式</p>
-<pre><code class="js">    // module1.js
-    export const str=&quot;123&quot;;
-    export const num=123;
-    export const bol=true;
-</code></pre>
-<pre><code class="js">    // module2.js
-    import * as module1 from &quot;./module1.js&quot;; // 将 module1 的导出全部引入
-    console.log(module1.str);
-    console.log(module1.num);
-    console.log(module1.bol);
-</code></pre>
-<pre><code class="js">    // module3.js
-    import &#123; str,num &#125; as module1 from &quot;./module1.js&quot;; // 引入部分 module1 的导出
-    console.log(module1.str);
-    console.log(module1.num);
-</code></pre>
-<pre><code class="js">    // module4.js
-    import &#123;str,num&#125; from &quot;./module1.js&quot;;
-    console.log(str);
-    console.log(num);
-</code></pre>
-<h2 id="全局对象属性"><a href="#全局对象属性" class="headerlink" title="全局对象属性"></a>全局对象属性</h2><p>全局对象是最顶层的对象，在浏览器环境中指 window 对象，在Node.js环境中指 global 对象。在JavaScript语言中，所有全局变量都是全局对象的属性。（Node 的环境比较特殊，这一条只对 REPL 环境适用，模块环境必须显式声明成 global 的属性）</p>
-<p>ES6规定，<code>var</code>和<code>function</code>声明的全局变量，属于全局对象的属性；<code>let</code>、<code>const</code>和<code>class</code>声明的全局变量，不属于全局对象的属性</p>
-<pre><code class="js">    let num1=123;
-    const PI=3.14;
-    console.log(window.num1); // undefined
-    console.log(window.PI); // undefined
 </code></pre>
 ]]></content>
       <categories>
