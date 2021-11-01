@@ -796,233 +796,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Node.js实现简单爬虫</title>
-    <url>/2018/03/16/Node-js%E5%AE%9E%E7%8E%B0%E7%AE%80%E5%8D%95%E7%88%AC%E8%99%AB/</url>
-    <content><![CDATA[<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>浏览器可以向服务器发起请求，从服务器获取资源，之后经过解析渲染，可以在页面显示文字和图片等内容，我们通过浏览器查看源代码可以看到网页的DOM结构，在控制台也可以通过选择DOM获取到相关的信息和资源。使用爬虫爬取网页信息就是这个原理，只不过爬虫没有浏览器的图形界面，所以请求到数据后不需要解析渲染，直接保存到本地就行了。</p>
-<span id="more"></span>
-<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p>这里我们使用Node.js相关的两个工具，来实现一个简单爬虫，爬取<a href="https://movie.douban.com/top250">豆瓣电影 Top 250</a>中的数据</p>
-<ul>
-<li><a href="https://github.com/request/request">request</a>：可以发起请求来获取网页内容</li>
-<li><a href="https://github.com/cheeriojs/cheerio">cheerio</a>：可以分析获取到的网页内容，使用类似于jQuery的方法进行DOM操作</li>
-</ul>
-<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><h3 id="安装request和cheerio"><a href="#安装request和cheerio" class="headerlink" title="安装request和cheerio"></a>安装request和cheerio</h3><pre><code>    npm init
-    npm install --save request cheerio
-</code></pre><h3 id="使用request根据url发起请求，获取数据"><a href="#使用request根据url发起请求，获取数据" class="headerlink" title="使用request根据url发起请求，获取数据"></a>使用request根据url发起请求，获取数据</h3><pre><code class="js">    var request = require(&quot;request&quot;);
-    var cheerio = require(&quot;cheerio&quot;);
-
-    var url =&quot;https://movie.douban.com/top250&quot;;
-    function moviesFromUrl(url)&#123;
-        request(url, function(error, response, body)&#123;
-            if(error === null &amp;&amp; response.statusCode == 200)&#123;
-                console.log(body)                  
-            &#125;else&#123;
-                console.log(&quot;请求失败：&quot;,error);                                 
-            &#125;
-        &#125;);
-    &#125;
-    moviesFromUrl(url);
-</code></pre>
-<h3 id="使用cheerio解析数据"><a href="#使用cheerio解析数据" class="headerlink" title="使用cheerio解析数据"></a>使用cheerio解析数据</h3><pre><code class="js">    function Movie()&#123;
-        this.name=&quot;&quot;;
-        this.score=0;
-        this.quote=&quot;&quot;;
-        this.ranking=0;
-        this.coverUrl=&quot;&quot;;
-    &#125;
-    function movieFromDiv(div) &#123;
-        var movie=new Movie();
-        var $=cheerio.load(div);
-
-        movie.name=$(&quot;.title&quot;).text();
-        movie.score = $(&quot;.rating_num&quot;).text();
-        movie.quote=$(&quot;.inq&quot;).text();
-
-        var pic=$(&quot;.pic&quot;);
-        movie.ranking=pic.find(&quot;em&quot;).text();
-        movie.coverUrl=pic.find(&quot;img&quot;).attr(&quot;src&quot;);
-        return movie;
-    &#125;
-    var $=cheerio.load(body);
-    var movies=[];
-    var movieDivs=$(&quot;.item&quot;);
-    for(var i=0;i&lt;movieDivs.length;i++)&#123;
-        var div = $(movieDivs[i]).html();
-        var m = movieFromDiv(div);
-        movies.push(m);
-    &#125;
-    console.log(movies);
-</code></pre>
-<h3 id="使用fs模块保存数据"><a href="#使用fs模块保存数据" class="headerlink" title="使用fs模块保存数据"></a>使用fs模块保存数据</h3><pre><code class="js">    var fs=require(&quot;fs&quot;);
-    function saveMovies(movies)&#123;
-        var path =&quot;douban.txt&quot;;
-        var str=JSON.stringify(movies, null, 4);
-        fs.writeFile(path, str, function(error)&#123;
-            if(error)&#123;
-                console.log(&quot;写入文件错误：&quot;, error);
-            &#125;else&#123;
-                console.log(&quot;保存成功！&quot;);
-            &#125;
-        &#125;)
-    &#125;
-    saveMovies(movies);
-</code></pre>
-<p>进行到这里，获取到了url为 <a href="https://movie.douban.com/top250">https://movie.douban.com/top250</a> 时也就是第一页的数据，只有25条，但总的数据共有250条，共10页，浏览器中依次点击第2页、第3页…，url为 <a href="https://movie.douban.com/top250?start=n&amp;filter=">https://movie.douban.com/top250?start=n&amp;filter=</a> （n为25、50、75…），所以每请求一次后必须改变url获取下一页的数据，并且每次请求都是异步的，最后获取到的数据不是按照页数顺序排列下来的，所以还需要对数据排序整理一下。另外还要保存图片资源，下边是完整的代码</p>
-<pre><code class="js">    &quot;use strict&quot;;
-
-    var request = require(&quot;request&quot;);
-    var cheerio = require(&quot;cheerio&quot;);
-    var fs = require(&quot;fs&quot;);
-
-    var moviesAll = []; // 所有页的数据
-    var isFail = false; // 当前页是否失败
-    var completePage = 0; // 总共完成页数    
-
-    // 电影信息
-    function Movie() &#123;
-        this.name = &quot;&quot;;
-        this.score = 0;
-        this.quote = &quot;&quot;;
-        this.ranking = 0;
-        this.coverUrl = &quot;&quot;;
-    &#125;
-
-    // 从一个电影div里读取电影信息
-    function movieFromDiv(div) &#123;
-        var movie = new Movie();
-        var $ = cheerio.load(div);
-
-        // text()方法获取文本信息
-        movie.name = $(&quot;.title&quot;).text(); // 两个.title的文本合并
-        // movie.name=$(&quot;.hd a .title&quot;).eq(0).text(); // 只获取第一个.title的文本
-        movie.score = $(&quot;.rating_num&quot;).text();
-        movie.quote = $(&quot;.inq&quot;).text();
-
-        var pic = $(&quot;.pic&quot;);
-        movie.ranking = pic.find(&quot;em&quot;).text();
-        movie.coverUrl = pic.find(&quot;img&quot;).attr(&quot;src&quot;);
-        return movie;
-    &#125;
-
-    // 保存数据
-    function saveMovies(movies) &#123;
-        var path = &quot;douban.txt&quot;;
-        // 第三个参数为缩进层次4个空格
-        var str = JSON.stringify(movies, null, 4);
-
-        fs.writeFile(path, str, function (error) &#123;
-            if (error) &#123;
-                console.log(&quot;写入文件错误：&quot;, error);
-            &#125; else &#123;
-                console.log(&quot;保存成功！&quot;);
-            &#125;
-        &#125;)
-    &#125;
-
-    // 按电影排名顺序进行排序
-    function sortMovies(movies) &#123;
-        movies.sort(function (a, b) &#123;
-            return a.ranking - b.ranking;
-        &#125;)
-    &#125;
-
-    // 保存封面图片
-    function downloadCovers(movies)&#123;
-        for(var i=0;i&lt;movies.length;i++)&#123;
-            var m=movies[i];
-            var url=m.coverUrl;
-            var path=m.ranking + &quot;-&quot; + m.name.split(&quot;/&quot;)[0] + &quot;.jpg&quot;;
-
-            request(url).pipe(fs.createWriteStream(path));
-        &#125;
-    &#125;    
-
-    // 根据url获取电影信息
-    function moviesFromUrl(url, page) &#123;
-        // request方法从url下载数据，并调用回调函数
-        // 回调函数三个参数为错误、响应、响应数据（该网页的源码字符串，和浏览器中查看网页源代码看到的是一样的）
-        request(url, function (error, response, body) &#123;
-            if (error === null &amp;&amp; response.statusCode == 200) &#123;
-                // cheerio.load()方法参数为字符串，将其转换为对象，类似于jQuery对象（$），可调用相关方法
-                var $ = cheerio.load(body);
-                var movies = [];
-
-                // 每一条电影信息所在的div.item
-                var movieDivs = $(&quot;.item&quot;);
-                for (var i = 0; i &lt; movieDivs.length; i++) &#123;
-                    // 获取到每个div的html字符串，并用movieFromDiv解析
-                    var div = $(movieDivs[i]).html();
-                    var m = movieFromDiv(div);
-                    movies.push(m);
-                &#125;
-
-                console.log(`第$&#123;page&#125;页获取成功`);
-                moviesAll = moviesAll.concat(movies);
-                completePage++;
-                console.log(&quot;成功总页数：---&quot;, completePage);
-                if (completePage === 10) &#123;
-                    sortMovies(moviesAll);
-                    saveMovies(moviesAll);
-                &#125;
-
-            &#125; else &#123;
-                console.log(&quot;请求失败：&quot;, page + &quot;页&quot;, error);
-                isFail = true;
-            &#125;
-        &#125;);
-    &#125;
-
-    function __main() &#123;
-        for(var page=1;page&lt;=10;page++)&#123;
-            if (!isFail) &#123;
-                var url = &quot;https://movie.douban.com/top250?start=&quot; + (page-1)*25 + &quot;&amp;filter=&quot;
-                moviesFromUrl(url, page);
-            &#125; else &#123;
-                break;
-            &#125;        
-        &#125;
-    &#125;
-
-    __main();
-</code></pre>
-<p>爬取到的数据最后保存在了douban.txt中：</p>
-<p><img src="http://images-of-blog.test.upcdn.net/images/2018-03-20_010051-Nodejs%E5%AE%9E%E7%8E%B0%E7%AE%80%E5%8D%95%E7%88%AC%E8%99%AB.png" alt="douban.txt"></p>
-<h2 id="爬取需要登录才能获取到的内容"><a href="#爬取需要登录才能获取到的内容" class="headerlink" title="爬取需要登录才能获取到的内容"></a>爬取需要登录才能获取到的内容</h2><p>有些数据我们在浏览器中直接打开网页是查看不了的，比如知乎中关注的人的列表、论坛中收藏的文章等，这种情况必须输入用户名、密码登录以后才能查看，要爬取这些数据，可以在上面方法的基础上通过模拟Cookie和User-Agent伪装登陆来实现。</p>
-<p>传入request方法中的第一个参数不再是url了，而是包含url和请求头信息的options参数：</p>
-<pre><code class="js">    var request = require(&quot;request&quot;);
-
-    var url=&quot;urlStr&quot;;
-    var cookie=&quot;cookieStr&quot;;
-    var userAgent=&quot;userAgentStr&quot;;
-
-    var headers=&#123;
-        &quot;Cookie&quot;:cookie,
-        &quot;User-Agent&quot;:userAgent
-    &#125;
-
-    var options=&#123;
-        url:url,
-        headers:headers
-    &#125;
-
-    request(options, function(error, response, body)&#123;
-        if(error === null &amp;&amp; response.statusCode == 200)&#123;
-            console.log(body);
-            // do something
-        &#125;else&#123;
-            console.log(&quot;请求失败：&quot;, error);
-        &#125;
-    &#125;);
-</code></pre>
-]]></content>
-      <categories>
-        <category>Web前端</category>
-      </categories>
-      <tags>
-        <tag>Node.js</tag>
-        <tag>爬虫</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hexo、GitHub Pages搭建个人博客总结</title>
     <url>/2017/06/28/Hexo%E5%92%8CGitHub-Pages%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<p>使用Hexo和GitHub Pages搭建个人博客整个过程的总结记录。</p>
@@ -1273,6 +1046,233 @@ Sitemap: http://aaaaa.com/baidusitemap.xml
       <tags>
         <tag>Hexo</tag>
         <tag>GitHub</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Node.js实现简单爬虫</title>
+    <url>/2018/03/16/Node-js%E5%AE%9E%E7%8E%B0%E7%AE%80%E5%8D%95%E7%88%AC%E8%99%AB/</url>
+    <content><![CDATA[<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>浏览器可以向服务器发起请求，从服务器获取资源，之后经过解析渲染，可以在页面显示文字和图片等内容，我们通过浏览器查看源代码可以看到网页的DOM结构，在控制台也可以通过选择DOM获取到相关的信息和资源。使用爬虫爬取网页信息就是这个原理，只不过爬虫没有浏览器的图形界面，所以请求到数据后不需要解析渲染，直接保存到本地就行了。</p>
+<span id="more"></span>
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p>这里我们使用Node.js相关的两个工具，来实现一个简单爬虫，爬取<a href="https://movie.douban.com/top250">豆瓣电影 Top 250</a>中的数据</p>
+<ul>
+<li><a href="https://github.com/request/request">request</a>：可以发起请求来获取网页内容</li>
+<li><a href="https://github.com/cheeriojs/cheerio">cheerio</a>：可以分析获取到的网页内容，使用类似于jQuery的方法进行DOM操作</li>
+</ul>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><h3 id="安装request和cheerio"><a href="#安装request和cheerio" class="headerlink" title="安装request和cheerio"></a>安装request和cheerio</h3><pre><code>    npm init
+    npm install --save request cheerio
+</code></pre><h3 id="使用request根据url发起请求，获取数据"><a href="#使用request根据url发起请求，获取数据" class="headerlink" title="使用request根据url发起请求，获取数据"></a>使用request根据url发起请求，获取数据</h3><pre><code class="js">    var request = require(&quot;request&quot;);
+    var cheerio = require(&quot;cheerio&quot;);
+
+    var url =&quot;https://movie.douban.com/top250&quot;;
+    function moviesFromUrl(url)&#123;
+        request(url, function(error, response, body)&#123;
+            if(error === null &amp;&amp; response.statusCode == 200)&#123;
+                console.log(body)                  
+            &#125;else&#123;
+                console.log(&quot;请求失败：&quot;,error);                                 
+            &#125;
+        &#125;);
+    &#125;
+    moviesFromUrl(url);
+</code></pre>
+<h3 id="使用cheerio解析数据"><a href="#使用cheerio解析数据" class="headerlink" title="使用cheerio解析数据"></a>使用cheerio解析数据</h3><pre><code class="js">    function Movie()&#123;
+        this.name=&quot;&quot;;
+        this.score=0;
+        this.quote=&quot;&quot;;
+        this.ranking=0;
+        this.coverUrl=&quot;&quot;;
+    &#125;
+    function movieFromDiv(div) &#123;
+        var movie=new Movie();
+        var $=cheerio.load(div);
+
+        movie.name=$(&quot;.title&quot;).text();
+        movie.score = $(&quot;.rating_num&quot;).text();
+        movie.quote=$(&quot;.inq&quot;).text();
+
+        var pic=$(&quot;.pic&quot;);
+        movie.ranking=pic.find(&quot;em&quot;).text();
+        movie.coverUrl=pic.find(&quot;img&quot;).attr(&quot;src&quot;);
+        return movie;
+    &#125;
+    var $=cheerio.load(body);
+    var movies=[];
+    var movieDivs=$(&quot;.item&quot;);
+    for(var i=0;i&lt;movieDivs.length;i++)&#123;
+        var div = $(movieDivs[i]).html();
+        var m = movieFromDiv(div);
+        movies.push(m);
+    &#125;
+    console.log(movies);
+</code></pre>
+<h3 id="使用fs模块保存数据"><a href="#使用fs模块保存数据" class="headerlink" title="使用fs模块保存数据"></a>使用fs模块保存数据</h3><pre><code class="js">    var fs=require(&quot;fs&quot;);
+    function saveMovies(movies)&#123;
+        var path =&quot;douban.txt&quot;;
+        var str=JSON.stringify(movies, null, 4);
+        fs.writeFile(path, str, function(error)&#123;
+            if(error)&#123;
+                console.log(&quot;写入文件错误：&quot;, error);
+            &#125;else&#123;
+                console.log(&quot;保存成功！&quot;);
+            &#125;
+        &#125;)
+    &#125;
+    saveMovies(movies);
+</code></pre>
+<p>进行到这里，获取到了url为 <a href="https://movie.douban.com/top250">https://movie.douban.com/top250</a> 时也就是第一页的数据，只有25条，但总的数据共有250条，共10页，浏览器中依次点击第2页、第3页…，url为 <a href="https://movie.douban.com/top250?start=n&amp;filter=">https://movie.douban.com/top250?start=n&amp;filter=</a> （n为25、50、75…），所以每请求一次后必须改变url获取下一页的数据，并且每次请求都是异步的，最后获取到的数据不是按照页数顺序排列下来的，所以还需要对数据排序整理一下。另外还要保存图片资源，下边是完整的代码</p>
+<pre><code class="js">    &quot;use strict&quot;;
+
+    var request = require(&quot;request&quot;);
+    var cheerio = require(&quot;cheerio&quot;);
+    var fs = require(&quot;fs&quot;);
+
+    var moviesAll = []; // 所有页的数据
+    var isFail = false; // 当前页是否失败
+    var completePage = 0; // 总共完成页数    
+
+    // 电影信息
+    function Movie() &#123;
+        this.name = &quot;&quot;;
+        this.score = 0;
+        this.quote = &quot;&quot;;
+        this.ranking = 0;
+        this.coverUrl = &quot;&quot;;
+    &#125;
+
+    // 从一个电影div里读取电影信息
+    function movieFromDiv(div) &#123;
+        var movie = new Movie();
+        var $ = cheerio.load(div);
+
+        // text()方法获取文本信息
+        movie.name = $(&quot;.title&quot;).text(); // 两个.title的文本合并
+        // movie.name=$(&quot;.hd a .title&quot;).eq(0).text(); // 只获取第一个.title的文本
+        movie.score = $(&quot;.rating_num&quot;).text();
+        movie.quote = $(&quot;.inq&quot;).text();
+
+        var pic = $(&quot;.pic&quot;);
+        movie.ranking = pic.find(&quot;em&quot;).text();
+        movie.coverUrl = pic.find(&quot;img&quot;).attr(&quot;src&quot;);
+        return movie;
+    &#125;
+
+    // 保存数据
+    function saveMovies(movies) &#123;
+        var path = &quot;douban.txt&quot;;
+        // 第三个参数为缩进层次4个空格
+        var str = JSON.stringify(movies, null, 4);
+
+        fs.writeFile(path, str, function (error) &#123;
+            if (error) &#123;
+                console.log(&quot;写入文件错误：&quot;, error);
+            &#125; else &#123;
+                console.log(&quot;保存成功！&quot;);
+            &#125;
+        &#125;)
+    &#125;
+
+    // 按电影排名顺序进行排序
+    function sortMovies(movies) &#123;
+        movies.sort(function (a, b) &#123;
+            return a.ranking - b.ranking;
+        &#125;)
+    &#125;
+
+    // 保存封面图片
+    function downloadCovers(movies)&#123;
+        for(var i=0;i&lt;movies.length;i++)&#123;
+            var m=movies[i];
+            var url=m.coverUrl;
+            var path=m.ranking + &quot;-&quot; + m.name.split(&quot;/&quot;)[0] + &quot;.jpg&quot;;
+
+            request(url).pipe(fs.createWriteStream(path));
+        &#125;
+    &#125;    
+
+    // 根据url获取电影信息
+    function moviesFromUrl(url, page) &#123;
+        // request方法从url下载数据，并调用回调函数
+        // 回调函数三个参数为错误、响应、响应数据（该网页的源码字符串，和浏览器中查看网页源代码看到的是一样的）
+        request(url, function (error, response, body) &#123;
+            if (error === null &amp;&amp; response.statusCode == 200) &#123;
+                // cheerio.load()方法参数为字符串，将其转换为对象，类似于jQuery对象（$），可调用相关方法
+                var $ = cheerio.load(body);
+                var movies = [];
+
+                // 每一条电影信息所在的div.item
+                var movieDivs = $(&quot;.item&quot;);
+                for (var i = 0; i &lt; movieDivs.length; i++) &#123;
+                    // 获取到每个div的html字符串，并用movieFromDiv解析
+                    var div = $(movieDivs[i]).html();
+                    var m = movieFromDiv(div);
+                    movies.push(m);
+                &#125;
+
+                console.log(`第$&#123;page&#125;页获取成功`);
+                moviesAll = moviesAll.concat(movies);
+                completePage++;
+                console.log(&quot;成功总页数：---&quot;, completePage);
+                if (completePage === 10) &#123;
+                    sortMovies(moviesAll);
+                    saveMovies(moviesAll);
+                &#125;
+
+            &#125; else &#123;
+                console.log(&quot;请求失败：&quot;, page + &quot;页&quot;, error);
+                isFail = true;
+            &#125;
+        &#125;);
+    &#125;
+
+    function __main() &#123;
+        for(var page=1;page&lt;=10;page++)&#123;
+            if (!isFail) &#123;
+                var url = &quot;https://movie.douban.com/top250?start=&quot; + (page-1)*25 + &quot;&amp;filter=&quot;
+                moviesFromUrl(url, page);
+            &#125; else &#123;
+                break;
+            &#125;        
+        &#125;
+    &#125;
+
+    __main();
+</code></pre>
+<p>爬取到的数据最后保存在了douban.txt中：</p>
+<p><img src="http://images-of-blog.test.upcdn.net/images/2018-03-20_010051-Nodejs%E5%AE%9E%E7%8E%B0%E7%AE%80%E5%8D%95%E7%88%AC%E8%99%AB.png" alt="douban.txt"></p>
+<h2 id="爬取需要登录才能获取到的内容"><a href="#爬取需要登录才能获取到的内容" class="headerlink" title="爬取需要登录才能获取到的内容"></a>爬取需要登录才能获取到的内容</h2><p>有些数据我们在浏览器中直接打开网页是查看不了的，比如知乎中关注的人的列表、论坛中收藏的文章等，这种情况必须输入用户名、密码登录以后才能查看，要爬取这些数据，可以在上面方法的基础上通过模拟Cookie和User-Agent伪装登陆来实现。</p>
+<p>传入request方法中的第一个参数不再是url了，而是包含url和请求头信息的options参数：</p>
+<pre><code class="js">    var request = require(&quot;request&quot;);
+
+    var url=&quot;urlStr&quot;;
+    var cookie=&quot;cookieStr&quot;;
+    var userAgent=&quot;userAgentStr&quot;;
+
+    var headers=&#123;
+        &quot;Cookie&quot;:cookie,
+        &quot;User-Agent&quot;:userAgent
+    &#125;
+
+    var options=&#123;
+        url:url,
+        headers:headers
+    &#125;
+
+    request(options, function(error, response, body)&#123;
+        if(error === null &amp;&amp; response.statusCode == 200)&#123;
+            console.log(body);
+            // do something
+        &#125;else&#123;
+            console.log(&quot;请求失败：&quot;, error);
+        &#125;
+    &#125;);
+</code></pre>
+]]></content>
+      <categories>
+        <category>Web前端</category>
+      </categories>
+      <tags>
+        <tag>Node.js</tag>
+        <tag>爬虫</tag>
       </tags>
   </entry>
   <entry>
